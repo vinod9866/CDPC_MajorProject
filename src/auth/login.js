@@ -26,7 +26,7 @@ function Login(props) {
     formData.append("grant_type","password");
     
     fetch(
-      "http://3.12.85.141/oauth/token?",
+      "http://3.12.85.141:8081/oauth/token?",
       {
         method: "POST",
         headers: {
@@ -37,10 +37,10 @@ function Login(props) {
     ).then((res) => {
         if (res.ok) {
           setState(true);
+          navigate("/all",{replace:true});
           res.json().then(data=>{
             console.log(data);
-            authCtx.token = data.access_token;
-            navigate("/all",{replace:true});
+            authCtx.login(data.access_token);
 
           })
 
