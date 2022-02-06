@@ -10,6 +10,9 @@ function MainNavigation(){
     const authCtx = useContext(AuthContext);  
 
     const isLoggedIn = authCtx.isLoggedIn;
+    const logoutHandler = () =>{
+        authCtx.logout();
+    }
 
     console.log(isLoggedIn);
     return  <header className={classes.header}>
@@ -28,7 +31,7 @@ function MainNavigation(){
                         <Link to="/fav">Drive status</Link>
                     </li>
                     <li >
-                        <Link to ='/fav' >Logout</Link>
+                        <Link to ='/fav' onClick={logoutHandler} >Logout</Link>
                     </li>
                     <li >
                         <Link to ='/new'  ><AiOutlineBell  /> </Link>
