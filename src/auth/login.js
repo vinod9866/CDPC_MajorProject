@@ -44,8 +44,12 @@ function Login(props) {
           seterror(false);
           setLoading(false);
           res.json().then(data=>{
+
+            const expTime = new Date((new Date().getTime()+ data.expires_in * 1000));
             console.log(data);
-            authCtx.login(data.access_token);
+
+            authCtx.login(data.access_token,expTime.toString());
+
             navigate("/all",{replace:true});
 
           })
