@@ -8,7 +8,7 @@
 }
 
 .logo {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: white;
   font-weight: bold;
   ;
@@ -24,7 +24,7 @@
 }
 
 .header li {
-  margin-left: 3rem;
+  margin-left: 2rem;
 }
 
 .header a {
@@ -58,5 +58,8 @@
 } */
 
 .spacing{
-  margin-left: 32%;
+  margin-left: 10%;
+  position: absolute;
+  right: 0;
+  padding-right: 5%;
 }

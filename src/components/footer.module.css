@@ -1,0 +1,15 @@
+.myfooter {
+    
+    background-color:#fffefe;
+    color: rgb(141, 17, 17);
+
+
+    position: fixed; 
+    bottom: 0.6%;
+    padding-top:0.5% ;  
+    width: 100%;  
+    text-align:center; 
+    font-weight: bold; 
+
+    
+}

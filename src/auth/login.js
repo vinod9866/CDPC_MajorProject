@@ -8,6 +8,7 @@ import AuthContext from "../store/auth-context";
 function Login(props) {
   const navigate = useNavigate();
   const [state, setState] = useState(true);
+  const [errormsg,seterror] = useState(false);
   const user = useRef();
   const pswd = useRef();
 
@@ -37,10 +38,11 @@ function Login(props) {
     ).then((res) => {
         if (res.ok) {
           setState(true);
-          navigate("/all",{replace:true});
+          seterror(false);
           res.json().then(data=>{
             console.log(data);
             authCtx.login(data.access_token);
+            navigate("/all",{replace:true});
 
           })
 
@@ -49,30 +51,45 @@ function Login(props) {
             console.log(data)
             if (data && data.error && data.error_description) {
               setState(false); 
+              seterror(false);
+
             }
           });
         }
-      })
+      }).catch(( error) => {
+          if(error){
+            seterror(true);
+            console.log(errormsg)
+          }
+
+        // Only network error comes here
+      });
  
   }
 
   return (
     <Card>
-      <img src={loginlogo} />
       <form className={classes.form} onSubmit={submitHandler}>
-        {state && (
+        <img className={classes.cte} src={loginlogo}  />
+        {(state && !errormsg ) && (
           <div className={classes.info}>
-            <i className="fa fa-info-circle"></i>&nbsp; Use SMS credentials to
+            <i className="fa fa-info-circle"></i>&nbsp; Use University credentials to
             login
           </div>
         )}
-        {!state && (
+        {(!state )&&(
           <div className={classes.error}>
             <i className="fa fa-times-circle"></i>&nbsp; Username or Password is
             incorret
           </div>
         )}
+        {(errormsg)&& (
+          <div className={classes.error}>
+            <i className="fa fa-times-circle"></i>&nbsp;Network error!
+          </div>
+        )}
 
+      <div className={classes.cter}>
         <div className={classes.control}>
           <label htmlFor="title">Username </label>
           <input type="text" required id="user" ref={user}></input>
@@ -84,6 +101,7 @@ function Login(props) {
 
         <div className={classes.actions}>
           <button>Submit</button>
+      </div>
         </div>
       </form>
     </Card>

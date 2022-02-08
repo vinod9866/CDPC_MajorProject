@@ -15,15 +15,14 @@ function MainNavigation(){
     }
 
     console.log(isLoggedIn);
-    return  <header className={classes.header}>
+    return  <header  className={classes.header}><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
             <div ><img src={logo}  className={classes.clglogo}/></div>
             <div className={classes.logo}>Career Development & Placement Cell</div>
             <div className={classes.spacing}>
             {isLoggedIn && <nav >
                 <ul>
-                    <li>
-                        <Link to="/"></Link>
-                    </li>
+                    
                     <li>
                         <Link to="/new">Drive updates</Link>
                     </li>
