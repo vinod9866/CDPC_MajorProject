@@ -2,6 +2,8 @@
 
 .form {
   padding: 1rem;
+  margin-top: 10%;
+  margin-bottom: 10%;
 }
 
 .control {
@@ -84,5 +86,7 @@ img{
 }
 
 .cte{
-  margin-left: 32%;
+  margin-left: 31.5%;
+  margin-bottom: 1%;
 }
+

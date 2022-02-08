@@ -4,11 +4,13 @@ import loginlogo from "./login.png";
 import { useRef, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../store/auth-context";
+import Loading from "./loading";
 
 function Login(props) {
   const navigate = useNavigate();
   const [state, setState] = useState(true);
   const [errormsg,seterror] = useState(false);
+  const [isLoading,setLoading] = useState(false);
   const user = useRef();
   const pswd = useRef();
 
@@ -16,6 +18,7 @@ function Login(props) {
 
   function submitHandler(event) {
     event.preventDefault();
+    setLoading(true);
 
     const User = user.current.value;
     const Pswd = pswd.current.value;
@@ -39,6 +42,7 @@ function Login(props) {
         if (res.ok) {
           setState(true);
           seterror(false);
+          setLoading(false);
           res.json().then(data=>{
             console.log(data);
             authCtx.login(data.access_token);
@@ -49,6 +53,7 @@ function Login(props) {
         } else {
           return res.json().then((data) => {
             console.log(data)
+            setLoading(false);
             if (data && data.error && data.error_description) {
               setState(false); 
               seterror(false);
@@ -59,6 +64,7 @@ function Login(props) {
       }).catch(( error) => {
           if(error){
             seterror(true);
+            setLoading(false);
             console.log(errormsg)
           }
 
@@ -77,7 +83,7 @@ function Login(props) {
             login
           </div>
         )}
-        {(!state )&&(
+        {(!state && !errormsg )&&(
           <div className={classes.error}>
             <i className="fa fa-times-circle"></i>&nbsp; Username or Password is
             incorret
@@ -100,8 +106,9 @@ function Login(props) {
         </div>
 
         <div className={classes.actions}>
-          <button>Submit</button>
-      </div>
+          <button>{isLoading? <Loading/> :'Submit'}</button>
+        </div>
+
         </div>
       </form>
     </Card>
