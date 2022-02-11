@@ -1,4 +1,4 @@
-import NewMeetupPage from "./NewMeetup";
+import NewMeetupPage from "./tableData";
 
 function ALLMUPS(){
     function letsdo(data){

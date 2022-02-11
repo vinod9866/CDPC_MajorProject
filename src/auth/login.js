@@ -4,7 +4,7 @@ import loginlogo from "./login.png";
 import { useRef, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../store/auth-context";
-import Loading from "./loading";
+import Loading from "../components/loading";
 
 function Login(props) {
   const navigate = useNavigate();
@@ -112,7 +112,6 @@ function Login(props) {
         <div className={classes.actions}>
           <button>{isLoading? <Loading/> :'Submit'}</button>
         </div>
-
         </div>
       </form>
     </Card>

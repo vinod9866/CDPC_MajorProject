@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import AuthContext from '../store/auth-context';
+import Card from "../ui/card";
+import Table from "./table";
 const DUMMY_DATA = [
     {
       id: 'm1',
@@ -22,24 +22,17 @@ const DUMMY_DATA = [
   ];
 
 
-function NewMeetupPage(props){
+function TableData(){
 
-  const authCtx = useContext(AuthContext);
+    return <Card> <div>
+        <h1>Table Data</h1>
+        {DUMMY_DATA.map(meetup =>
+          <Table text="vinod" key={meetup.id} id={meetup.id} title={meetup.title} 
+          image={meetup.image} address={meetup.address} 
+          desc={meetup.description}  />
+        )}
 
-  const isLoggedIn = authCtx.token;
-  console.log(isLoggedIn);
-    function user(){
-      var a = 10;
-      props.text(a);
-    }
-    return <div>
-        {/* <h1>All meetups</h1>
-        {DUMMY_DATA.map(meetup =>{
-            return <li key={meetup.id}>{meetup.title}</li>
-        })} */}
-
-      <button onClick={user}>hello</button>
-    </div>;
+    </div></Card>;
 }
 
-export default NewMeetupPage;
+export default TableData;

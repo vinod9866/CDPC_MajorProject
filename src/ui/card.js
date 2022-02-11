@@ -1,7 +1,9 @@
-import classes from './card.module.css';
-
-function Card(props){
-    return <div className={classes.card}>{props.children}</div>
+import Card from "react-bootstrap/Card";
+import classes from "./card.module.css";
+function MyCard(props){
+    return <Card className={classes.spacing}>
+        <div>{props.children}</div>
+    </Card>
 }
 
-export default Card;
+export default MyCard;
