@@ -1,12 +1,30 @@
 .container{
   text-align: center;
+  margin-top: 10%;
+  margin-bottom: 10%;
 }
 
+.fix{
+  overflow:visible;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%;
+  z-index: 1;
+}
 
 .main {
-      padding-top: 4.5%;
-      padding-bottom: 8%;
-      display: inline-block;
-      vertical-align: middle;
-      line-height: normal;
+
   }
+
+.center{
+   align-items: center;
+   display:flex;
+   position:absolute;
+   display:flex; position:absolute; top:0; bottom:0; right:0; left:0;
+   
+   text-align: center;
+}
+
+.space{
+  padding-top: 30%;
+}

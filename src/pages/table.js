@@ -1,24 +1,32 @@
+import classes from "./table.module.css";
+function Table(props) {
+  // return(
+  //     <div>
 
-function Table(props){
-    
-    return (<li>
+  //     </div>
+  // );
 
+  return (
+    <div className={classes.main}>
+      <li>
         <div>
-            <img src={props.image} alt={props.title} />
+          <div className={classes.header}>
+            <h5>{props.title}</h5>
+            <span
+              style={{ paddingleft: "10rem" }}
+              className={
+                props.stat === "Active" ? classes.statuss : classes.statusf
+              }
+            >
+              {props.stat}
+            </span>
+          </div>
         </div>
-
-        <div>
-            <h3>{props.title}</h3>
-            <address> {props.address} </address>
-            <p> {props.desc} </p>
-        </div>
-
-        <div>
-            <button>Options</button>
-        </div>
-    </li>);
-    
-
-    }
+      </li>
+      <br></br>
+      <div className={classes.border}></div>
+    </div>
+  );
+}
 
 export default Table;

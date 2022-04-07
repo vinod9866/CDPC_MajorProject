@@ -1,0 +1,56 @@
+.account{
+    width: 80vw;
+    padding:20px 10%;
+}
+.modalClass{
+    width: 35%;
+    height: 20%;
+}
+.modalHeading{
+    width: 100%;
+    display: flex;
+    padding-bottom: 10px;
+    justify-content: center;
+}
+.profile{
+    /* text-align: center; */
+}
+.profile>img{
+    height: 80px;
+    width: 80px;
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+}
+
+.accountForm{
+    display: flex;
+}
+.left,.right{
+    width: 50%;
+}
+.field{
+    padding: 7px 10%;
+}
+.field>label{
+    width: 100%;
+    text-decoration: none;
+    font-size: 13px;
+    text-align: left;
+}
+.field>input{
+    width: 100%;
+}
+.resume{
+    font: inherit;
+    cursor: pointer;
+    background-color: #77002e;
+    color: white;
+    padding: 0.3rem 1rem;
+    border: 1px solid #77002e;
+    border-radius: 4px;
+    
+}
+
+.space{
+    padding-top: 20px;
+}
