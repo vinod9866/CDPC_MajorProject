@@ -44,7 +44,7 @@ function Login(props) {
           seterror(false);
           res.json().then((data) => {
             const expTime = new Date(
-              new Date().getTime() + parseInt( data.expiry)
+              new Date().getTime() + parseInt( data.expiry )
             );
             console.log(data);
 
