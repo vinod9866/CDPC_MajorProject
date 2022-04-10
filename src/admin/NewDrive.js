@@ -61,12 +61,13 @@ function NEWDRIVE() {
     const lDA = LDA.current.value;
 
     const tests ={"online-test":oft,"TR":tr,"HR":hr};
-    const dtests = [];
-    for (var key in tests ){
-      if(tests[key]){
-        dtests.push(key);
-      }
-    }
+  //   console.log(tests)
+  //   const dtests = [];
+  //   for (var key in tests ){
+  //     if(tests[key]){
+  //       dtests.push(key);
+  //     }
+  //   }
   //  console.log(dtests);
   //  console.log("mydrop ",drop);
 
@@ -83,14 +84,52 @@ function NEWDRIVE() {
 
     var CurrentDate = new Date();
     var GivenDate = new Date(lDA);
-    if(CurrentDate>GivenDate){
+    if(CurrentDate>=GivenDate){
       console.log("wrong");
       setDate(true);
     }
+    var driveData = {
+      "name": Cname,
+      "location": Cloc,
+      "desc": Desc,
+      "websitelink": "link",
+      "addresses": [
+        "string"
+      ],
+      "eligibilityData": {
+        "primary": School,
+        "secondary": Puc,
+        "degree": Btech,
+        "branches": ebraches,
+        "yearOfPass": Yop,
+        "joiningLocation": jL,
+        "training": true,
+        "stipend": Stipend,
+        "ppoOffer": Ppo,
+        "jobPosition": Jposition,
+        "jobNature": Jnature,
+        "bond": Jbond,
+        "desc": Bdesc
+      },
+      "lastOfApply":lDA,
+      "mode":drop,
+      "selectionCriteria": tests,
+      "regStudents": [
+      ]
+    }
+    console.log(driveData)
 
    // console.log(oft,tr,hr);
-
-
+   fetch("http://3.111.79.215:8080/api/drive/save",{
+    method:"POST",
+    headers:{
+      "Content-Type": "application/json; charset=utf-8",
+      "Authorization":"Bearer "+localStorage.getItem("token")
+    },
+    body:JSON.stringify(driveData)
+    
+  })
+  event.target.reset()
   }
 
 
@@ -154,7 +193,7 @@ function NEWDRIVE() {
           </div>
           <div className={classes.control}>
             <label htmlFor="curl">Company URL<span className={classes.imp}>*</span></label>
-            <input type="url"  id="curl" ref={curl} ></input>
+            <input type="text"  id="curl" ref={curl} ></input>
           </div>
         </div>
         <div>

@@ -13,10 +13,20 @@ import { Navbar,Nav,NavDropdown } from 'react-bootstrap';
 import { Container } from 'react-bootstrap';
 
 import { useContext } from 'react';
+import './notification.css'
+
+import {over} from 'stompjs';
+import SockJS from 'sockjs-client';
+
+
+var stompClient =null;
 
 function MainNavigation(){
+
+    const [data,setData] = useState([]);
+
     const authCtx = useContext(AuthContext);  
-    
+    const [notification,setNotification] = useState(false)
     const isLoggedIn = authCtx.isLoggedIn;
     const loginPerson = authCtx.Person;
     // console.log(loginPerson);
@@ -24,8 +34,33 @@ function MainNavigation(){
         authCtx.logout();
     }
 
+    useEffect(()=>{
+      let Sock = new SockJS('http://localhost:8080/ws');
+      stompClient = over(Sock);
+      stompClient.connect({},onConnected, onError);
+      authCtx.stopmClentAction(stompClient)
+      fetch("http://localhost:8080/api/broadcast/all",{
+        method:"GET",
+        headers:{
+          "Content-Type": "application/json; charset=utf-8",
+          "Authorization":"Bearer "+localStorage.getItem("token")
+        }
+      }).then(res=>res.json()).then(data=>setData(data))
+    },[])
+
+    const onConnected = () => {
+      stompClient.subscribe('/students/all', onMessageReceived);
+    }
+    const onMessageReceived = (payload)=>{
+      var payloadData = JSON.parse(payload.body);
+      data.push(payloadData)
+      setData([...data])
+    }
+    const onError = (err) => {
+      console.log(err);
+    }
+
     const [isMobile, setIsMobile] = useState(window.innerWidth < 800);
-    // const User="user";
     useEffect(() => {
         window.addEventListener("resize", () => {
             const ismobile = window.innerWidth < 800;
@@ -56,7 +91,20 @@ function MainNavigation(){
                         <NavDropdown.Item as={Link} to='/login' onClick={logoutHandler}>Logout</NavDropdown.Item>
                     </NavDropdown>
                     <Nav.Link  as={Link} to="/fav">
-                        Notifications <AiOutlineBell style={{paddingBottom: "2px"}}/>
+                        Notifications 
+                        <AiOutlineBell style={{paddingBottom: "0px"}} onClick={()=>setNotification(!notification)}/>
+                        {notification ? <div className="notifications" id="box">
+                            <h2 className='notificationHead'>Student BroadCast Notifications</h2>
+                            {data.map((d,index)=>{
+                              return <div className="notifications-item" key={index}> 
+                              <div className="text">
+                                  <h4>{d.title}<span className='notificationBadge'>new</span><span className='notificationDate'>{new Date(d.date).getDate()}</span></h4>
+                                  <p>{d.message}</p>
+                              </div>
+                            </div>
+                            })}
+                        </div>:""}
+                        
                     </Nav.Link>
                 </Nav> 
     </Navbar.Collapse></> :
