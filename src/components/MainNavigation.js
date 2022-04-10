@@ -68,7 +68,7 @@ function MainNavigation(){
                 </Nav> 
                 <Nav>
                 <NavDropdown style={{width:'20px',paddingRight:"50px"}} title={<FaUserAlt style={{paddingBottom: "2px"}} />}  id="collasible-nav-dropdown">
-                        <NavDropdown.Item as={Link}   to="/profile">Profile</NavDropdown.Item>
+                        <NavDropdown.Item as={Link}   to="/Aprofile">Profile</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item as={Link} to='/login' onClick={logoutHandler}>Logout</NavDropdown.Item>
                     </NavDropdown>

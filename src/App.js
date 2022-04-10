@@ -9,6 +9,7 @@ import Table from "./pages/tableData";
 import BROADCAST from "./admin/BroadCast";
 import { UserAccount } from "./pages/UserAccount";
 import AuthContext from "./store/auth-context";
+import AdminProfile from "./admin/Profile";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -39,9 +40,13 @@ function App() {
           : null}
         {user !== "Admin"
           ? authCtx.isLoggedIn && (
-              <Route path="/account" element={<UserAccount />} />
+              <Route path="/profile" element={<UserAccount />} />
             )
           : null}
+        {user === "Admin"
+          ? authCtx.isLoggedIn && (
+              <Route path="/Aprofile" element={<AdminProfile />} />)
+          :null}
         {authCtx.isLoggedIn && (
           <Route path="*" element={<Navigate to="/home" />} />
         )}
