@@ -1,0 +1,16 @@
+.pad{
+    width: 23rem;
+    height:fit-content;
+}
+
+.cc{
+    width: 50rem;
+    height:44.5rem;
+    display: flex;
+    justify-content: space-around;
+}
+
+.logo{
+    height: 100%;
+    width: 100%;
+}

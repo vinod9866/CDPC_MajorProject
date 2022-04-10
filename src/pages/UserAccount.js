@@ -49,15 +49,15 @@ export const UserAccount =(props)=>{
 <form className={classes.accountForm}>
     <div className={classes.left}>
         <div className={classes.field}>
-            <label>Student Name</label><br/>
+            <label>Name</label><br/>
             <input type="text" disabled value={acccoutData.username}></input>
         </div>
         <div className={classes.field}>
-            <label>Student ID</label><br/>
+            <label>ID</label><br/>
             <input type="text" disabled value={acccoutData.userId}></input>
         </div>
         <div className={classes.field}>
-            <label>Student Email</label><br/>
+            <label>Email</label><br/>
             <input type="text" disabled value={acccoutData.useremail}></input>
         </div>
         <div className={classes.field}>
