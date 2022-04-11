@@ -1,12 +1,14 @@
 import classes from './account.module.css';
 import img from "../auth/login.png";
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Card } from 'react-bootstrap';
 import { Model } from './modal';
+import { getStudent } from '../apis';
 
 export const UserAccount =(props)=>{
 
     const [modal,setModal] = useState(false);
+    const [acccoutData,setAccountData] = useState({})
     const showModel = ()=>{
         setModal(true);
     }
@@ -18,6 +20,12 @@ export const UserAccount =(props)=>{
     const handleModal = (bool)=>{
         setModal(bool);
     }
+
+    useEffect(()=>{
+        getStudent()
+       .then(res=>res.json())
+        .then(data=>setAccountData(data));
+    },[])
 
     return<Card className={classes.account}>
     {modal?<Model parentCallback={handleModal} style={classes.modalClass} heading="Upload Resume to Apply Drive">
@@ -37,55 +45,55 @@ export const UserAccount =(props)=>{
 <form className={classes.accountForm}>
     <div className={classes.left}>
         <div className={classes.field}>
-            <label>Student Name</label><br/>
-            <input type="text" disabled value="Satyanarayana"></input>
+            <label>Name</label><br/>
+            <input type="text" disabled value={acccoutData.username}></input>
         </div>
         <div className={classes.field}>
-            <label>Student ID</label><br/>
-            <input type="text" disabled value="N160096"></input>
+            <label>ID</label><br/>
+            <input type="text" disabled value={acccoutData.userId}></input>
         </div>
         <div className={classes.field}>
-            <label>Student Email</label><br/>
-            <input type="text" disabled value="N160096@rguktn.ac.in "></input>
+            <label>Email</label><br/>
+            <input type="text" disabled value={acccoutData.useremail}></input>
         </div>
         <div className={classes.field}>
             <label>DOB</label><br/>
-            <input type="text" disabled value="25-02-2000"></input>
+            <input type="text" disabled value={acccoutData.dob}></input>
         </div>
         <div className={classes.field}>
             <label>YEAR</label><br/>
-            <input type="text" disabled value="E4"></input>
+            <input type="text" disabled value={acccoutData.year}></input>
         </div>
         <div className={classes.field}>
             <label>Year Of Pass</label><br/>
-            <input type="text" disabled value="2022"></input>
+            <input type="text" disabled value={acccoutData.username}></input>
         </div>
     </div>
     <div className={classes.right}>
         <div className={classes.field}>
             <label>YEAR</label><br/>
-            <input type="text" disabled value="E4"></input>
+            <input type="text" disabled value={acccoutData.username}></input>
         </div>
         <div className={classes.field}>
             <label>BRANCH</label><br/>
-            <input type="text" disabled value="CSE"></input>
+            <input type="text" disabled value={acccoutData.branch}></input>
         </div>
         <div className={classes.field}>
             <label>PUC_CGPA</label><br/>
-            <input type="text" disabled value="8.1"></input>
+            <input type="text" disabled value={acccoutData.pucCgpa}></input>
         </div>
         <div className={classes.field}>
             <label>ENG_CGPA</label><br/>
-            <input type="text" disabled value="8.5"></input>
+            <input type="text" disabled value={acccoutData.engCgpa}></input>
         </div>
 
         <div className={classes.field}>
             <label>Passed</label><br/>
-            <input type="text" disabled value="YES"></input>
+            <input type="text" disabled value={acccoutData.isPass}></input>
         </div>
         <div className={classes.field}>
             <label>REM_Count</label><br/>
-            <input type="text" disabled value="0"></input>
+            <input type="text" disabled value={acccoutData.count}></input>
         </div>
 
     </div>

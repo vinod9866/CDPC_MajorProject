@@ -1,5 +1,6 @@
 
 import { useState,useEffect, useRef } from "react";
+import { saveDrive } from "../apis";
 import Card from "../ui/card";
 import classes from "./NewDrive.module.css";
 
@@ -61,12 +62,13 @@ function NEWDRIVE() {
     const lDA = LDA.current.value;
 
     const tests ={"online-test":oft,"TR":tr,"HR":hr};
-    const dtests = [];
-    for (var key in tests ){
-      if(tests[key]){
-        dtests.push(key);
-      }
-    }
+  //   console.log(tests)
+  //   const dtests = [];
+  //   for (var key in tests ){
+  //     if(tests[key]){
+  //       dtests.push(key);
+  //     }
+  //   }
   //  console.log(dtests);
   //  console.log("mydrop ",drop);
 
@@ -83,14 +85,44 @@ function NEWDRIVE() {
 
     var CurrentDate = new Date();
     var GivenDate = new Date(lDA);
-    if(CurrentDate>GivenDate){
+    if(CurrentDate>=GivenDate){
       console.log("wrong");
       setDate(true);
     }
-
-   // console.log(oft,tr,hr);
-
-
+    var driveData = {
+      "name": Cname,
+      "location": Cloc,
+      "desc": Desc,
+      "websitelink": "link",
+      "addresses": [
+        "string"
+      ],
+      "eligibilityData": {
+        "primary": School,
+        "secondary": Puc,
+        "degree": Btech,
+        "branches": ebraches,
+        "yearOfPass": Yop,
+        "joiningLocation": jL,
+        "training": true,
+        "stipend": Stipend,
+        "ppoOffer": Ppo,
+        "jobPosition": Jposition,
+        "jobNature": Jnature,
+        "bond": Jbond,
+        "desc": Bdesc
+      },
+      "lastOfApply":lDA,
+      "mode":drop,
+      "selectionCriteria": tests,
+      "regStudents": [
+      ]
+    }
+    // console.log(driveData)
+  saveDrive(driveData)
+  .then(res=>res.json())
+  .then(data=>console.log(data))
+  event.target.reset()
   }
 
 
@@ -154,7 +186,7 @@ function NEWDRIVE() {
           </div>
           <div className={classes.control}>
             <label htmlFor="curl">Company URL<span className={classes.imp}>*</span></label>
-            <input type="url"  id="curl" ref={curl} ></input>
+            <input type="text"  id="curl" ref={curl} ></input>
           </div>
         </div>
         <div>

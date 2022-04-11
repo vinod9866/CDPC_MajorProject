@@ -1,12 +1,15 @@
 import React ,{useState} from "react";
 
 const AuthContext = React.createContext({
+
     token:'',
     isLoggedIn:false,
     whoLoggedIn:(person)=>{},
     Person:'',
     login:(token) => {},
     logout:()=>{},
+    stompClient :null,
+    stopmClentAction : ()=>{}
 })
 
 const cRT = (expTime) => {
@@ -25,19 +28,21 @@ export const AuthContextProvider = (props) =>{
     const initialPerson = localStorage.getItem('Person');
     const [person,setPerson] = useState(initialPerson);
 
+    const [stompClient,setStompClient] = useState(null);
+
     const userIsloggedIn = !!token;
 
     const logoutHandler = () =>{
         setToken(null);
         localStorage.removeItem('token');
         localStorage.removeItem('Person');
+        
     }
 
     const loginHandler = (token,expTime) =>{
         setToken(token);
         localStorage.setItem('token',token);
         const Rtime = cRT(expTime);
-
         setTimeout(logoutHandler,Rtime);
     }
 
@@ -47,6 +52,10 @@ export const AuthContextProvider = (props) =>{
 
     }
 
+    const stopmClientHandler = (client) =>{
+        setStompClient(client)
+    }
+
 
     const contextValue = {
         token:token,
@@ -54,7 +63,9 @@ export const AuthContextProvider = (props) =>{
         login:loginHandler,
         logout:logoutHandler,
         whoLoggedIn:accountHandler,
-        Person:person
+        Person:person,
+        stompClient:stompClient,
+        stopmClentAction:stopmClientHandler
     };
 
     return (<AuthContext.Provider value={contextValue}>
