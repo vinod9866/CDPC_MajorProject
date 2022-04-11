@@ -17,6 +17,7 @@ import './notification.css'
 
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
+import { getNotifications } from '../apis';
 
 
 var stompClient =null;
@@ -39,13 +40,10 @@ function MainNavigation(){
       stompClient = over(Sock);
       stompClient.connect({},onConnected, onError);
       authCtx.stopmClentAction(stompClient)
-      fetch("http://localhost:8080/api/broadcast/all",{
-        method:"GET",
-        headers:{
-          "Content-Type": "application/json; charset=utf-8",
-          "Authorization":"Bearer "+localStorage.getItem("token")
-        }
-      }).then(res=>res.json()).then(data=>setData(data))
+
+      getNotifications()
+      .then(res=>res.json())
+      .then(data=>setData(data))
     },[])
 
     const onConnected = () => {

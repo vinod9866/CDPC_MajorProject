@@ -1,5 +1,6 @@
 
 import { useState,useEffect, useRef } from "react";
+import { saveDrive } from "../apis";
 import Card from "../ui/card";
 import classes from "./NewDrive.module.css";
 
@@ -117,18 +118,10 @@ function NEWDRIVE() {
       "regStudents": [
       ]
     }
-    console.log(driveData)
-
-   // console.log(oft,tr,hr);
-   fetch("http://3.111.79.215:8080/api/drive/save",{
-    method:"POST",
-    headers:{
-      "Content-Type": "application/json; charset=utf-8",
-      "Authorization":"Bearer "+localStorage.getItem("token")
-    },
-    body:JSON.stringify(driveData)
-    
-  })
+    // console.log(driveData)
+  saveDrive(driveData)
+  .then(res=>res.json())
+  .then(data=>console.log(data))
   event.target.reset()
   }
 

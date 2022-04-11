@@ -3,6 +3,7 @@ import img from "../auth/login.png";
 import { useState,useEffect } from 'react';
 import { Card } from 'react-bootstrap';
 import { Model } from './modal';
+import { getStudent } from '../apis';
 
 export const UserAccount =(props)=>{
 
@@ -21,13 +22,8 @@ export const UserAccount =(props)=>{
     }
 
     useEffect(()=>{
-        console.log(localStorage.getItem("token"))
-        fetch("http://3.111.79.215:8080/api/user/user/{userId}?userId="+localStorage.getItem("Person"),{
-            method:'Get',
-            headers:{
-                Authorization:'Bearer '+localStorage.getItem("token")
-            }
-        }).then(res=>res.json())
+        getStudent()
+       .then(res=>res.json())
         .then(data=>setAccountData(data));
     },[])
 

@@ -5,6 +5,7 @@ import { useRef, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../store/auth-context";
 import Loading from "../components/loading";
+import { login } from "../apis";
 
 function Login(props) {
   const navigate = useNavigate();
@@ -28,50 +29,44 @@ function Login(props) {
     formData.append("password", Pswd);
     formData.append("grant_type", "password");
 
-    fetch("http://3.111.79.215:8080/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify({
-        username: User,
-        password: Pswd,
-      }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          setState(true);
-          seterror(false);
-          res.json().then((data) => {
-            const expTime = new Date(
-              new Date().getTime() + data.expiry * 1000
-            );
-            console.log(data);
+    login({
+      username: User,
+      password: Pswd,
+    }).then((res) => {
+      if (res.ok) {
+        setState(true);
+        seterror(false);
+        res.json().then((data) => {
+          const expTime = new Date(
+            new Date().getTime() + data.expiry * 1000
+          );
+          console.log(data);
 
-            authCtx.login(data.token, expTime.toString());
-            authCtx.whoLoggedIn(String(data.username));
-            navigate("/home", { replace: true });
+          authCtx.login(data.token, expTime.toString());
+          authCtx.whoLoggedIn(String(data.username));
+          navigate("/home", { replace: true });
 
-          });
-        } else {
-          return res.json().then((data) => {
-            console.log(data);
-            setLoading(false);
-            if (data  && data.errorMsg) {
-              setState(false);
-              seterror(false);
-            }
-          });
-        }
-      })
-      .catch((error) => {
-        if (error) {
-          seterror(true);
+        });
+      } else {
+        return res.json().then((data) => {
+          console.log(data);
           setLoading(false);
-        }
+          if (data  && data.errorMsg) {
+            setState(false);
+            seterror(false);
+          }
+        });
+      }
+    })
+    .catch((error) => {
+      if (error) {
+        seterror(true);
+        setLoading(false);
+      }
 
-        // Only network error comes here
-      });
+      // Only network error comes here
+    });
+
   }
 
   return (
