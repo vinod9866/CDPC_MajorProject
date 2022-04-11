@@ -36,7 +36,7 @@ function MainNavigation(){
     }
 
     useEffect(()=>{
-      let Sock = new SockJS('http://localhost:8080/ws');
+      let Sock = new SockJS('http://3.111.79.215:8080/ws');
       stompClient = over(Sock);
       stompClient.connect({},onConnected, onError);
       authCtx.stopmClentAction(stompClient)

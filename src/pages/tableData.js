@@ -1,4 +1,6 @@
 import Table from "./table";
+import { useState,useEffect } from 'react';
+import { getDrives } from "../apis";
 const DUMMY_DATA = [
   {
     id: "m1",
@@ -76,22 +78,30 @@ const DUMMY_DATA = [
 
 function TableData() { 
 
+  const [driveData,setDriveData] = useState([])
+
+  useEffect(()=>{
+    getDrives()
+    .then(res=>res.json()
+    .then(data=>setDriveData(data))
+    )
+  },[])
   return (
     // <Card>
     //   {" "}
       <div>
-        {DUMMY_DATA.map((meetup) => (
+        {driveData.map((data) => (
           <Table
             text="vinod"
-            key={meetup.id}
-            id={meetup.id}
-            stat={meetup.status}
-            branches={meetup.branches}
-            last_date={meetup.last_date}
-            title={meetup.title}
-            image={meetup.image}
-            address={meetup.address}
-            desc={meetup.description}
+            key={data.id}
+            id={data.id}
+            stat="Expired"
+            branches={data.eligibilityData.branches}
+            last_date={data.lastOfApply}
+            title={data.name}
+            image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg"
+            address={data.location}
+            desc={data.desc}
           />
         ))}
       </div>
