@@ -54,3 +54,10 @@
 .space{
     padding-top: 20px;
 }
+
+.mode{
+    display: inline-block;
+    position: absolute;
+    right: 10%;
+    /* top: 10%; */
+}
