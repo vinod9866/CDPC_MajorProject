@@ -40,12 +40,12 @@ export const addStudentResume = (data) =>{
 
 export const addStudentProfile = (obj) =>{
     return fetch(`${host}/user/profile`,{
-        method:'PUT',
+        method:'POST',
         headers:{
-            "Content-Type": "application/json; charset=utf-8",
+            // "Content-Type": "application/json; charset=utf-8",
             "Authorization": "Bearer "+token
         },
-        body: JSON.stringify(obj)
+        body: obj
     }).then(res => res)
     .catch(err => err)
 }

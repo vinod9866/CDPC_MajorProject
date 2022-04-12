@@ -5,6 +5,10 @@ import { Card } from 'react-bootstrap';
 import { Model } from './modal';
 import { addStudentProfile, addStudentResume, getStudent } from '../apis';
 import { Toggle } from '../components/Toggle';  
+// import { addStudentResume, getStudent } from '../apis';
+// import Overlay from 'react-bootstrap/Overlay';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip'
 
 export const UserAccount =(props)=>{
 
@@ -55,7 +59,7 @@ export const UserAccount =(props)=>{
         getStudent()
        .then(res=>res.json())
         .then(data=>{
-            // setAccountData(data)
+            setAccountData(data)
             setName(data.username)
             setId(data.userId)
             setEmail(data.useremail)
@@ -106,14 +110,29 @@ export const UserAccount =(props)=>{
         .then(res=>res.json())
         .then(result => result);
     }
+    const selectImage = (e) =>{
+        e.preventDefault();
+        document.getElementById("img-select").click();
+    }
 
     const onFileChange = (e) =>{
-        console.log(e.target.files)
         setFile(e.target.files[0])
     }
 
-    const updateImage = () =>{
-
+    const renderTooltip = (props) => (
+        <Tooltip id="button-tooltip" {...props}>
+          Upload Image
+        </Tooltip>
+      );
+    const updateImage = (e) =>{
+        e.preventDefault()
+        var file = e.target.files[0]
+        console.log(file)
+        const data = new FormData()
+        data.append("file",file)
+        addStudentProfile(data)
+        .then(res=>res.json())
+        .then(result => result);
     }
     return<Card className={classes.account}>
         {modal1?<Model parentCallback={handleModal1} style={classes.modalClass} heading="Upload Resume to Apply Drive">
@@ -127,85 +146,93 @@ export const UserAccount =(props)=>{
         </form>
     </Model>:""}
     
-<div className={classes.profile}>
-    <img src={img} alt='not working'/>
-    <div className={classes.mode}>
-    {/* <input type="checkbox" id="switch" /><label for="switch">Toggle</label> */}
-    <Toggle onChange={handleToggle}/>
+    <div className={classes.profile}>
+        {/* <img src={img} alt='not working'/> */}
+        <div className={classes.mode}>
+        {/* <input type="checkbox" id="switch" /><label for="switch">Toggle</label> */}
+        <Toggle onChange={handleToggle}/>
+        </div>
+        <OverlayTrigger
+            placement="top"
+            delay={{ show: 250, hide: 400 }}
+            overlay={renderTooltip}
+        >
+        <img src={acccoutData.profileUrl ==="" ? img:acccoutData.profileUrl} alt='not working' onClick={selectImage}/>
+        </OverlayTrigger>
+        <input type="file" hidden id="img-select" accept="image/*" onChange={updateImage}/>
     </div>
-</div>
-<hr></hr>
-<form className={classes.accountForm}>
-    <div className={classes.left}>
-        <div className={classes.field}>
-            <label>Name</label><br/>
-            <input type="text" disabled value={name} onChange={(e)=>setName(e.target.value)}></input>
+    <hr></hr>
+    <form className={classes.accountForm}>
+        <div className={classes.left}>
+            <div className={classes.field}>
+                <label>Name</label><br/>
+                <input type="text" disabled value={name} onChange={(e)=>setName(e.target.value)}></input>
+            </div>
+            <div className={classes.field}>
+                <label>ID</label><br/>
+                <input type="text" disabled value={id} onChange={(e)=>setId(e.target.value)}></input>
+            </div>
+            <div className={classes.field}>
+                <label>Email</label><br/>
+                <input type="text" disabled value={email} onChange={(e)=>setEmail(e.target.value)}></input>
+            </div>
+            <div className={classes.field}>
+                <label>DOB</label><br/>
+                <input type="text" disabled value={dob} onChange={(e)=>setDob(e.target.value)}></input>
+            </div>
+            <div className={classes.field}>
+                <label>YEAR</label><br/>
+                <input type="text" disabled={!toggle} value={year} onChange={(e)=>setYear(e.target.value)}></input>
+            </div>
+            {/* <div className={classes.field}>
+                <label>Year Of Pass</label><br/>
+                <input type="text" disabled={!toggle} value={yop} onChange={(e)=>setYOP(e.target.value)}></input>
+            </div> */}
+            <div className={classes.field}>
+                <label>Mobile</label><br/>
+                <input type="text" disabled={!toggle} value={mobile} onChange={(e)=>setMobile(e.target.value)}></input>
+            </div>
+            <div className={classes.field}>
+                <label>Gender</label><br/>
+                <input type="text" disabled value={gender} onChange={(e)=>setGender(e.target.value)}></input>
+            </div>
         </div>
-        <div className={classes.field}>
-            <label>ID</label><br/>
-            <input type="text" disabled value={id} onChange={(e)=>setId(e.target.value)}></input>
-        </div>
-        <div className={classes.field}>
-            <label>Email</label><br/>
-            <input type="text" disabled value={email} onChange={(e)=>setEmail(e.target.value)}></input>
-        </div>
-        <div className={classes.field}>
-            <label>DOB</label><br/>
-            <input type="text" disabled value={dob} onChange={(e)=>setDob(e.target.value)}></input>
-        </div>
-        <div className={classes.field}>
-            <label>YEAR</label><br/>
-            <input type="text" disabled={!toggle} value={year} onChange={(e)=>setYear(e.target.value)}></input>
-        </div>
-        {/* <div className={classes.field}>
-            <label>Year Of Pass</label><br/>
-            <input type="text" disabled={!toggle} value={yop} onChange={(e)=>setYOP(e.target.value)}></input>
-        </div> */}
-        <div className={classes.field}>
-            <label>Mobile</label><br/>
-            <input type="text" disabled={!toggle} value={mobile} onChange={(e)=>setMobile(e.target.value)}></input>
-        </div>
-        <div className={classes.field}>
-            <label>Gender</label><br/>
-            <input type="text" disabled value={gender} onChange={(e)=>setGender(e.target.value)}></input>
-        </div>
-    </div>
-    <div className={classes.right}>
-        <div className={classes.field}>
-            <label>BATCH</label><br/>
-            <input type="text" disabled value={yob} onChange={(e)=>setYOB(e.target.value)}></input>
-        </div>
-        <div className={classes.field}>
-            <label>BRANCH</label><br/>
-            <input type="text" disabled value={branch} onChange={(e)=>setBranch(e.target.value)}></input>
-        </div>
-        <div className={classes.field}>
-            <label>PUC_CGPA</label><br/>
-            <input type="text" disabled value={pucCgpa} onChange={(e)=>setPucCgpa(e.target.value)}></input>
-        </div>
-        <div className={classes.field}>
-            <label>ENG_CGPA</label><br/>
-            <input type="text" disabled value={engCgpa} onChange={(e)=>setEngCgpa(e.target.value)}></input>
-        </div>
+        <div className={classes.right}>
+            <div className={classes.field}>
+                <label>BATCH</label><br/>
+                <input type="text" disabled value={yob} onChange={(e)=>setYOB(e.target.value)}></input>
+            </div>
+            <div className={classes.field}>
+                <label>BRANCH</label><br/>
+                <input type="text" disabled value={branch} onChange={(e)=>setBranch(e.target.value)}></input>
+            </div>
+            <div className={classes.field}>
+                <label>PUC_CGPA</label><br/>
+                <input type="text" disabled value={pucCgpa} onChange={(e)=>setPucCgpa(e.target.value)}></input>
+            </div>
+            <div className={classes.field}>
+                <label>ENG_CGPA</label><br/>
+                <input type="text" disabled value={engCgpa} onChange={(e)=>setEngCgpa(e.target.value)}></input>
+            </div>
 
-        <div className={classes.field}>
-            <label>Passed</label><br/>
-            <input type="text" disabled value={passed} onChange={(e)=>setPassed(e.target.value)}></input>
+            <div className={classes.field}>
+                <label>Passed</label><br/>
+                <input type="text" disabled value={passed} onChange={(e)=>setPassed(e.target.value)}></input>
+            </div>
+            <div className={classes.field}>
+                <label>REM_Count</label><br/>
+                <input type="text" disabled value={remCount} onChange={(e)=>setRemCount(e.target.value)}></input>
+            </div>
+            <div className={classes.field}>
+                <label>Pemail</label><br/>
+                <input type="text" disabled={!toggle} value={pEmail} onChange={(e)=>setPEmail(e.target.value)}></input>
+            </div>
         </div>
-        <div className={classes.field}>
-            <label>REM_Count</label><br/>
-            <input type="text" disabled value={remCount} onChange={(e)=>setRemCount(e.target.value)}></input>
-        </div>
-        <div className={classes.field}>
-            <label>Pemail</label><br/>
-            <input type="text" disabled={!toggle} value={pEmail} onChange={(e)=>setPEmail(e.target.value)}></input>
-        </div>
+    </form>
+    <div className={classes.space}>
+        <button type='button' className={classes.resume} disabled={!toggle} onClick={updateProfile}>Update Profile</button>
+        <button className={classes.resume} onClick={showModel1} >Update Resume</button>
+        
     </div>
-</form>
-<div className={classes.space}>
-    <button type='button' className={classes.resume} disabled={!toggle} onClick={updateProfile}>Update Profile</button>
-    <button className={classes.resume} onClick={showModel1} >Update Resume</button>
-    
-</div>
 </Card>
 }

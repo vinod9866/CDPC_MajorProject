@@ -86,6 +86,7 @@ function TableData() {
     .then(data=>setDriveData(data))
     )
   },[])
+  console.log(driveData);
   return (
     // <Card>
     //   {" "}
