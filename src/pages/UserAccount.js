@@ -4,6 +4,9 @@ import { useState,useEffect } from 'react';
 import { Card } from 'react-bootstrap';
 import { Model } from './modal';
 import { addStudentResume, getStudent } from '../apis';
+// import Overlay from 'react-bootstrap/Overlay';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip'
 
 export const UserAccount =(props)=>{
 
@@ -47,9 +50,19 @@ export const UserAccount =(props)=>{
         .then(res=>res.json())
         .then(result => result);
     }
+    const selectImage = (e) =>{
+        e.preventDefault();
+        document.getElementById("img-select").click();
+    }
 
-    const updateImage = () =>{
+    const renderTooltip = (props) => (
+        <Tooltip id="button-tooltip" {...props}>
+          Upload Image
+        </Tooltip>
+      );
 
+    const updateImage = (e) =>{
+        console.log(e);
     }
     return<Card className={classes.account}>
         {modal1?<Model parentCallback={handleModal1} style={classes.modalClass} heading="Upload Resume to Apply Drive">
@@ -123,7 +136,14 @@ export const UserAccount =(props)=>{
 </form>
     </Model>:""}
 <div className={classes.profile}>
-    <img src={img} alt='not working'/>
+    <OverlayTrigger
+        placement="top"
+        delay={{ show: 250, hide: 400 }}
+        overlay={renderTooltip}
+    >
+    <img src={img} alt='not working' onClick={selectImage}/>
+    </OverlayTrigger>
+    <input type="file" hidden id="img-select" accept="image/*" onChange={updateImage}/>
 </div>
 <hr></hr>
 <form className={classes.accountForm}>
