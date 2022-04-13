@@ -162,4 +162,23 @@ export const getNotifications = () =>{
     .catch(err => err)
 }
 
+export const forgotPasswordApi = (userId) =>{
+    return fetch(`${host}/auth/forgotPassword/{userId}?userId=${userId}`,{
+        method:'GET',
+        headers:{
+            "Content-Type": "application/json; charset=utf-8",
+        }
+    }).then(res => res)
+    .catch(err => err)
+}
+
+export const resetPasswordApi = (token,password) =>{
+    return fetch(`${host}/auth/reset/{token}/{passwod}?token=${token}&password=${password}`,{
+        method:'GET',
+        headers:{
+            "Content-Type": "application/json; charset=utf-8",
+        }
+    }).then(res => res)
+    .catch(err => err)
+}
 
