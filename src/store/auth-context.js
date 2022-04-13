@@ -9,7 +9,9 @@ const AuthContext = React.createContext({
     login:(token) => {},
     logout:()=>{},
     stompClient :null,
-    stopmClentAction : ()=>{}
+    stopmClentAction : ()=>{},
+    notifications:[],
+    notificationAction:()=>{}
 })
 
 const cRT = (expTime) => {
@@ -29,6 +31,8 @@ export const AuthContextProvider = (props) =>{
     const [person,setPerson] = useState(initialPerson);
 
     const [stompClient,setStompClient] = useState(null);
+
+    const [notifications,setNotifications] = useState([])
 
     const userIsloggedIn = !!token;
 
@@ -56,6 +60,10 @@ export const AuthContextProvider = (props) =>{
         setStompClient(client)
     }
 
+    const notificationHandler = (data) =>{
+        setNotifications(data)
+    }
+
 
     const contextValue = {
         token:token,
@@ -65,7 +73,9 @@ export const AuthContextProvider = (props) =>{
         whoLoggedIn:accountHandler,
         Person:person,
         stompClient:stompClient,
-        stopmClentAction:stopmClientHandler
+        stopmClentAction:stopmClientHandler,
+        notifications:notifications,
+        notificationAction:notificationHandler
     };
 
     return (<AuthContext.Provider value={contextValue}>

@@ -26,14 +26,14 @@ export const studentProfileUpdate = (obj)=>{
     .catch(err => err)
 } 
 
-export const addStudentResume = (obj) =>{
+export const addStudentResume = (data) =>{
     return fetch(`${host}/user/resume`,{
         method:'POST',
         headers:{
-            "Content-Type": "multipart/form-data;",
+            // "Content-Type": "multipart/form-data; boundary=<calculated when request is sent>",
             "Authorization": "Bearer "+token
         },
-        body: obj
+        body: data
     }).then(res => res)
     .catch(err => err)
 }
@@ -42,7 +42,7 @@ export const addStudentProfile = (obj) =>{
     return fetch(`${host}/user/profile`,{
         method:'POST',
         headers:{
-            "Content-Type": "multipart/form-data;",
+            // "Content-Type": "application/json; charset=utf-8",
             "Authorization": "Bearer "+token
         },
         body: obj

@@ -18,9 +18,15 @@ import './notification.css'
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 import { getNotifications } from '../apis';
+import { Button } from 'bootstrap';
+import { Model } from '../pages/modal';
 
 
 var stompClient =null;
+var d1 = [
+]
+
+var d1=[]
 
 function MainNavigation(){
 
@@ -30,6 +36,20 @@ function MainNavigation(){
     const [notification,setNotification] = useState(false)
     const isLoggedIn = authCtx.isLoggedIn;
     const loginPerson = authCtx.Person;
+    const [modal,setModal] = useState(false);
+
+    const showModel = ()=>{
+        console.log("workingl")
+        setModal(true);
+    }
+    window.onClick = (event)=>{
+        setModal(false)
+    }
+
+    const handleModal = (bool)=>{
+        setModal(bool);
+    }
+
     // console.log(loginPerson);
     const logoutHandler = () =>{
         authCtx.logout();
@@ -43,7 +63,11 @@ function MainNavigation(){
 
       getNotifications()
       .then(res=>res.json())
-      .then(data=>setData(data))
+      .then(data=>{
+        setData(data)
+        d1=[...data]
+      })
+      
     },[])
 
     const onConnected = () => {
@@ -51,8 +75,8 @@ function MainNavigation(){
     }
     const onMessageReceived = (payload)=>{
       var payloadData = JSON.parse(payload.body);
-      data.push(payloadData)
-      setData([...data])
+      d1.reverse().push(payloadData)
+      setData([...d1])
     }
     const onError = (err) => {
       console.log(err);
@@ -93,8 +117,8 @@ function MainNavigation(){
                         <AiOutlineBell style={{paddingBottom: "0px"}} />
                         {notification ? <div className="notifications" id="box">
                             <h2 className='notificationHead'>Student BroadCast Notifications</h2>
-                            {data.map((d,index)=>{
-                              return <div className="notifications-item" key={index}> 
+                            {d1.reverse().map((d,index)=>{
+                              return <div className="notifications-item" key={index} onClick={showModel}> 
                               <div className="text">
                                   <h4>{d.title}<span className='notificationBadge'>new</span><span className='notificationDate'>{new Date(d.date).getDate()}</span></h4>
                                   <p>{d.message}</p>
@@ -125,7 +149,16 @@ function MainNavigation(){
     </Navbar.Collapse></> :null
     
     }
-    
+    {modal?<Model parentCallback={handleModal} style={classes.modalClass} heading="Upload Resume to Apply Drive">
+        <form>
+        <div className={classes.field}>
+            <input type="file" name='filename'></input>
+        </div>
+        <div className={classes.field}>
+            <input type="submit" value='Upload'></input>
+        </div>
+        </form>
+    </Model>:""}
     </Container>
   </Navbar>
 }
