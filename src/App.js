@@ -10,6 +10,8 @@ import BROADCAST from "./admin/BroadCast";
 import { UserAccount } from "./pages/UserAccount";
 import AuthContext from "./store/auth-context";
 import AdminProfile from "./admin/Profile";
+import Forgot from "./reset-forget-pswd/forgot";
+import FPswd from "./admin/ForgotPswd";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -47,6 +49,10 @@ function App() {
           ? authCtx.isLoggedIn && (
               <Route path="/Aprofile" element={<AdminProfile />} />)
           :null}
+
+
+        <Route path="/forgot" element={<Forgot/>} />
+
         {authCtx.isLoggedIn && (
           <Route path="*" element={<Navigate to="/home" />} />
         )}

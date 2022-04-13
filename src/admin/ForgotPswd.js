@@ -3,7 +3,6 @@ import { Card, FormControl } from "react-bootstrap";
 import { InputGroup } from "react-bootstrap";
 import {BsFillEnvelopeFill} from "react-icons/bs";
 import {FaUserLock} from "react-icons/fa";
-import {FaLock} from "react-icons/fa"
 import classes from "./ForgotPswd.module.css"
 function FPswd(){
 
@@ -16,7 +15,7 @@ function FPswd(){
                 <InputGroup className="mb-3">
                     <InputGroup.Text id="basic-addon1"> <BsFillEnvelopeFill/></InputGroup.Text>
                     <FormControl
-                    placeholder="email address"
+                    placeholder="enter ID"
                     aria-describedby="basic-addon1"
                     />
                 </InputGroup>

@@ -1,12 +1,11 @@
-import { Card } from "react-bootstrap";
-
+import { Card, FormControl, InputGroup } from "react-bootstrap";
+import {FaUserLock} from "react-icons/fa";
+import {BsFillPersonBadgeFill} from "react-icons/bs"
 import classes from "./Profile.module.css";
-import { VscBroadcast } from "react-icons/vsc";
 import Popup from "reactjs-popup";
-import FPswd from "./ForgotPswd";
-import MyCard from "../ui/card";
 import { Button } from "react-bootstrap";
 import userlogo from "./dude.png";
+import Forgot from "../reset-forget-pswd/forgot";
 function AdminProfile(){
 
     return(
@@ -20,8 +19,23 @@ function AdminProfile(){
               Main System Administrator
             </Card.Text>
                 <div> 
-                  <Popup trigger={<Button variant="primary"> Forgot password? </Button>}  position="center center"> 
-                      <FPswd/>
+                  <Popup trigger={<Button variant="primary"> Reset password? </Button>}  position="center center"> 
+                  <Card >
+            <Card.Body style={{ padding: '3rem' }}>
+                <h1 className={classes.centr}><FaUserLock size={60} /> </h1>
+                <h4 className={classes.sty}>Reset Password</h4>
+                <InputGroup className="mb-3">
+                    <InputGroup.Text id="basic-addon1"> <BsFillPersonBadgeFill/></InputGroup.Text>
+                    <FormControl
+                    placeholder="enter old password"
+                    aria-describedby="basic-addon1"
+                    required
+                    />
+                </InputGroup>
+                <Button  className={classes.btn} variant="primary">Submit</Button>
+            </Card.Body>
+            </Card>          
+                      {/* <Forgot value="true" /> */}
                   </Popup> 
                  </div> 
           </Card.Body>

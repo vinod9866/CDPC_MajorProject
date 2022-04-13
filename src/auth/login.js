@@ -2,24 +2,35 @@ import Card from "../ui/card";
 import classes from "./login.module.css";
 import loginlogo from "./login.png";
 import { useRef, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../store/auth-context";
 import Loading from "../components/loading";
 import { login } from "../apis";
+import FPswd from "../admin/ForgotPswd";
+import { Button } from "react-bootstrap";
+import Popup from "reactjs-popup";
 
 function Login(props) {
   const navigate = useNavigate();
   const [state, setState] = useState(true);
   const [errormsg, seterror] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const [invisible,setInvisible] = useState(false);
+
   const user = useRef();
   const pswd = useRef();
 
   const authCtx = useContext(AuthContext);
 
+  function setStatusTrue(){
+    setInvisible(true);
+    console.log(invisible)
+  }
+  function setStatusFalse(){
+    setInvisible(false);
+  }
   function submitHandler(event) {
     event.preventDefault();
-    setLoading(true);
 
     const User = user.current.value;
     const Pswd = pswd.current.value;
@@ -29,6 +40,7 @@ function Login(props) {
     formData.append("password", Pswd);
     formData.append("grant_type", "password");
 
+    
     login({
       username: User,
       password: Pswd,
@@ -109,7 +121,13 @@ function Login(props) {
           </div>
 
           <div className={classes.actions}>
-            <button>{isLoading ? <Loading /> : "Submit"}</button>
+          { !invisible && <button>{isLoading ? <Loading /> : "Submit"}</button>}
+            <span style={{backgroundColor:"blue"}} >
+              <Popup trigger={<button type="button" className={classes.forgot}  > Forgot password? </button>}
+                position="top right" onOpen={setStatusTrue} onClose={setStatusFalse}> 
+                    <FPswd/>
+              </Popup> 
+            </span>
           </div>
         </div>
       </form>

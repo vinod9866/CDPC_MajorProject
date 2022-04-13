@@ -1,0 +1,72 @@
+
+.pad{
+    width: 23rem;
+    height:fit-content;
+    padding-bottom: 1rem;
+    padding-top: 0.5rem;
+}
+
+.cc{
+    width: 50rem;
+    height:44.5rem;
+    display: flex;
+    justify-content: space-around;
+}
+
+.logo{
+    height: 70%;
+    width: 70%;
+    margin-left: 15%;
+}
+
+.centr{
+    text-align: center;
+}
+
+.sty{
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: medium;
+    font-weight: bolder;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+.btn{
+    height: 10%;
+    width: 100%;
+}
+
+.info,
+.success,
+.warning,
+.error {
+  margin: 10px 0;
+  padding: 5.7px;
+  border-radius: 4px 4px 4px 4px;
+  position:relative;
+  text-align: center;
+  margin-top: 3%;
+  margin-bottom: 5%;
+  background-color: #bef;
+  
+}
+.success {
+  color: #270;
+  background-color: #dff2bf;
+}
+.error {
+  color: #d8000c;
+  background-color: #ffbaba;
+}
+
+.err {
+    border-style:ridge;
+    border-color: red;
+    box-shadow: 0 0 4px red;
+
+}
+
+.spin{
+    margin-left: 7.5rem;
+}

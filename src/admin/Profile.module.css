@@ -14,3 +14,21 @@
     height: 100%;
     width: 100%;
 }
+
+.centr{
+    text-align: center;
+}
+
+.sty{
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: medium;
+    font-weight: bolder;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+.btn{
+    height: 10%;
+    width: 100%;
+}

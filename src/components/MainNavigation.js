@@ -36,7 +36,7 @@ function MainNavigation(){
     }
 
     useEffect(()=>{
-      let Sock = new SockJS('http://localhost:8080/ws');
+      let Sock = new SockJS('http://3.111.79.215:8080/ws');
       stompClient = over(Sock);
       stompClient.connect({},onConnected, onError);
       authCtx.stopmClentAction(stompClient)
@@ -88,9 +88,9 @@ function MainNavigation(){
                         <NavDropdown.Divider />
                         <NavDropdown.Item as={Link} to='/login' onClick={logoutHandler}>Logout</NavDropdown.Item>
                     </NavDropdown>
-                    <Nav.Link  as={Link} to="/fav">
+                    <Nav.Link onClick={()=>setNotification(!notification)} as={Link} to="/fav">
                         Notifications 
-                        <AiOutlineBell style={{paddingBottom: "0px"}} onClick={()=>setNotification(!notification)}/>
+                        <AiOutlineBell style={{paddingBottom: "0px"}} />
                         {notification ? <div className="notifications" id="box">
                             <h2 className='notificationHead'>Student BroadCast Notifications</h2>
                             {data.map((d,index)=>{
