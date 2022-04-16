@@ -53,9 +53,9 @@ function App() {
 
         <Route path="/forgot" element={<Forgot/>} />
 
-        {authCtx.isLoggedIn && (
-          <Route path="*" element={<Navigate to="/home" />} />
-        )}
+        {(authCtx.isLoggedIn && authCtx.token)?
+          <Route path="*" element={<Navigate to="/home" />} /> :null
+        }
       </Routes>
     </Layout>
   );

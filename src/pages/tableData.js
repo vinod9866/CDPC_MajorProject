@@ -1,92 +1,23 @@
 import Table from "./table";
-import { useState,useEffect } from 'react';
+import { useState,useEffect, useContext } from 'react';
 import { getDrives } from "../apis";
-const DUMMY_DATA = [
-  {
-    id: "m1",
-    title: "Google(Software Engineer)",
-    branches: ['CSE','ECE','CE'],
-    last_date: '11-04-2022',
-    status: "Active",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg",
-    address: "Meetupstreet 5, 12345 Meetup City",
-    description:
-      "This is a first, amazing meetup which you definitely should not miss. It will be a lot of fun!",
-  },
-  {
-    id: "m2",
-    title: "Napier Health Care(Analyst)",
-    branches: ['CSE','ECE','CE','ME'],
-    last_date: '11-04-2022',
-    status: "Expired",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg",
-    address: "Meetupstreet 5, 12345 Meetup City",
-    description:
-      "This is a first, amazing meetup which you definitely should not miss. It will be a lot of fun!",
-  },
-  {
-    id: "m3",
-    title: "Google(Software Engineer)",
-    branches: ['CSE','ECE','CE'],
-    last_date: '11-04-2022',
-    status: "Active",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg",
-    address: "Meetupstreet 5, 12345 Meetup City",
-    description:
-      "This is a first, amazing meetup which you definitely should not miss. It will be a lot of fun!",
-  },
-  {
-    id: "m4",
-    title: "Napier Health Care(Analyst)",
-    branches: ['CSE','ECE','CE','ME'],
-    last_date: '11-04-2022',
-    status: "Expired",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg",
-    address: "Meetupstreet 5, 12345 Meetup City",
-    description:
-      "This is a first, amazing meetup which you definitely should not miss. It will be a lot of fun!",
-  },
-  {
-    id: "m5",
-    title: "Google(Software Engineer)",
-    branches: ['CSE','ECE','CE'],
-    last_date: '11-04-2022',
-    status: "Active",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg",
-    address: "Meetupstreet 5, 12345 Meetup City",
-    description:
-      "This is a first, amazing meetup which you definitely should not miss. It will be a lot of fun!",
-  },
-  {
-    id: "m6",
-    title: "Napier Health Care(Analyst)",
-    branches: ['CSE','ECE','CE','ME'],
-    last_date: '11-04-2022',
-    status: "Expired",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg",
-    address: "Meetupstreet 5, 12345 Meetup City",
-    description:
-      "This is a first, amazing meetup which you definitely should not miss. It will be a lot of fun!",
-  },
-];
+import AuthContext from "../store/auth-context";
+
 
 function TableData() { 
 
-  const [driveData,setDriveData] = useState([])
+  const [driveData,setDriveData] = useState([]);
+  const authContext = useContext(AuthContext);
+  const isToken = authContext.token;
 
-  useEffect(()=>{
+  if(isToken){
     getDrives()
     .then(res=>res.json()
-    .then(data=>setDriveData(data))
-    )
-  },[])
-  console.log(driveData);
+    .then(data=>{setDriveData(data)
+    console.log(data)}))
+    
+  }
+
   return (
     // <Card>
     //   {" "}
