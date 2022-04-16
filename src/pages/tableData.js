@@ -100,9 +100,7 @@ function TableData() {
             branches={data.eligibilityData.branches}
             last_date={data.lastOfApply}
             title={data.name}
-            image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg"
-            address={data.location}
-            desc={data.desc}
+            all={data}
           />
         ))}
       </div>

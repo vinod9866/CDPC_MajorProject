@@ -56,7 +56,7 @@ function Login(props) {
 
           authCtx.login(data.token, expTime.toString());
           authCtx.whoLoggedIn(String(data.username));
-          navigate("/home", { replace: true });
+          // navigate("/home", { replace: true });
 
         });
       } else {
