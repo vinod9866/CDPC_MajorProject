@@ -1,7 +1,7 @@
 let host = "http://3.111.79.215:8080/api"
 // let host = "http://localhost:8080/api"
 
-let token = localStorage.getItem("token")
+let token = localStorage.getItem("token");
 
 export const login = (obj)=>{
     return fetch(`${host}/auth/login`,{
