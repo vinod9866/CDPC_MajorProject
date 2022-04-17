@@ -58,7 +58,7 @@ function Login(props) {
           console.log(data);
 
           authCtx.login(data.token, expTime.toString());
-          authCtx.whoLoggedIn(String(data.username));
+          authCtx.whoLoggedIn(String(data.roles[0]));
 
         });
       } else {

@@ -41,24 +41,50 @@
 .field>input{
     width: 100%;
 }
+.field>button{
+    width: 100%;
+}
 .resume{
     font: inherit;
-    cursor: pointer;
     background-color: #77002e;
     color: white;
     padding: 0.3rem 1rem;
     border: 1px solid #77002e;
     border-radius: 4px;
-    
+    margin-bottom: 1rem;
 }
+button:disabled{
+    padding: 0.3rem 1rem;
+    border: 1px solid #77002e;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+
+}
+
 
 .space{
     padding-top: 20px;
+    
 }
 
 .mode{
     display: inline-block;
     position: absolute;
-    right: 10%;
+    right: 13%;
     /* top: 10%; */
+}
+
+
+.inp{
+    border-style:ridge;
+    border-color:skyblue;
+    box-shadow: 0 0 12px skyblue;
+}
+
+h6{
+    color:#77002e;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bolder;
+    margin-top: 10%;
+    
 }

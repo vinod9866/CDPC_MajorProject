@@ -1,5 +1,5 @@
 import classes from './account.module.css';
-import img from "../auth/login.png";
+import img from "../components/logos.png";
 import { useState,useEffect } from 'react';
 import { Card } from 'react-bootstrap';
 import { Model } from './modal';
@@ -9,9 +9,15 @@ import { Toggle } from '../components/Toggle';
 // import Overlay from 'react-bootstrap/Overlay';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip'
+import Loading from '../components/loading';
+import{BiEdit} from "react-icons/bi"
+import Popup from 'reactjs-popup';
+import Forgot from '../reset-forget-pswd/forgot';
+import { Button } from 'react-bootstrap';
 
 export const UserAccount =(props)=>{
 
+    const [isLoading,setLoading]= useState(false);
     const [file,setFile] = useState(null)
     const [modal,setModal] = useState(false);
     const [modal1,setModal1] = useState(false);
@@ -79,6 +85,7 @@ export const UserAccount =(props)=>{
     },[])
 
     const updateProfile = (e) =>{
+        setLoading(true);
         e.preventDefault()
         var obj = {
             "userId": id,
@@ -98,7 +105,9 @@ export const UserAccount =(props)=>{
           }
         addStudentProfile(obj)
         .then(res=>res.json())
-        .then(result => console.log(result));
+        .then(result => {
+            setLoading(false)
+            console.log(result)});
         handleModal()
     }
 
@@ -135,32 +144,37 @@ export const UserAccount =(props)=>{
         .then(result => result);
     }
     return<Card className={classes.account}>
-        {modal1?<Model parentCallback={handleModal1} style={classes.modalClass} heading="Upload Resume to Apply Drive">
+        {modal1?<Model parentCallback={handleModal1} style={classes.modalClass} heading="Upload Resume File">
         <form onSubmit={updateResume}>
         <div className={classes.field}>
             <input type="file" name="file" onChange={onFileChange}></input>
         </div>
         <div className={classes.field}>
-            <input type="submit" value='Upload'></input>
+            <button className={classes.resume} type="submit" value='Upload'>Upload</button>
         </div>
         </form>
     </Model>:""}
     
     <div className={classes.profile}>
         {/* <img src={img} alt='not working'/> */}
+
         <div className={classes.mode}>
         {/* <input type="checkbox" id="switch" /><label for="switch">Toggle</label> */}
-        <Toggle onChange={handleToggle}/>
+        <Toggle onChange={handleToggle}  /> <h6> <BiEdit/>Profile</h6>        
         </div>
+    
         <OverlayTrigger
             placement="top"
             delay={{ show: 250, hide: 400 }}
             overlay={renderTooltip}
         >
-        <img src={acccoutData.profileUrl ==="" ? img:acccoutData.profileUrl} alt='not working' onClick={selectImage}/>
+        <img src={acccoutData.profileUrl ===null ? img:acccoutData.profileUrl} alt='not working' onClick={selectImage}/>
         </OverlayTrigger>
+    
         <input type="file" hidden id="img-select" accept="image/*" onChange={updateImage}/>
+
     </div>
+    
     <hr></hr>
     <form className={classes.accountForm}>
         <div className={classes.left}>
@@ -182,7 +196,7 @@ export const UserAccount =(props)=>{
             </div>
             <div className={classes.field}>
                 <label>YEAR</label><br/>
-                <input type="text" disabled={!toggle} value={year} onChange={(e)=>setYear(e.target.value)}></input>
+                <input type="text" disabled={!toggle} value={year} className={toggle&& classes.inp} onChange={(e)=>setYear(e.target.value)}></input>
             </div>
             {/* <div className={classes.field}>
                 <label>Year Of Pass</label><br/>
@@ -190,7 +204,7 @@ export const UserAccount =(props)=>{
             </div> */}
             <div className={classes.field}>
                 <label>Mobile</label><br/>
-                <input type="text" disabled={!toggle} value={mobile} onChange={(e)=>setMobile(e.target.value)}></input>
+                <input type="text" disabled={!toggle}  value={mobile} className={toggle&& classes.inp} onChange={(e)=>setMobile(e.target.value)}></input>
             </div>
             <div className={classes.field}>
                 <label>Gender</label><br/>
@@ -224,15 +238,19 @@ export const UserAccount =(props)=>{
                 <input type="text" disabled value={remCount} onChange={(e)=>setRemCount(e.target.value)}></input>
             </div>
             <div className={classes.field}>
-                <label>Pemail</label><br/>
-                <input type="text" disabled={!toggle} value={pEmail} onChange={(e)=>setPEmail(e.target.value)}></input>
+                <label>Personal mail</label><br/>
+                <input type="text" disabled={!toggle} className={toggle&& classes.inp} value={pEmail} onChange={(e)=>setPEmail(e.target.value)}></input>
             </div>
         </div>
     </form>
     <div className={classes.space}>
-        <button type='button' className={classes.resume} disabled={!toggle} onClick={updateProfile}>Update Profile</button>
-        <button className={classes.resume} disabled={!toggle} onClick={showModel1} >Update Resume</button>
-        
+        <button type='button' className={toggle && classes.resume} disabled={!toggle} onClick={updateProfile}> Update Profile</button>&nbsp;&nbsp;&nbsp;
+        <button type="button" className={toggle && classes.resume} disabled={!toggle} onClick={showModel1} >Update Resume</button>
+        <div> 
+            <Popup trigger={<Button variant="primary" disabled={!toggle}> Change password? </Button>}  position="top center"> 
+                <Forgot value="true" />
+            </Popup> 
+        </div> 
     </div>
 </Card>
 }
