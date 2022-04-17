@@ -114,10 +114,8 @@ function Table(props) {
           </div>
           </Card.Title>
           <span className="text-start fs-6 fw-bold  text-muted"><p>Eligible Branches:
-            &nbsp;<span className="text-uppercase">{props.branches.map((branch)=>{
-            return branch+", "
-          })}</span></p></span>
-          <span className="text-start text-danger"><p className={classes.last}>Last Date:{props.last_date}</p></span>
+            &nbsp;<span className="text-uppercase">{data.eligibilityData.branches.join(",")}</span></p></span>
+          <span className="text-start text-danger"><p className={classes.last}>Last Date:{data.lastOfApply}</p></span>
         </Card.Body>
       </Card>
       </div>

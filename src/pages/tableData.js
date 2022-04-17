@@ -9,14 +9,13 @@ function TableData() {
   const [driveData,setDriveData] = useState([]);
   const authContext = useContext(AuthContext);
   const isLoggedIn = authContext.isLoggedIn;
-  if(isLoggedIn){
-    // console.log("testing");
-    // getDrives()
-    // .then(res=>res.json()
-    // .then(data=>setDriveData(data)
-    // ));
-    
-  }
+
+  useEffect(()=>{
+    getDrives()
+    .then(res=>res.json()
+    .then(data=>setDriveData(data)
+    ));
+  },[])
 
   return (
     // <Card>
@@ -26,11 +25,11 @@ function TableData() {
           <Table
             text="vinod"
             key={data.id}
-            id={data.id}
+            // id={data.id}
             stat="Expired"
-            branches={data.eligibilityData.branches}
-            last_date={data.lastOfApply}
-            title={data.name}
+            // branches={data.eligibilityData.branches}
+            // last_date={data.lastOfApply}
+            // title={data.name}
             data={data}
           />
         ))}
