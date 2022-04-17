@@ -3,8 +3,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import NEWDRIVE from "./admin/NewDrive";
 import Login from "./auth/login";
 import Layout from "./components/layout";
-import ALLMUPS from "./pages/ALLmeetups";
-import Favorites from "./pages/table";
 import Table from "./pages/tableData";
 import BROADCAST from "./admin/BroadCast";
 import { UserAccount } from "./pages/UserAccount";
@@ -12,12 +10,12 @@ import AuthContext from "./store/auth-context";
 import AdminProfile from "./admin/Profile";
 import Forgot from "./reset-forget-pswd/forgot";
 import FPswd from "./admin/ForgotPswd";
+import TableData from "./pages/tableData";
 
 function App() {
   const authCtx = useContext(AuthContext);
   const user = authCtx.Person;
-  // console.log(user);
-  // console.log(authCtx.isLoggedIn);
+
   return (
     <Layout>
       <Routes>
@@ -26,7 +24,7 @@ function App() {
         {!authCtx.isLoggedIn && (
           <Route path="*" element={<Navigate to="/login" />} />
         )}
-        {authCtx.isLoggedIn && <Route path="/home" element={<ALLMUPS />} />}
+        {authCtx.isLoggedIn && <Route path="/home" element={<TableData />} />}
         {user === "Admin"
           ? authCtx.isLoggedIn && (
               <Route path="/broadcast" element={<BROADCAST />} />
@@ -53,15 +51,13 @@ function App() {
 
         <Route path="/forgot" element={<Forgot/>} />
 
-        {(authCtx.isLoggedIn && authCtx.token)?
+        {(authCtx.isLoggedIn)?
           <Route path="*" element={<Navigate to="/home" />} /> :null
         }
       </Routes>
     </Layout>
   );
-  // user === "user"
-  //         ? authCtx.isLoggedIn && <Route path="fav" element={<Favorites />} />
-  //         : null}
+
 }
 
 export default App;

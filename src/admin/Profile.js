@@ -20,7 +20,7 @@ function AdminProfile(){
               Main System Administrator
             </Card.Text>
                 <div> 
-                  <Popup trigger={<Button variant="primary"> Reset password? </Button>}  position="center center"> 
+                  <Popup trigger={<Button variant="primary"> Change password? </Button>}  position="center center"> 
                        
                       <Forgot value="true" />
                   </Popup> 

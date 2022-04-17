@@ -231,7 +231,7 @@ export const UserAccount =(props)=>{
     </form>
     <div className={classes.space}>
         <button type='button' className={classes.resume} disabled={!toggle} onClick={updateProfile}>Update Profile</button>
-        <button className={classes.resume} onClick={showModel1} >Update Resume</button>
+        <button className={classes.resume} disabled={!toggle} onClick={showModel1} >Update Resume</button>
         
     </div>
 </Card>

@@ -8,13 +8,13 @@ function TableData() {
 
   const [driveData,setDriveData] = useState([]);
   const authContext = useContext(AuthContext);
-  const isToken = authContext.token;
-
-  if(isToken){
-    getDrives()
-    .then(res=>res.json()
-    .then(data=>{setDriveData(data)
-    console.log(data)}))
+  const isLoggedIn = authContext.isLoggedIn;
+  if(isLoggedIn){
+    // console.log("testing");
+    // getDrives()
+    // .then(res=>res.json()
+    // .then(data=>setDriveData(data)
+    // ));
     
   }
 
@@ -31,9 +31,7 @@ function TableData() {
             branches={data.eligibilityData.branches}
             last_date={data.lastOfApply}
             title={data.name}
-            image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg"
-            address={data.location}
-            desc={data.desc}
+            all={data}
           />
         ))}
       </div>

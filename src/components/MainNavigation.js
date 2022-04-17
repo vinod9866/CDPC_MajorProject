@@ -3,13 +3,14 @@ import classes from './MainNavigation.module.css';
 import logo from './logos.png';
 import { AiOutlineBell,AiOutlineAppstoreAdd } from "react-icons/ai";
 import {MdOutlineSystemUpdateAlt} from "react-icons/md"
+import {AiFillNotification} from "react-icons/ai"
 import {MdUpdate} from "react-icons/md"
 import {GoBroadcast} from "react-icons/go"
 import AuthContext from '../store/auth-context';
 import { useState,useEffect } from 'react';
 import { FaUserAlt } from "react-icons/fa"
 
-import { Navbar,Nav,NavDropdown } from 'react-bootstrap';
+import { Navbar,Nav,NavDropdown, Badge } from 'react-bootstrap';
 import { Container } from 'react-bootstrap';
 
 import { useContext } from 'react';
@@ -20,6 +21,7 @@ import SockJS from 'sockjs-client';
 import { getNotifications } from '../apis';
 import { Button } from 'bootstrap';
 import { Model } from '../pages/modal';
+import Popup from 'reactjs-popup';
 
 
 var stompClient =null;
@@ -112,22 +114,26 @@ function MainNavigation(){
                         <NavDropdown.Divider />
                         <NavDropdown.Item as={Link} to='/login' onClick={logoutHandler}>Logout</NavDropdown.Item>
                     </NavDropdown>
-                    <Nav.Link onClick={()=>setNotification(!notification)} as={Link} to="/fav">
-                        Notifications 
-                        <AiOutlineBell style={{paddingBottom: "0px"}} />
-                        {notification ? <div className="notifications" id="box">
-                            <h2 className='notificationHead'>Student BroadCast Notifications</h2>
-                            {d1.reverse().map((d,index)=>{
-                              return <div className="notifications-item" key={index} onClick={showModel}> 
-                              <div className="text">
-                                  <h4>{d.title}<span className='notificationBadge'>new</span><span className='notificationDate'>{new Date(d.date).getDate()}</span></h4>
-                                  <p>{d.message}</p>
-                              </div>
-                            </div>
-                            })}
-                        </div>:""}
-                        
-                    </Nav.Link>
+                    <Popup trigger={<Nav.Link  onClick={()=>setNotification(!!notification)} as={Link} to=""  >  Notifications 
+                        <AiOutlineBell style={{paddingBottom: "0px"}} /> </Nav.Link>}
+                        position="bottom right" > 
+                        <div className="notifications" id="box">
+                                <h2 className='notificationHead' ><AiFillNotification style={{paddingBottom:"3px",color:""}} size={25} />Notifications </h2>
+                                    {d1.reverse().map((d, index) => {
+                                            return <div className="notifications-item" key={index} onClick={showModel}> 
+                                                        <div className="text">
+                                                                <h4>{d.title}
+                                                                    <span><Badge pill bg="info" >new</Badge></span>
+                                                                    <span className='notificationDate'>{new Date(d.date).getDate()}</span></h4>
+                                                                <p>{d.message}</p>
+                                                        </div>
+                                                    </div>;
+                                                }   
+                                    )}
+                        </div>
+                                                    
+                    </Popup> 
+                  
                 </Nav> 
     </Navbar.Collapse></> :
     <><Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -163,4 +169,6 @@ function MainNavigation(){
   </Navbar>
 }
 
-export default MainNavigation;
+
+
+  export default MainNavigation;

@@ -11,13 +11,15 @@ import {FaUserLock} from "react-icons/fa";
 import { useRef, useState } from "react";
 import { string } from "sockjs-client/lib/utils/random";
 import Loading from "../components/loading";
+import { resetPasswordApi } from "../apis";
 function Forgot(props){
     const [err,setErr] = useState(null);
     const n1 = useRef();
     const n2 = useRef();
     const old = useRef();
-    const isLoading = true;
+    const [isLoading,SetIsLoading] = useState(false);
     function submitHandler(){
+        
         setErr(null);
         const N1 = n1.current.value;
         const N2 = n2.current.value;
@@ -32,6 +34,13 @@ function Forgot(props){
         }else{
             setErr("Confirm the password correctly")
         }
+        SetIsLoading(true)
+        const search = window.location.search;
+        const params = new URLSearchParams(search);
+        const token = params.get('token');
+        resetPasswordApi(token,N1)
+        .then(res=>res.json())
+        .catch(result=>result)
 
     }
 
@@ -42,7 +51,7 @@ function Forgot(props){
           <Card.Body>
             <div> 
                 <h1 ></h1>
-                <h4 className={classes.sty}><FaUserLock size={25} style={{paddingBottom:"7px"}} />  Reset Password</h4>
+                <h4 className={classes.sty}><FaUserLock size={25} style={{paddingBottom:"7px"}} />  Change Password</h4>
                 { !err && <div className={classes.info}>
                     <i className="fa fa-info-circle"></i>&nbsp;Password upto 5 characters allowed
                 </div>
