@@ -47,7 +47,9 @@ function Table(props) {
             <span className="fw-bold">Company Description&nbsp;:&nbsp;</span>
             <span className="mt-1">IT company</span>
           </div>
-          <span className="fs-5 fw-bold text-muted text-decoration-underline">Eligibility Criteria</span>
+          <div className="mt-4">
+          <span className="mt-3 fs-5 fw-bold text-muted text-decoration-underline">Eligibility Criteria</span>
+          </div>
           <div className="mt-2">
             <span className="fw-bold">CGPA:</span><br></br>
             <span className="mt-1">X&nbsp;(Percentage)&nbsp;:&nbsp;65%</span><br></br>
@@ -61,6 +63,9 @@ function Table(props) {
           <div className="mt-2">
             <span className="fw-bold">Year of Pass&nbsp;:&nbsp;</span>
             <span className="mt-1">2022</span>
+          </div>
+          <div className="mt-4">
+          <span className="fs-5 fw-bold text-muted text-decoration-underline">Job Details</span>
           </div>
           <div className="mt-2">
             <span className="fw-bold">Joining Location&nbsp;:&nbsp;</span>
@@ -94,10 +99,15 @@ function Table(props) {
             <span className="fw-bold">Last Date To Apply : </span>
             <span className="mt-1">Hyderabad</span>
           </div>
+          <div className="mt-4">
           <span className="fs-5 fw-bold text-muted text-decoration-underline">Selection Process</span>
+          </div>
           <div className="mt-2">
             <span className="fw-bold">Drive Mode:</span><br></br>
             <span className="mt-1">Hyderabad</span>
+          </div>
+          <div className="mt-3">
+            <span className="text-danger fw-bold" style={{fontSize:"0.9rem"}}>Note : Your current resume in profile will be attached.</span>
           </div>
         </Modal.Body>
         <Modal.Footer>
