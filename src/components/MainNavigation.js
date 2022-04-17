@@ -62,15 +62,18 @@ function MainNavigation(){
       stompClient = over(Sock);
       stompClient.connect({},onConnected, onError);
       authCtx.stopmClentAction(stompClient)
-
-      getNotifications()
-      .then(res=>res.json())
-      .then(data=>{
-        setData(data)
-        d1=[...data]
-      })
+        console.log(isLoggedIn)
+        console.log(authCtx.token)
+      if(isLoggedIn && loginPerson !== "Admin" ){
+        getNotifications(authCtx.token)
+        .then(res=>res.json())
+        .then(data=>{
+          setData(data)
+          d1=[...data]
+        })
+      }
       
-    },[])
+    },[isLoggedIn])
 
     const onConnected = () => {
       stompClient.subscribe('/students/all', onMessageReceived);
@@ -91,7 +94,6 @@ function MainNavigation(){
             if (ismobile !== isMobile){
                 setIsMobile(ismobile);
             }
- 
         }, false);
     }, [isMobile]);
 
