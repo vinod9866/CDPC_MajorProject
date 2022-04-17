@@ -93,7 +93,7 @@ function NEWDRIVE() {
       "name": Cname,
       "location": Cloc,
       "desc": Desc,
-      "websitelink": "link",
+      "websitelink": Curl,
       "addresses": [
         "string"
       ],
@@ -104,7 +104,7 @@ function NEWDRIVE() {
         "branches": ebraches,
         "yearOfPass": Yop,
         "joiningLocation": jL,
-        "training": true,
+        "training": Training,
         "stipend": Stipend,
         "ppoOffer": Ppo,
         "jobPosition": Jposition,

@@ -11,15 +11,19 @@ import {FaUserLock} from "react-icons/fa";
 import { useRef, useState } from "react";
 import { string } from "sockjs-client/lib/utils/random";
 import Loading from "../components/loading";
-import { resetPasswordApi } from "../apis";
+import { resetPasswordApi, updatePassword } from "../apis";
+import { useNavigate } from "react-router-dom";
 function Forgot(props){
+
+    const navigate = useNavigate();
     const [err,setErr] = useState(null);
     const n1 = useRef();
     const n2 = useRef();
     const old = useRef();
     const [isLoading,SetIsLoading] = useState(false);
-    function submitHandler(){
-        
+    function submitHandler(e){
+        e.preventDefault()
+        SetIsLoading(true)
         setErr(null);
         const N1 = n1.current.value;
         const N2 = n2.current.value;
@@ -34,14 +38,33 @@ function Forgot(props){
         }else{
             setErr("Confirm the password correctly")
         }
-        SetIsLoading(true)
-        const search = window.location.search;
-        const params = new URLSearchParams(search);
-        const token = params.get('token');
-        resetPasswordApi(token,N1)
-        .then(res=>res.json())
-        .catch(result=>result)
-        
+
+        if(props.value==="true"){
+            updatePassword({"oldPassword":Old,"confPassword":N1})
+            .then(res=>res.json())
+            .catch(result=>{
+                console.log(result)
+                if(result==="Password Updated"){
+                    console.log("working...")
+                    navigate("/home")
+                    // setErr(result)
+                }
+                // setErr(result)
+                // navigate("/Aprofile")
+            })
+            
+        }else{
+            const search = window.location.search;
+            const params = new URLSearchParams(search);
+            const token = params.get('token');
+            resetPasswordApi(token,N1)
+            .then(res=>res.json())
+            .catch(result=>result)
+        }
+        SetIsLoading(false)
+        n1.current.value=""
+        n2.current.value=""
+        old.current.value=""
     }
 
 

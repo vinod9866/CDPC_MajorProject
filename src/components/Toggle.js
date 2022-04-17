@@ -6,5 +6,5 @@ export const Toggle = (props)=>{
 
     const [checked,setChecked] = useState(false)
 
-    return <div><input type="checkbox" id="switch" onChange={(e)=>props.onChange(e.target.checked)}/><label className='label' for="switch">Toggle</label></div>
+    return <div><input className='input' type="checkbox" id="switch" onChange={(e)=>props.onChange(e.target.checked)}/><label className='label' for="switch">Toggle</label></div>
 }

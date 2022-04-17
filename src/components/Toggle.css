@@ -1,4 +1,4 @@
-input[type=checkbox]{
+.input[type=checkbox]{
 	height: 0;
 	width: 0;
 	visibility: hidden;
@@ -27,11 +27,11 @@ input[type=checkbox]{
 	transition: 0.3s;
 }
 
-input:checked + label {
+.input:checked + label {
 	background: #77002e;
 }
 
-input:checked + label:after {
+.input:checked + label:after {
 	left: calc(100% - 5px);
 	transform: translateX(-100%);
 }

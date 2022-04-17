@@ -2,12 +2,31 @@ import classes from "./table.module.css";
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { getDriveRegisteredStudents, registerDrive } from "../apis";
+import AuthContext from '../store/auth-context';
 function Table(props) {
   const [show, setShow] = useState(false);
-
+  const [adminModal,setAdminModal] = useState(false)
+  const [registerData,setRegisterData] = useState([])
+  const authCtx = useContext(AuthContext); 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleAdminShow = () =>{
+    setAdminModal(true)
+  }
+  useEffect(()=>{
+    getDriveRegisteredStudents(data.id)
+    .then(res=>res.json())
+    .then(result=>setRegisterData([...result]))
+  },[])
+  const handleAdminClose = () =>setAdminModal(false)
+  const applyDrive = () => {
+    registerDrive(data.id)
+    .then(res=>res.json())
+    .then(result=>console.log(result))
+
+  }
   const data = props.data;
   const isActive = props.stat;
   return (
@@ -25,6 +44,34 @@ function Table(props) {
               </span>}</span>
             </div>
             <div className="ms-auto p-2 bd-highlight">
+            {authCtx.Person==="ADMIN"?<><Button variant="outline-primary" className="btn-sm" onClick={handleAdminShow}>Regitertions <span>1</span></Button>&nbsp;&nbsp;</>:null}
+            <Modal show={adminModal} onHide={handleAdminClose} backdrop="static">
+              <Modal.Body>
+              <table className={classes.table}>
+                <tr className={classes.tr}>
+                  <th className={classes.th}>Student Id</th>
+                  <th className={classes.th}>Student Name</th>
+                  <th className={classes.th}>Phone NO</th>
+                </tr>
+                {registerData.map((data,key)=>{
+                  return <tr className={classes.tr} key={key}>
+                    <td className={classes.th}>{data.userId}</td>
+                    <td className={classes.th}>{data.username}</td>
+                    <td className={classes.th}>{data.mobile}</td>
+                  </tr>
+                })}
+                
+              </table>
+              </Modal.Body>
+              <Modal.Footer>
+              <Button variant="secondary" onClick={handleAdminClose} className="btn-sm">
+                Close
+              </Button>
+              <Button variant="primary" onClick={applyDrive} className="btn-sm">
+                Download
+              </Button>
+            </Modal.Footer>
+            </Modal>
             <Button variant="outline-primary" className="btn-sm" onClick={handleShow}>View&nbsp;&amp;&nbsp;Apply</Button>
             <Modal show={show} onHide={handleClose} backdrop="static">
         {/* <Modal.Header closeButton>
@@ -42,7 +89,7 @@ function Table(props) {
           </div>
           <div className="mt-2">
             <span className="fw-bold">Website Link&nbsp;:&nbsp;</span>
-            <a href="http://www.achalasol.org" className="text-decoration-none mt-1" target="_blank">{data.websitelink}</a>
+            <a href={data.websitelink} className="text-decoration-none mt-1" target="_blank">{data.websitelink}</a>
           </div>
           <div className="mt-2">
             <span className="fw-bold">Company Description&nbsp;:&nbsp;</span>
@@ -104,7 +151,7 @@ function Table(props) {
           <span className="fs-5 fw-bold text-muted text-decoration-underline">Selection Process</span>
           </div>
           <div className="mt-2">
-            <span className="fw-bold">Drive Mode:</span><br></br>
+            <span className="fw-bold">Drive Mode : </span>
             <span className="mt-1">{data.mode}</span>
           </div>
           <div className="mt-3">
@@ -115,7 +162,7 @@ function Table(props) {
           <Button variant="secondary" onClick={handleClose} className="btn-sm">
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose} className="btn-sm">
+          <Button variant="primary" onClick={applyDrive} className="btn-sm">
             Apply
           </Button>
         </Modal.Footer>

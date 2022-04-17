@@ -25,25 +25,25 @@ function App() {
           <Route path="*" element={<Navigate to="/login" />} />
         )}
         {authCtx.isLoggedIn && <Route path="/home" element={<TableData />} />}
-        {user === "Admin"
+        {user === "ADMIN"
           ? authCtx.isLoggedIn && (
               <Route path="/broadcast" element={<BROADCAST />} />
             )
           : null}
-        {user === "Admin"
+        {user === "ADMIN"
           ? authCtx.isLoggedIn && <Route path="/table" element={<Table />} />
           : null}
-        {user === "Admin"
+        {user === "ADMIN"
           ? authCtx.isLoggedIn && (
               <Route path="/newdrive" element={<NEWDRIVE />} />
             )
           : null}
-        {user !== "Admin"
+        {user !== "ADMIN"
           ? authCtx.isLoggedIn && (
               <Route path="/profile" element={<UserAccount />} />
             )
           : null}
-        {user === "Admin"
+        {user === "ADMIN"
           ? authCtx.isLoggedIn && (
               <Route path="/Aprofile" element={<AdminProfile />} />)
           :null}

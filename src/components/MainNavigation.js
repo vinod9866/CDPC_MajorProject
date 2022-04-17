@@ -64,7 +64,7 @@ function MainNavigation(){
       authCtx.stopmClentAction(stompClient)
         console.log(isLoggedIn)
         console.log(authCtx.token)
-      if(isLoggedIn && loginPerson !== "Admin" ){
+      if(isLoggedIn && loginPerson !== "ADMIN" ){
         getNotifications(authCtx.token)
         .then(res=>res.json())
         .then(data=>{
@@ -109,7 +109,7 @@ function MainNavigation(){
       <Link  style={{textDecoration: 'none',color:'white'}} to="/home">  {isMobile ?"CDPC-RGUKTN":"Career Development & Placement Cell"} </Link>
     </Navbar.Brand>&nbsp;
     {isLoggedIn ? 
-    (loginPerson !== "Admin"  ) ?  <><Navbar.Toggle aria-controls="responsive-navbar-nav" />
+    (loginPerson !== "ADMIN"  ) ?  <><Navbar.Toggle aria-controls="responsive-navbar-nav" />
     <Navbar.Collapse id="responsive-navbar-nav" >
                 <Nav className="me-auto" >&nbsp;
                     <Nav.Link as={Link} to="/fav"> <MdOutlineSystemUpdateAlt style={{paddingBottom: "2px"}} /> Drive Updates</Nav.Link>
@@ -121,12 +121,12 @@ function MainNavigation(){
                         <NavDropdown.Divider />
                         <NavDropdown.Item as={Link} to='/login' onClick={logoutHandler}>Logout</NavDropdown.Item>
                     </NavDropdown>
-                    <Popup trigger={<Nav.Link  onClick={broadCastBtn} as={Link} to=""  >  Notifications 
+                    <Popup trigger={<Nav.Link  onClick={broadCastBtn} to=""  >  Notifications 
                         <AiOutlineBell style={{paddingBottom: "0px"}} /> </Nav.Link>}
                         position="bottom right" > 
                         <div className="notifications" id="box">
                                 <h2 className='notificationHead' ><AiFillNotification style={{paddingBottom:"3px",color:""}} size={25} />Notifications </h2>
-                                    {d1.reverse().map((d, index) => {
+                                    {data.reverse().map((d, index) => {
                                             return <div className="notifications-item" key={index} onClick={showModel}> 
                                                         <div className="text">
                                                                 <h4>{d.title}

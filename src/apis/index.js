@@ -1,5 +1,5 @@
-let host = "http://3.111.79.215:8080/api"
-// let host = "http://localhost:8080/api"
+// let host = "http://3.111.79.215:8080/api"
+let host = "http://localhost:8080/api"
 
 let token = localStorage.getItem("token");
 
@@ -95,7 +95,7 @@ export const getDrives = () =>{
 }
 
 export const getDriveRegisteredStudents = (driveId) =>{
-    return fetch(`${host}/drive/register/all/${driveId}`,{
+    return fetch(`${host}/drive/register/all/{id}?id=${driveId}`,{
         method:'GET',
         headers:{
             "Content-Type": "application/json; charset=utf-8",
@@ -105,8 +105,8 @@ export const getDriveRegisteredStudents = (driveId) =>{
     .catch(err => err)
 }
 
-export const registerDrive = (driveId,userId) =>{
-    return fetch(`${host}/drive/register/${driveId}/${userId}`,{
+export const registerDrive = (driveId) =>{
+    return fetch(`${host}/drive/register/{id}?id=${driveId}`,{
         method:'GET',
         headers:{
             "Content-Type": "application/json; charset=utf-8",
@@ -178,6 +178,18 @@ export const resetPasswordApi = (token,password) =>{
         headers:{
             "Content-Type": "application/json; charset=utf-8",
         }
+    }).then(res => res)
+    .catch(err => err)
+}
+
+export const updatePassword = (obj)=>{
+    return fetch(`${host}/user/updatePassword`,{
+        method:'POST',
+        headers:{
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization": "Bearer "+localStorage.getItem("token")
+        },
+        body:JSON.stringify(obj)
     }).then(res => res)
     .catch(err => err)
 }
