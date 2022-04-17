@@ -95,6 +95,11 @@ function MainNavigation(){
         }, false);
     }, [isMobile]);
 
+    const broadCastBtn = (e)=>{
+        e.preventDefault()
+        setNotification(!notification)
+    }
+
     return  <Navbar collapseOnSelect expand="lg"  variant="dark" className={classes.back}>
     <Container >
     <Navbar.Brand className={classes.logo}>
@@ -114,7 +119,7 @@ function MainNavigation(){
                         <NavDropdown.Divider />
                         <NavDropdown.Item as={Link} to='/login' onClick={logoutHandler}>Logout</NavDropdown.Item>
                     </NavDropdown>
-                    <Nav.Link onClick={()=>setNotification(!notification)} as={Link} to="/fav">
+                    <Nav.Link onClick={broadCastBtn} as={Link} to="/fav">
                         Notifications 
                         <AiOutlineBell style={{paddingBottom: "0px"}} />
                         {notification ? <div className="notifications" id="box">

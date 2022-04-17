@@ -100,7 +100,7 @@ function TableData() {
             branches={data.eligibilityData.branches}
             last_date={data.lastOfApply}
             title={data.name}
-            all={data}
+            data={data}
           />
         ))}
       </div>
