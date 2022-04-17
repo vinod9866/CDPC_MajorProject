@@ -1,7 +1,7 @@
 let host = "http://3.111.79.215:8080/api"
 // let host = "http://localhost:8080/api"
 
-let token = localStorage.getItem("token")
+let token = localStorage.getItem("token");
 
 export const login = (obj)=>{
     return fetch(`${host}/auth/login`,{
@@ -19,7 +19,7 @@ export const studentProfileUpdate = (obj)=>{
         method:'PUT',
         headers:{
             "Content-Type": "application/json; charset=utf-8",
-            "Authorization": "Bearer "+token
+            "Authorization": "Bearer "+localStorage.getItem("token")
         },
         body: JSON.stringify(obj)
     }).then(res => res)
@@ -31,7 +31,7 @@ export const addStudentResume = (data) =>{
         method:'POST',
         headers:{
             // "Content-Type": "multipart/form-data; boundary=<calculated when request is sent>",
-            "Authorization": "Bearer "+token
+            "Authorization": "Bearer "+localStorage.getItem("token")
         },
         body: data
     }).then(res => res)
@@ -43,7 +43,7 @@ export const addStudentProfile = (obj) =>{
         method:'POST',
         headers:{
             // "Content-Type": "application/json; charset=utf-8",
-            "Authorization": "Bearer "+token
+            "Authorization": "Bearer "+localStorage.getItem("token")
         },
         body: obj
     }).then(res => res)
@@ -55,7 +55,7 @@ export const getAllStudents = () =>{
         method:'GET',
         headers:{
             "Content-Type": "application/json; charset=utf-8",
-            "Authorization": "Bearer "+token
+            "Authorization": "Bearer "+localStorage.getItem("token")
         }
     }).then(res => res)
     .catch(err => err)
@@ -66,7 +66,7 @@ export const getStudent = () =>{
         method:'GET',
         headers:{
             "Content-Type": "application/json; charset=utf-8",
-            "Authorization": "Bearer "+token
+            "Authorization": "Bearer "+localStorage.getItem("token")
         }
     }).then(res => res)
     .catch(err => err)
@@ -77,7 +77,7 @@ export const getStudentById = (id) =>{
         method:'GET',
         headers:{
             "Content-Type": "application/json; charset=utf-8",
-            "Authorization": "Bearer "+token
+            "Authorization": "Bearer "+localStorage.getItem("token")
         }
     }).then(res => res)
     .catch(err => err)
@@ -88,7 +88,7 @@ export const getDrives = () =>{
         method:'GET',
         headers:{
             "Content-Type": "application/json; charset=utf-8",
-            "Authorization": "Bearer "+token
+            "Authorization": "Bearer "+localStorage.getItem("token")
         }
     }).then(res => res)
     .catch(err => err)
@@ -99,7 +99,7 @@ export const getDriveRegisteredStudents = (driveId) =>{
         method:'GET',
         headers:{
             "Content-Type": "application/json; charset=utf-8",
-            "Authorization": "Bearer "+token
+            "Authorization": "Bearer "+localStorage.getItem("token")
         }
     }).then(res => res)
     .catch(err => err)
@@ -110,7 +110,7 @@ export const registerDrive = (driveId,userId) =>{
         method:'GET',
         headers:{
             "Content-Type": "application/json; charset=utf-8",
-            "Authorization": "Bearer "+token
+            "Authorization": "Bearer "+localStorage.getItem("token")
         }
     }).then(res => res)
     .catch(err => err)
@@ -121,7 +121,7 @@ export const getDrive = (driveId) =>{
         method:'GET',
         headers:{
             "Content-Type": "application/json; charset=utf-8",
-            "Authorization": "Bearer "+token
+            "Authorization": "Bearer "+localStorage.getItem("token")
         }
     }).then(res => res)
     .catch(err => err)
@@ -132,7 +132,7 @@ export const saveDrive = (obj) =>{
         method:'POST',
         headers:{
             "Content-Type": "application/json; charset=utf-8",
-            "Authorization": "Bearer "+token
+            "Authorization": "Bearer "+localStorage.getItem("token")
         },
         body:JSON.stringify(obj)
     }).then(res => res)
@@ -144,14 +144,14 @@ export const updateDrive = (driveId,obj) =>{
         method:'PUT',
         headers:{
             "Content-Type": "application/json; charset=utf-8",
-            "Authorization": "Bearer "+token
+            "Authorization": "Bearer "+localStorage.getItem("token")
         },
         body:JSON.stringify(obj)
     }).then(res => res)
     .catch(err => err)
 }
 
-export const getNotifications = () =>{
+export const getNotifications = (token) =>{
     return fetch(`${host}/broadcast/all`,{
         method:'GET',
         headers:{

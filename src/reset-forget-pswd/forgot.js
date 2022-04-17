@@ -16,13 +16,15 @@ function Forgot(props){
     const [err,setErr] = useState(null);
     const n1 = useRef();
     const n2 = useRef();
+    const old = useRef();
     const [isLoading,SetIsLoading] = useState(false);
     function submitHandler(){
         
         setErr(null);
         const N1 = n1.current.value;
         const N2 = n2.current.value;
-        if (!(N1 && N2)){
+        const Old = old.current.value;
+        if (!(N1 && N2 && Old)){
             setErr("Enter the new password")
         }
         else if( N1===N2){
@@ -39,7 +41,7 @@ function Forgot(props){
         resetPasswordApi(token,N1)
         .then(res=>res.json())
         .catch(result=>result)
-
+        
     }
 
 
@@ -49,7 +51,7 @@ function Forgot(props){
           <Card.Body>
             <div> 
                 <h1 ></h1>
-                <h4 className={classes.sty}><FaUserLock size={25} style={{paddingBottom:"7px"}} />  Reset Password</h4>
+                <h4 className={classes.sty}><FaUserLock size={25} style={{paddingBottom:"7px"}} />  Change Password</h4>
                 { !err && <div className={classes.info}>
                     <i className="fa fa-info-circle"></i>&nbsp;Password upto 5 characters allowed
                 </div>
@@ -63,7 +65,15 @@ function Forgot(props){
                 <div className={classes.error}>
                     <i className="fa fa-times-circle"></i>&nbsp;Network error!
                 </div> */}
-                
+                { props.value &&
+                       <InputGroup className="mb-3" >
+                       <FormControl required type="password" className={err && classes.err}
+                       placeholder="enter old password"
+                       aria-describedby="basic-addon1"
+                       ref={old}
+                       />
+                   </InputGroup >
+                } 
                 <InputGroup className="mb-3" >
                     <FormControl required type="password" className={err && classes.err}
                     placeholder="enter new password"

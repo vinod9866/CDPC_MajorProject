@@ -30,6 +30,7 @@ function Login(props) {
     setInvisible(false);
   }
   function submitHandler(event) {
+    setLoading(true);
     event.preventDefault();
 
     const User = user.current.value;
@@ -48,15 +49,16 @@ function Login(props) {
       if (res.ok) {
         setState(true);
         seterror(false);
+        setLoading(false);
+
         res.json().then((data) => {
           const expTime = new Date(
-            new Date().getTime() + parseInt( data.expiry)
+            new Date().getTime() + parseInt( 1800000)
           );
           console.log(data);
 
           authCtx.login(data.token, expTime.toString());
           authCtx.whoLoggedIn(String(data.username));
-          // navigate("/home", { replace: true });
 
         });
       } else {
