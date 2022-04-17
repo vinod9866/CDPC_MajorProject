@@ -60,15 +60,18 @@ function MainNavigation(){
       stompClient = over(Sock);
       stompClient.connect({},onConnected, onError);
       authCtx.stopmClentAction(stompClient)
-
-      getNotifications()
-      .then(res=>res.json())
-      .then(data=>{
-        setData(data)
-        d1=[...data]
-      })
+        console.log(isLoggedIn)
+        console.log(authCtx.token)
+      if(isLoggedIn && loginPerson !== "Admin" ){
+        getNotifications(authCtx.token)
+        .then(res=>res.json())
+        .then(data=>{
+          setData(data)
+          d1=[...data]
+        })
+      }
       
-    },[])
+    },[isLoggedIn])
 
     const onConnected = () => {
       stompClient.subscribe('/students/all', onMessageReceived);
@@ -89,7 +92,6 @@ function MainNavigation(){
             if (ismobile !== isMobile){
                 setIsMobile(ismobile);
             }
- 
         }, false);
     }, [isMobile]);
 
@@ -117,7 +119,7 @@ function MainNavigation(){
                         <AiOutlineBell style={{paddingBottom: "0px"}} />
                         {notification ? <div className="notifications" id="box">
                             <h2 className='notificationHead'>Student BroadCast Notifications</h2>
-                            {d1.reverse().map((d,index)=>{
+                            {data.reverse().map((d,index)=>{
                               return <div className="notifications-item" key={index} onClick={showModel}> 
                               <div className="text">
                                   <h4>{d.title}<span className='notificationBadge'>new</span><span className='notificationDate'>{new Date(d.date).getDate()}</span></h4>

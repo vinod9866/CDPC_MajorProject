@@ -39,7 +39,7 @@ function Forgot(props){
         resetPasswordApi(token,N1)
         .then(res=>res.json())
         .catch(result=>result)
-
+        
     }
 
 
