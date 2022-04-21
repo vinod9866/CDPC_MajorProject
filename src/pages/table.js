@@ -198,7 +198,7 @@ function Table(props) {
           <Button variant="secondary" onClick={handleClose} className="btn-sm">
             Close
           </Button>
-          {!authCtx.Person==="ADMIN"?<Button variant="primary" onClick={applyDrive} className="btn-sm">
+          {authCtx.Person!=="ADMIN"?<Button variant="primary" onClick={applyDrive} className="btn-sm">
             Apply
           </Button>:null}
         </Modal.Footer>
