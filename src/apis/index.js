@@ -194,3 +194,14 @@ export const updatePassword = (obj)=>{
     .catch(err => err)
 }
 
+
+export const studentRegisteredDrives = ()=>{
+    return fetch(`${host}/drive/studentDrives`,{
+        method:'GET',
+        headers:{
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization": "Bearer "+localStorage.getItem("token")
+        },
+    }).then(res => res)
+    .catch(err => err)
+}
