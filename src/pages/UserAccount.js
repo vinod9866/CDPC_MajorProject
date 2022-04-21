@@ -3,7 +3,7 @@ import img from "../components/logos.png";
 import { useState,useEffect } from 'react';
 import { Card } from 'react-bootstrap';
 import { Model } from './modal';
-import { addStudentProfile, addStudentResume, getStudent } from '../apis';
+import { addStudentProfile, addStudentResume, getStudent, studentProfileUpdate } from '../apis';
 import { Toggle } from '../components/Toggle';  
 // import { addStudentResume, getStudent } from '../apis';
 // import Overlay from 'react-bootstrap/Overlay';
@@ -64,7 +64,8 @@ export const UserAccount =(props)=>{
     useEffect(()=>{
         getStudent()
        .then(res=>res.json())
-        .then(data=>{
+        .then(result=>{
+            var data = result.data
             setAccountData(data)
             setName(data.username)
             setId(data.userId)
@@ -98,16 +99,19 @@ export const UserAccount =(props)=>{
             "pucCgpa": pucCgpa,
             "engCgpa": engCgpa,
             "branch": branch,
-            "year": yop,
+            "year": year,
             "isPass": passed,
             "count": remCount,
             "engYear": yob,
           }
-        addStudentProfile(obj)
+        studentProfileUpdate(obj)
         .then(res=>res.json())
         .then(result => {
-            setLoading(false)
-            console.log(result)});
+            if(result.status===200){
+                setLoading(false)
+                console.log(result)
+            }
+        });
         handleModal()
     }
 
@@ -117,7 +121,12 @@ export const UserAccount =(props)=>{
         data.append("file",file)
         addStudentResume(data)
         .then(res=>res.json())
-        .then(result => result);
+        .then(result => {
+            if(result.status===200){
+                setLoading(false)
+                console.log(result)
+            }
+        });
     }
     const selectImage = (e) =>{
         e.preventDefault();

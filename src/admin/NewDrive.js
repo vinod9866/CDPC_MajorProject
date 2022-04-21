@@ -121,7 +121,14 @@ function NEWDRIVE() {
     // console.log(driveData)
   saveDrive(driveData)
   .then(res=>res.json())
-  .then(data=>console.log(data))
+  .then(data=>{
+    if(data.status===200){
+      
+    }else{
+      
+
+    }
+  })
   event.target.reset()
   }
 

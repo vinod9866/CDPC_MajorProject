@@ -5,9 +5,14 @@ import Modal from 'react-bootstrap/Modal';
 import { useContext, useEffect, useState } from "react";
 import { getDriveRegisteredStudents, registerDrive } from "../apis";
 import AuthContext from '../store/auth-context';
+import Popup from "reactjs-popup";
+import 'reactjs-popup/dist/index.css';
+import { Model } from "./modal";
 function Table(props) {
   const [show, setShow] = useState(false);
   const [adminModal,setAdminModal] = useState(false)
+  const [pop,setPop] = useState(false)
+  const [popMsg,setPopMsg] = useState("")
   const [registerData,setRegisterData] = useState([])
   const authCtx = useContext(AuthContext); 
   const handleClose = () => setShow(false);
@@ -18,14 +23,33 @@ function Table(props) {
   useEffect(()=>{
     getDriveRegisteredStudents(data.id)
     .then(res=>res.json())
-    .then(result=>setRegisterData([...result]))
+    .then(result=>{
+      if(result.status===200){
+        setRegisterData([...result.data])
+      }else{
+
+      }
+    })
   },[])
   const handleAdminClose = () =>setAdminModal(false)
   const applyDrive = () => {
     registerDrive(data.id)
     .then(res=>res.json())
-    .then(result=>console.log(result))
+    .then(result=>{
+      if(result.status===200){
+        
+      }else{
 
+      }
+    })
+    handleClose()
+  }
+  const downloadData = () =>{
+    setPop(true)
+    setPopMsg("All registered students downloading")
+  }
+  const handlePopUp=()=>{
+    setPop(false)
   }
   const data = props.data;
   const isActive = props.stat;
@@ -39,8 +63,8 @@ function Table(props) {
           <div className="d-flex bd-highlight">
             <div className="p-2 flex-fill bd-highlight">
               <span className="fs-4 fw-bolder">{data.name}</span>
-              <span className="h6" style={{marginLeft:'1rem'}}>{<span className={props.stat === "Active" ? 'badge bg-success' : 'badge bg-danger'}>
-              {props.stat === "Active" ? 'Active' : 'Inactive'}
+              <span className="h6" style={{marginLeft:'1rem'}}>{<span className={props.stat ? 'badge bg-success' : 'badge bg-danger'}>
+              {props.stat? 'Active' : 'Inactive'}
               </span>}</span>
             </div>
             <div className="ms-auto p-2 bd-highlight">
@@ -48,11 +72,14 @@ function Table(props) {
             <Modal show={adminModal} onHide={handleAdminClose} backdrop="static">
               <Modal.Body>
               <table className={classes.table}>
-                <tr className={classes.tr}>
-                  <th className={classes.th}>Student Id</th>
-                  <th className={classes.th}>Student Name</th>
-                  <th className={classes.th}>Phone NO</th>
-                </tr>
+                <thead>
+                  <tr className={classes.tr}>
+                    <th className={classes.th}>Student Id</th>
+                    <th className={classes.th}>Student Name</th>
+                    <th className={classes.th}>Phone NO</th>
+                  </tr>
+                </thead>
+                <tbody>
                 {registerData.map((data,key)=>{
                   return <tr className={classes.tr} key={key}>
                     <td className={classes.th}>{data.userId}</td>
@@ -60,16 +87,22 @@ function Table(props) {
                     <td className={classes.th}>{data.mobile}</td>
                   </tr>
                 })}
-                
+                </tbody>
               </table>
               </Modal.Body>
               <Modal.Footer>
               <Button variant="secondary" onClick={handleAdminClose} className="btn-sm">
                 Close
               </Button>
-              <Button variant="primary" onClick={applyDrive} className="btn-sm">
+              <Button variant="primary" onClick={downloadData} className="btn-sm">
                 Download
               </Button>
+              {pop?<Model parentCallback={handlePopUp} style={classes.modalClass} heading="">
+        <div>
+            {popMsg}
+        </div>
+    </Model>:""}
+              
             </Modal.Footer>
             </Modal>
             <Button variant="outline-primary" className="btn-sm" onClick={handleShow}>View&nbsp;&amp;&nbsp;Apply</Button>
