@@ -7,6 +7,7 @@ import { getDriveRegisteredStudents, registerDrive } from "../apis";
 import AuthContext from '../store/auth-context';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
+import { Model } from "./modal";
 
 function Table(props) {
   const [shows, setShows] = useState(false);

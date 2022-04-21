@@ -68,15 +68,10 @@ function MainNavigation(){
         getNotifications(authCtx.token)
         .then(res=>res.json())
         .then(data=>{
-<<<<<<< HEAD
-          setData(data.data)
-          d1=[...data.data]
-=======
             if(data.status===200){
                 setData(data.data)
                 d1=[...data.data]
             }
->>>>>>> 71365ed16a1025c9061a70f35dcdb6a113a8be2a
         })
       }
       
