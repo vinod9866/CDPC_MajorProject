@@ -115,7 +115,7 @@ function MainNavigation(){
     <Navbar.Collapse id="responsive-navbar-nav" >
                 <Nav className="me-auto" >&nbsp;
                     <Nav.Link as={Link} to="/fav"> <MdOutlineSystemUpdateAlt style={{paddingBottom: "2px"}} /> Drive Updates</Nav.Link>
-                    <Nav.Link as={Link} to="/all"> <MdUpdate style={{paddingBottom: "2px"}} size={20}/> Drive Status</Nav.Link>
+                    <Nav.Link as={Link} to="/status"> <MdUpdate style={{paddingBottom: "2px"}} size={20}/> Drive Status</Nav.Link>
                 </Nav> 
                 <Nav>
                 <NavDropdown style={{width:'20px',paddingRight:"50px"}} title={<FaUserAlt style={{paddingBottom: "2px"}} />}  id="collasible-nav-dropdown">

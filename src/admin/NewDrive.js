@@ -132,13 +132,18 @@ function NEWDRIVE() {
       if(data.status===200){
         setShows(true);
         setSuccessmsg("Drive added successfully.")
+        event.target.reset()
+        setChecked({
+          cb1:false,cb2:false,cb3:false,cb4:false,cb5:false,cb6:false,
+        })
+        setDrop(null)
       }
       else{
         setShowe(true);
         setErrormsg(data.error);
       }
   })
-  event.target.reset()
+
   }
 
 

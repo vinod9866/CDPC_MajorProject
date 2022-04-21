@@ -5,15 +5,9 @@ import Modal from 'react-bootstrap/Modal';
 import { useContext, useEffect, useState } from "react";
 import { getDriveRegisteredStudents, registerDrive } from "../apis";
 import AuthContext from '../store/auth-context';
-import Toast from 'react-bootstrap/Toast';
-import ToastContainer from 'react-bootstrap/ToastContainer';
 import { Model } from "./modal";
 
 function Table(props) {
-  const [shows, setShows] = useState(false);
-  const [showe, setShowe] = useState(false);
-  const [msg,setMsg] = useState("");
-
   const [show, setShow] = useState(false);
   const [adminModal,setAdminModal] = useState(false)
   const [pop,setPop] = useState(false)
@@ -29,7 +23,6 @@ function Table(props) {
     getDriveRegisteredStudents(data.id)
     .then(res=>res.json())
     .then(result=>{
-      console.log(result)
       if(result.status===200){
         setRegisterData([...result.data])
       }

@@ -1,9 +1,10 @@
 import { useState,useEffect, useContext } from 'react';
 import { getDrives } from "../apis";
+import DriveStatus from './driveStatus';
 
 function DriveStatusData(){
     return(
-        <h1>Drive Status</h1>
+        <DriveStatus></DriveStatus>
     );
 }
-export default DriveStatusData
+export default DriveStatusData;
