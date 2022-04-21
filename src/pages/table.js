@@ -5,7 +5,14 @@ import Modal from 'react-bootstrap/Modal';
 import { useContext, useEffect, useState } from "react";
 import { getDriveRegisteredStudents, registerDrive } from "../apis";
 import AuthContext from '../store/auth-context';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
+
 function Table(props) {
+  const [shows, setShows] = useState(false);
+  const [showe, setShowe] = useState(false);
+  const [msg,setMsg] = useState("");
+
   const [show, setShow] = useState(false);
   const [adminModal,setAdminModal] = useState(false)
   const [registerData,setRegisterData] = useState([])
@@ -18,18 +25,33 @@ function Table(props) {
   useEffect(()=>{
     getDriveRegisteredStudents(data.id)
     .then(res=>res.json())
-    .then(result=>setRegisterData([...result]))
+    .then(result=>{
+      console.log(result)
+      if(result.status===200){
+        setRegisterData([...result.data])
+      }
+    })
   },[])
   const handleAdminClose = () =>setAdminModal(false)
   const applyDrive = () => {
     registerDrive(data.id)
     .then(res=>res.json())
-    .then(result=>console.log(result))
+    .then(result=>{
+      setShow(false);
+      if(result.status===200){
+        // setShows(true)
+        props.onSuccess()
+      }else{
+        props.onError(result.error)
+      }
+    })
 
   }
+
   const data = props.data;
   const isActive = props.stat;
   return (
+    <div>
     <div className="row">
       <div className="col-0"></div>
       <div className="col-12">
@@ -48,19 +70,23 @@ function Table(props) {
             <Modal show={adminModal} onHide={handleAdminClose} backdrop="static">
               <Modal.Body>
               <table className={classes.table}>
-                <tr className={classes.tr}>
-                  <th className={classes.th}>Student Id</th>
-                  <th className={classes.th}>Student Name</th>
-                  <th className={classes.th}>Phone NO</th>
-                </tr>
+                <thead>
+                  <tr className={classes.tr}>
+                    <th className={classes.th}>Student Id</th>
+                    <th className={classes.th}>Student Name</th>
+                    <th className={classes.th}>Phone NO</th>
+                  </tr>
+                </thead>
+                <tbody>
                 {registerData.map((data,key)=>{
                   return <tr className={classes.tr} key={key}>
                     <td className={classes.th}>{data.userId}</td>
                     <td className={classes.th}>{data.username}</td>
                     <td className={classes.th}>{data.mobile}</td>
                   </tr>
+                  
                 })}
-                
+                </tbody>
               </table>
               </Modal.Body>
               <Modal.Footer>
@@ -177,6 +203,7 @@ function Table(props) {
       </Card>
       </div>
       <div className="col-0"></div>
+    </div>
     </div>
   );
 }

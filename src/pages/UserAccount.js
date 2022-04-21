@@ -3,7 +3,7 @@ import img from "../components/logos.png";
 import { useState,useEffect } from 'react';
 import { Card } from 'react-bootstrap';
 import { Model } from './modal';
-import { addStudentProfile, addStudentResume, getStudent } from '../apis';
+import { addStudentProfile, addStudentResume, getStudent, studentProfileUpdate } from '../apis';
 import { Toggle } from '../components/Toggle';  
 // import { addStudentResume, getStudent } from '../apis';
 // import Overlay from 'react-bootstrap/Overlay';
@@ -14,8 +14,14 @@ import{BiEdit} from "react-icons/bi"
 import Popup from 'reactjs-popup';
 import Forgot from '../reset-forget-pswd/forgot';
 import { Button } from 'react-bootstrap';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
 
 export const UserAccount =(props)=>{
+    const [shows, setShows] = useState(false);
+    const [showe, setShowe] = useState(false);
+    const [successmsg,setSuccessmsg] = useState("");
+    const [errormsg,setErrormsg] = useState("");
 
     const [isLoading,setLoading]= useState(false);
     const [file,setFile] = useState(null)
@@ -64,7 +70,8 @@ export const UserAccount =(props)=>{
     useEffect(()=>{
         getStudent()
        .then(res=>res.json())
-        .then(data=>{
+        .then(result=>{
+            var data = result.data
             setAccountData(data)
             setName(data.username)
             setId(data.userId)
@@ -103,11 +110,20 @@ export const UserAccount =(props)=>{
             "count": remCount,
             "engYear": yob,
           }
-        addStudentProfile(obj)
+        studentProfileUpdate(obj)
         .then(res=>res.json())
         .then(result => {
             setLoading(false)
-            console.log(result)});
+            console.log(result)
+            if(result.status===200){
+                setShows(true);
+                setSuccessmsg("Profile updated successfully.")
+            }
+            else{
+                setShowe(true);
+                setErrormsg(result.error);
+            }
+        });
         handleModal()
     }
 
@@ -117,7 +133,16 @@ export const UserAccount =(props)=>{
         data.append("file",file)
         addStudentResume(data)
         .then(res=>res.json())
-        .then(result => result);
+        .then(result => {
+            if(result.status===200){
+                setShows(true);
+                setSuccessmsg("Resume updated successfully.")
+            }
+            else{
+                setShowe(true);
+                setErrormsg(result.error);
+            }
+        });
     }
     const selectImage = (e) =>{
         e.preventDefault();
@@ -141,9 +166,27 @@ export const UserAccount =(props)=>{
         data.append("file",file)
         addStudentProfile(data)
         .then(res=>res.json())
-        .then(result => result);
+        .then(result => {
+            if(result.status===200){
+                setShows(true);
+                setSuccessmsg("Image updated successfully.")
+            }
+            else{
+                setShowe(true);
+                setErrormsg(result.error);
+            }
+        });
     }
-    return<Card className={classes.account}>
+    return<div>
+        <ToastContainer className="p-3 position-fixed bottom-1 end-0 p-3" style={{zIndex:'11'}}>
+          <Toast className="bg-success text-light" onClose={() => setShows(false)} show={shows} delay={3000} autohide>
+            <Toast.Body className="text-start">{successmsg}</Toast.Body>
+          </Toast>
+          <Toast className="bg-danger text-light" onClose={() => setShowe(false)} show={showe} delay={5000} autohide>
+            <Toast.Body className="text-start">{errormsg}</Toast.Body>
+          </Toast>
+        </ToastContainer>
+    <Card className={classes.account}>
         {modal1?<Model parentCallback={handleModal1} style={classes.modalClass} heading="Upload Resume File">
         <form onSubmit={updateResume}>
         <div className={classes.field}>
@@ -253,4 +296,5 @@ export const UserAccount =(props)=>{
         </div> 
     </div>
 </Card>
+</div>
 }

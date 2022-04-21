@@ -20,3 +20,9 @@
 .tr:nth-child(even) {
     background-color: #dddddd;
   }
+
+.toast{
+  position: absolute;
+  right: 0;
+  bottom:10%;
+}

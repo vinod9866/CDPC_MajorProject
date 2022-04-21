@@ -3,6 +3,8 @@ import { useState,useEffect, useRef } from "react";
 import { saveDrive } from "../apis";
 import Card from "../ui/card";
 import classes from "./NewDrive.module.css";
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
 
 function NEWDRIVE() {
   const cname = useRef();
@@ -23,6 +25,10 @@ function NEWDRIVE() {
   const bdesc = useRef();
   const LDA = useRef();
 
+  const [shows, setShows] = useState(false);
+  const [showe, setShowe] = useState(false);
+  const [successmsg,setSuccessmsg] = useState("");
+  const [errormsg,setErrormsg] = useState("");
 
 
 
@@ -121,7 +127,17 @@ function NEWDRIVE() {
     // console.log(driveData)
   saveDrive(driveData)
   .then(res=>res.json())
-  .then(data=>console.log(data))
+  .then(data=>{
+      console.log(data)
+      if(data.status===200){
+        setShows(true);
+        setSuccessmsg("Drive added successfully.")
+      }
+      else{
+        setShowe(true);
+        setErrormsg(data.error);
+      }
+  })
   event.target.reset()
   }
 
@@ -160,6 +176,15 @@ function NEWDRIVE() {
   }, [checked]);
 
   return (
+    <div>
+      <ToastContainer className="p-3 position-fixed bottom-1 end-0 p-3" style={{zIndex:'11'}}>
+          <Toast className="bg-success text-light" onClose={() => setShows(false)} show={shows} delay={3000} autohide>
+            <Toast.Body className="text-start">{successmsg}</Toast.Body>
+          </Toast>
+          <Toast className="bg-danger text-light" onClose={() => setShowe(false)} show={showe} delay={5000} autohide>
+            <Toast.Body className="text-start">{errormsg}</Toast.Body>
+          </Toast>
+        </ToastContainer>
     <Card>
       <form className={classes.form} onSubmit={submitHandler}>
         <div>
@@ -333,6 +358,7 @@ function NEWDRIVE() {
         </div>
       </form>
     </Card>
+    </div>
   );
 }
 export default NEWDRIVE;
