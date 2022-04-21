@@ -20,7 +20,13 @@ function TableData(props) {
   useEffect(()=>{
     getDrives()
     .then(res=>res.json()
-    .then(data=>setDriveData(data.data)
+    .then(data=>{
+      if(data.status===200){
+        setDriveData(data.data)
+      }else{
+        
+      }
+    }
     ));
   },[])
 
@@ -51,11 +57,7 @@ function TableData(props) {
             onSuccess={onSuccess}
             text="vinod"
             key={data.id}
-            // id={data.id}
-            stat="Expired"
-            // branches={data.eligibilityData.branches}
-            // last_date={data.lastOfApply}
-            // title={data.name}
+            stat={new Date(data.lastOfApply)>new Date() ? true:false}
             data={data}
           />
         ))}

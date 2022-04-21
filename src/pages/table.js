@@ -15,6 +15,8 @@ function Table(props) {
 
   const [show, setShow] = useState(false);
   const [adminModal,setAdminModal] = useState(false)
+  const [pop,setPop] = useState(false)
+  const [popMsg,setPopMsg] = useState("")
   const [registerData,setRegisterData] = useState([])
   const authCtx = useContext(AuthContext); 
   const handleClose = () => setShow(false);
@@ -45,7 +47,14 @@ function Table(props) {
         props.onError(result.error)
       }
     })
-
+    handleClose()
+  }
+  const downloadData = () =>{
+    setPop(true)
+    setPopMsg("All registered students downloading")
+  }
+  const handlePopUp=()=>{
+    setPop(false)
   }
 
   const data = props.data;
@@ -61,8 +70,8 @@ function Table(props) {
           <div className="d-flex bd-highlight">
             <div className="p-2 flex-fill bd-highlight">
               <span className="fs-4 fw-bolder">{data.name}</span>
-              <span className="h6" style={{marginLeft:'1rem'}}>{<span className={props.stat === "Active" ? 'badge bg-success' : 'badge bg-danger'}>
-              {props.stat === "Active" ? 'Active' : 'Inactive'}
+              <span className="h6" style={{marginLeft:'1rem'}}>{<span className={props.stat ? 'badge bg-success' : 'badge bg-danger'}>
+              {props.stat? 'Active' : 'Inactive'}
               </span>}</span>
             </div>
             <div className="ms-auto p-2 bd-highlight">
@@ -93,9 +102,15 @@ function Table(props) {
               <Button variant="secondary" onClick={handleAdminClose} className="btn-sm">
                 Close
               </Button>
-              <Button variant="primary" onClick={applyDrive} className="btn-sm">
+              <Button variant="primary" onClick={downloadData} className="btn-sm">
                 Download
               </Button>
+              {pop?<Model parentCallback={handlePopUp} style={classes.modalClass} heading="">
+        <div>
+            {popMsg}
+        </div>
+    </Model>:""}
+              
             </Modal.Footer>
             </Modal>
             <Button variant="outline-primary" className="btn-sm" onClick={handleShow}>View&nbsp;&amp;&nbsp;Apply</Button>

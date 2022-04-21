@@ -105,7 +105,7 @@ export const UserAccount =(props)=>{
             "pucCgpa": pucCgpa,
             "engCgpa": engCgpa,
             "branch": branch,
-            "year": yop,
+            "year": year,
             "isPass": passed,
             "count": remCount,
             "engYear": yob,
