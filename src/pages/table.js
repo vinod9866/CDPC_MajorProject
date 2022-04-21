@@ -99,15 +99,9 @@ function Table(props) {
               <Button variant="primary" onClick={downloadData} className="btn-sm">
                 Download
               </Button>
-              {pop?<Model parentCallback={handlePopUp} style={classes.modalClass} heading="">
-        <div>
-            {popMsg}
-        </div>
-    </Model>:""}
-              
             </Modal.Footer>
             </Modal>
-            <Button variant="outline-primary" className="btn-sm" onClick={handleShow}>View&nbsp;&amp;&nbsp;Apply</Button>
+            <Button variant="outline-primary" className="btn-sm" onClick={handleShow}>{authCtx.Person!=="ADMIN"?<>View&nbsp;&amp;&nbsp;</>:null}Apply</Button>
             <Modal show={show} onHide={handleClose} backdrop="static">
         {/* <Modal.Header closeButton>
           <Modal.Title>{props.title}</Modal.Title>
@@ -197,9 +191,9 @@ function Table(props) {
           <Button variant="secondary" onClick={handleClose} className="btn-sm">
             Close
           </Button>
-          <Button variant="primary" onClick={applyDrive} className="btn-sm">
+          {!authCtx.Person==="ADMIN"?<Button variant="primary" onClick={applyDrive} className="btn-sm">
             Apply
-          </Button>
+          </Button>:null}
         </Modal.Footer>
       </Modal>
             </div>
