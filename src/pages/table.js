@@ -5,8 +5,6 @@ import Modal from 'react-bootstrap/Modal';
 import { useContext, useEffect, useState } from "react";
 import { getDriveRegisteredStudents, registerDrive } from "../apis";
 import AuthContext from '../store/auth-context';
-import Toast from 'react-bootstrap/Toast';
-import ToastContainer from 'react-bootstrap/ToastContainer';
 import { Model } from "./modal";
 import { Form } from "react-bootstrap";
 
@@ -31,7 +29,6 @@ function Table(props) {
     getDriveRegisteredStudents(data.id)
     .then(res=>res.json())
     .then(result=>{
-      console.log(result)
       if(result.status===200){
         setRegisterData([...result.data])
       }
@@ -122,7 +119,7 @@ function Table(props) {
               
             </Modal.Footer>
             </Modal>
-            <Button variant="outline-primary" className="btn-sm" onClick={handleShow}>View&nbsp;&amp;&nbsp;Apply</Button>
+            <Button variant="outline-primary" className="btn-sm" onClick={handleShow}>{authCtx.Person!=="ADMIN"?<>View&nbsp;&amp;&nbsp;</>:null}Apply</Button>
             <Modal show={show} onHide={handleClose} backdrop="static">
         {/* <Modal.Header closeButton>
           <Modal.Title>{props.title}</Modal.Title>
@@ -212,9 +209,9 @@ function Table(props) {
           <Button variant="secondary" onClick={handleClose} className="btn-sm">
             Close
           </Button>
-          <Button variant="primary" onClick={applyDrive} className="btn-sm">
+          {!authCtx.Person==="ADMIN"?<Button variant="primary" onClick={applyDrive} className="btn-sm">
             Apply
-          </Button>
+          </Button>:null}
         </Modal.Footer>
       </Modal>
             </div>

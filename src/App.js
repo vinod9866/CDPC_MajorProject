@@ -11,6 +11,7 @@ import AdminProfile from "./admin/Profile";
 import Forgot from "./reset-forget-pswd/forgot";
 import FPswd from "./admin/ForgotPswd";
 import TableData from "./pages/tableData";
+import DriveStatusData from "./pages/driveStatusData";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -41,6 +42,11 @@ function App() {
         {user !== "ADMIN"
           ? authCtx.isLoggedIn && (
               <Route path="/profile" element={<UserAccount />} />
+            )
+          : null}
+        {user !== "ADMIN"
+          ? authCtx.isLoggedIn && (
+              <Route path="/status" element={<DriveStatusData />} />
             )
           : null}
         {user === "ADMIN"

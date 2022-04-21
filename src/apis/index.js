@@ -1,5 +1,5 @@
-let host = "http://3.111.79.215:8080/api"
-// let host = "http://localhost:8080/api"
+// let host = "http://3.111.79.215:8080/api"
+let host = "http://localhost:8080/api"
 
 let token = localStorage.getItem("token");
 
@@ -194,3 +194,14 @@ export const updatePassword = (obj)=>{
     .catch(err => err)
 }
 
+
+export const studentRegisteredDrives = ()=>{
+    return fetch(`${host}/drive/studentDrives`,{
+        method:'GET',
+        headers:{
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization": "Bearer "+localStorage.getItem("token")
+        },
+    }).then(res => res)
+    .catch(err => err)
+}

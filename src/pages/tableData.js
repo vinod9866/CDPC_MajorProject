@@ -7,15 +7,11 @@ import { Toast, ToastContainer } from "react-bootstrap";
 // import ToastContainer from 'react-bootstrap/ToastContainer'
 
 function TableData(props) { 
-  // const [shows, setShows] = useState(false);
-  // const [showe, setShowe] = useState(false);
   const [shows, setShows] = useState(false);
   const [showe, setShowe] = useState(false);
   const [msg,setMsg] = useState("");
 
   const [driveData,setDriveData] = useState([]);
-  const authContext = useContext(AuthContext);
-  const isLoggedIn = authContext.isLoggedIn;
 
   useEffect(()=>{
     getDrives()
