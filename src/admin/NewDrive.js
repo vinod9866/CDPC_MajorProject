@@ -30,6 +30,7 @@ function NEWDRIVE() {
   const [successmsg,setSuccessmsg] = useState("");
   const [errormsg,setErrormsg] = useState("");
 
+  const [OnlyError,setMsg] = useState(null)
 
 
 
@@ -43,11 +44,11 @@ function NEWDRIVE() {
   const [tr,setTr] = useState(false);
   const [hr,setHr] = useState(false);
 
-  const [drop,setDrop] = useState("");
+  const [drop,setDrop] = useState(null);
 
   function submitHandler(event){
     event.preventDefault();
-    setDate(false);
+    setMsg(null);
 
     const Cname = cname.current.value;
     const Cloc = cloc.current.value;
@@ -93,37 +94,44 @@ function NEWDRIVE() {
     var GivenDate = new Date(lDA);
     if(CurrentDate>=GivenDate){
       console.log("wrong");
-      setDate(true);
+      setMsg("The entered Date is invalid!")
     }
-    var driveData = {
-      "name": Cname,
-      "location": Cloc,
-      "desc": Desc,
-      "websitelink": Curl,
-      "addresses": [
-        "string"
-      ],
-      "eligibilityData": {
-        "primary": School,
-        "secondary": Puc,
-        "degree": Btech,
-        "branches": ebraches,
-        "yearOfPass": Yop,
-        "joiningLocation": jL,
-        "training": Training,
-        "stipend": Stipend,
-        "ppoOffer": Ppo,
-        "jobPosition": Jposition,
-        "jobNature": Jnature,
-        "bond": Jbond,
-        "desc": Bdesc
-      },
-      "lastOfApply":lDA,
-      "mode":drop,
-      "selectionCriteria": tests,
-      "regStudents": [
-      ]
+    else if(drop===null){
+      console.log("yes");
+
     }
+    else{
+      var driveData = {
+        "name": Cname,
+        "location": Cloc,
+        "desc": Desc,
+        "websitelink": Curl,
+        "addresses": [
+          "string"
+        ],
+        "eligibilityData": {
+          "primary": School,
+          "secondary": Puc,
+          "degree": Btech,
+          "branches": ebraches,
+          "yearOfPass": Yop,
+          "joiningLocation": jL,
+          "training": Training,
+          "stipend": Stipend,
+          "ppoOffer": Ppo,
+          "jobPosition": Jposition,
+          "jobNature": Jnature,
+          "bond": Jbond,
+          "desc": Bdesc
+        },
+        "lastOfApply":lDA,
+        "mode":drop,
+        "selectionCriteria": tests,
+        "regStudents": [
+        ]
+      }
+    }
+
     // console.log(driveData)
   saveDrive(driveData)
   .then(res=>res.json())
@@ -198,9 +206,9 @@ function NEWDRIVE() {
         <hr />
         <div>
           <h2>Company Details</h2>
-          {checkDate && <div className={classes.error}>
+          {OnlyError && <div className={classes.error}>
             <i className="fa fa-times-circle"></i>&nbsp;
-                The entered Date is invalid!
+                {OnlyError}
           </div>}
           <div className={classes.control}>
             <label htmlFor="cname">Company Name<span className={classes.imp}>*</span></label>
@@ -220,7 +228,7 @@ function NEWDRIVE() {
           </div>
         </div>
         <div>
-          <h3>Eligibility Details</h3>
+          <h3>Eligibility Requirements</h3>
           <div className={classes.control}>
             <label htmlFor="cgpa">CGPA<span className={classes.imp}>*</span></label>
             <div className={classes.control2}>
@@ -327,8 +335,8 @@ function NEWDRIVE() {
             <input type="text"  id="bond" ref={jbond} required></input>
           </div>
           <div className={classes.control}>
-            <label htmlFor="desc">Bond Description<span className={classes.imp}>*</span></label>
-            <textarea rows={3} id="desc" ref={bdesc} required></textarea>
+            <label htmlFor="desc">Bond Description (optional)</label>
+            <textarea rows={3} id="desc" ref={bdesc} ></textarea>
           </div>
         </div>
         <div className={classes.control}>
