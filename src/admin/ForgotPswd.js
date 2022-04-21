@@ -45,7 +45,7 @@ function FPswd(){
                     ref={id}/>
                 </InputGroup>
                 <Button  className={classes.btn} variant="primary" onClick={submitHandler}>Submit</Button>
-                {err && <Link to={""} onClick={()=>{console.log("yp")}}>Login</Link>}
+                {err && <a href={""} onClick={()=>{console.log("yp")}}>Login</a>}
             </Card.Body>
             
         </Card>

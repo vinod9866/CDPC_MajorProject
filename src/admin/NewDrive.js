@@ -199,19 +199,19 @@ function NEWDRIVE() {
           </div>}
           <div className={classes.control}>
             <label htmlFor="cname">Company Name<span className={classes.imp}>*</span></label>
-            <input type="text"  id="cname" ref={cname} ></input>
+            <input type="text"  id="cname" ref={cname} required></input>
           </div>
           <div className={classes.control}>
             <label htmlFor="clocation">Company Location<span className={classes.imp}>*</span></label>
-            <input type="text"  id="clocation" ref={cloc} ></input>
+            <input type="text"  id="clocation" ref={cloc} required></input>
           </div>
           <div className={classes.control}>
             <label htmlFor="cdescription">Company Description<span className={classes.imp}>*</span></label>
-            <textarea rows={3} id="cdescription" ref={desc} ></textarea>
+            <textarea rows={3} id="cdescription" ref={desc} required></textarea>
           </div>
           <div className={classes.control}>
             <label htmlFor="curl">Company URL<span className={classes.imp}>*</span></label>
-            <input type="text"  id="curl" ref={curl} ></input>
+            <input type="text"  id="curl" ref={curl} required></input>
           </div>
         </div>
         <div>
@@ -221,15 +221,15 @@ function NEWDRIVE() {
             <div className={classes.control2}>
               <div className={classes.control}>
                 <label htmlFor="btech">B.Tech</label>
-                <input type="text"  id="btech" ref={btech}></input>
+                <input type="text"  id="btech" ref={btech} required></input>
               </div>
               <div className={classes.control}>
                 <label htmlFor="puc">PUC</label>
-                <input type="text"  id="puc" ref={puc}></input>
+                <input type="text"  id="puc" ref={puc} required></input>
               </div>
               <div className={classes.control}>
                 <label htmlFor="primary">10th</label>
-                <input type="text"  id="primary" ref={school}></input>
+                <input type="text"  id="primary" ref={school} required></input>
               </div>
             </div>
           </div>
@@ -288,47 +288,47 @@ function NEWDRIVE() {
           </div>
           <div className={classes.control}>
             <label htmlFor="ypass">Year Of Pass<span className={classes.imp}>*</span></label>
-            <input type="number"  id="ypass" ref={yop} ></input>
+            <input type="number"  id="ypass" ref={yop} required ></input>
           </div>
         </div>
         <div>
           <h3>Job Description</h3>
           <div className={classes.control}>
             <label htmlFor="joiningLocation">Joining Location<span className={classes.imp}>*</span></label>
-            <input type="text"  id="joiningLocation" ref={JL} ></input>
+            <input type="text"  id="joiningLocation" ref={JL} required></input>
           </div>
           <div className={classes.control}>
             <label htmlFor="training">Training<span className={classes.imp}>*</span></label>
-            <input type="text"  id="training" ref={training} ></input>
+            <input type="text"  id="training" ref={training} required></input>
           </div>
           <div className={classes.control}>
             <label htmlFor="stipend">Stipend<span className={classes.imp}>*</span></label>
-            <input type="text"  id="stipend" ref={stipend} ></input>
+            <input type="text"  id="stipend" ref={stipend} required></input>
           </div>
           <div className={classes.control}>
             <label htmlFor="ppo">PPO(if any)<span className={classes.imp}>*</span></label>
-            <input type="text"  id="ppo" ref={ppo} ></input>
+            <input type="text"  id="ppo" ref={ppo} required></input>
           </div>
           <div className={classes.control}>
             <label htmlFor="jobPosition">Job Position<span className={classes.imp}>*</span></label>
-            <input type="text"  id="jobPosition" ref={jposition} ></input>
+            <input type="text"  id="jobPosition" ref={jposition} required></input>
           </div>
           <div className={classes.control}>
             <label htmlFor="jobNature">Job Nature<span className={classes.imp}>*</span></label>
-            <textarea rows={3} id="jobNature" ref={jnature} ></textarea>
+            <textarea rows={3} id="jobNature" ref={jnature} required></textarea>
           </div>
           <div className={classes.control}>
             <label htmlFor="bond">Bond(if any)<span className={classes.imp}>*</span></label>
-            <input type="text"  id="bond" ref={jbond} ></input>
+            <input type="text"  id="bond" ref={jbond} required></input>
           </div>
           <div className={classes.control}>
             <label htmlFor="desc">Bond Description<span className={classes.imp}>*</span></label>
-            <textarea rows={3} id="desc" ref={bdesc} ></textarea>
+            <textarea rows={3} id="desc" ref={bdesc} required></textarea>
           </div>
         </div>
         <div className={classes.control}>
             <label htmlFor="lastdate">Last Date To Apply<span className={classes.imp}>*</span></label>
-            <input type="date"  id="lastdate" ref={LDA} ></input>
+            <input type="date"  id="lastdate" ref={LDA} required></input>
         </div>
         <div className={classes.control} ><br></br>
           <label htmlFor="cars">Drive mode<span className={classes.imp}>*</span>

@@ -8,11 +8,13 @@ import AuthContext from '../store/auth-context';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import { Model } from "./modal";
+import { Form } from "react-bootstrap";
 
 function Table(props) {
   const [shows, setShows] = useState(false);
   const [showe, setShowe] = useState(false);
   const [msg,setMsg] = useState("");
+  const [selected,setSelected] = useState(false);
 
   const [show, setShow] = useState(false);
   const [adminModal,setAdminModal] = useState(false)
@@ -53,6 +55,7 @@ function Table(props) {
   const downloadData = () =>{
     setPop(true)
     setPopMsg("All registered students downloading")
+    console.log(selected);
   }
   const handlePopUp=()=>{
     setPop(false)
@@ -85,6 +88,7 @@ function Table(props) {
                     <th className={classes.th}>Student Id</th>
                     <th className={classes.th}>Student Name</th>
                     <th className={classes.th}>Phone NO</th>
+                  {!isActive &&   <th className={classes.th}>Interview Round</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -93,6 +97,7 @@ function Table(props) {
                     <td className={classes.th}>{data.userId}</td>
                     <td className={classes.th}>{data.username}</td>
                     <td className={classes.th}>{data.mobile}</td>
+                  {!isActive && <td className={classes.th}><Form><Form.Check aria-label="option 1" onChange={e=>{setSelected(e.target.checked);}} /></Form>  </td>}
                   </tr>
                   
                 })}
@@ -106,6 +111,9 @@ function Table(props) {
               <Button variant="primary" onClick={downloadData} className="btn-sm">
                 Download
               </Button>
+              {!isActive && <Button variant="primary" onClick={""} className="btn-sm">
+                pass to next round
+              </Button> }
               {pop?<Model parentCallback={handlePopUp} style={classes.modalClass} heading="">
         <div>
             {popMsg}
