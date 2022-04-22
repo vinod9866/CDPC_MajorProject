@@ -104,6 +104,10 @@ function MainNavigation(){
         setNotification(!notification)
     }
 
+    const updateStatus =(e)=>{
+        authCtx.driveStatusMethod()
+    }
+
     return  <Navbar collapseOnSelect expand="lg"  variant="dark" className={classes.back}>
     <Container >
     <Navbar.Brand className={classes.logo}>
@@ -115,7 +119,7 @@ function MainNavigation(){
     <Navbar.Collapse id="responsive-navbar-nav" >
                 <Nav className="me-auto" >&nbsp;
                     <Nav.Link as={Link} to="/fav"> <MdOutlineSystemUpdateAlt style={{paddingBottom: "2px"}} /> Drive Updates</Nav.Link>
-                    <Nav.Link as={Link} to="/all"> <MdUpdate style={{paddingBottom: "2px"}} size={20}/> Drive Status</Nav.Link>
+                    <Nav.Link  onClick={""} as={Link} to="/profile"> <MdUpdate style={{paddingBottom: "2px"}} size={20}/> Drive Status</Nav.Link>
                 </Nav> 
                 <Nav>
                 <NavDropdown style={{width:'20px',paddingRight:"50px"}} title={<FaUserAlt style={{paddingBottom: "2px"}} />}  id="collasible-nav-dropdown">
@@ -149,7 +153,7 @@ function MainNavigation(){
     <Navbar.Collapse id="responsive-navbar-nav" >
                 <Nav className="me-auto" >&nbsp;
                     <Nav.Link as={Link} to="/newdrive"> <AiOutlineAppstoreAdd style={{paddingBottom: "2px"}} size={20}/>Add Drive </Nav.Link>
-                    <Nav.Link as={Link} to="/all"> <MdUpdate style={{paddingBottom: "2px"}} /> Drive Status</Nav.Link>
+                    <Nav.Link as={Link} onClick={updateStatus} to="/"> <MdUpdate style={{paddingBottom: "2px"}} /> {authCtx.driveStatus?"Active Drives":"Processing Drives"} </Nav.Link>
                 </Nav> 
                 <Nav>
                 <NavDropdown style={{width:'20px',paddingRight:"50px"}} title={<FaUserAlt style={{paddingBottom: "2px"}} />}  id="collasible-nav-dropdown">

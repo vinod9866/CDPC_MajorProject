@@ -11,7 +11,9 @@ const AuthContext = React.createContext({
     stompClient :null,
     stopmClentAction : ()=>{},
     notifications:[],
-    notificationAction:()=>{}
+    notificationAction:()=>{},
+    driveStatus:'',
+    driveStatusMethod:()=>{}
 })
 
 const cRT = (expTime) => {
@@ -33,6 +35,7 @@ export const AuthContextProvider = (props) =>{
     const [stompClient,setStompClient] = useState(null);
 
     const [notifications,setNotifications] = useState([])
+    const [driveStatus,setDriveStatus] = useState(true)
 
     const userIsloggedIn = !!token;
 
@@ -45,7 +48,7 @@ export const AuthContextProvider = (props) =>{
         setToken(token);
         localStorage.setItem('token',token);
         const Rtime = cRT(expTime);
-        setTimeout(logoutHandler,Rtime);
+        setTimeout(logoutHandler,1800000);
     }
 
     const accountHandler = (person) =>{
@@ -62,6 +65,10 @@ export const AuthContextProvider = (props) =>{
         setNotifications(data)
     }
 
+    const driveStatusMethod = () =>{
+        setDriveStatus(!driveStatus)
+    }
+
 
     const contextValue = {
         token:token,
@@ -73,7 +80,9 @@ export const AuthContextProvider = (props) =>{
         stompClient:stompClient,
         stopmClentAction:stopmClientHandler,
         notifications:notifications,
-        notificationAction:notificationHandler
+        notificationAction:notificationHandler,
+        driveStatus:driveStatus,
+        driveStatusMethod:driveStatusMethod
     };
 
     return (<AuthContext.Provider value={contextValue}>

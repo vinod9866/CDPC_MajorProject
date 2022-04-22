@@ -5,6 +5,7 @@ import Card from "../ui/card";
 import classes from "./NewDrive.module.css";
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
+import Loading from "../components/loading";
 
 function NEWDRIVE() {
   const cname = useRef();
@@ -29,6 +30,7 @@ function NEWDRIVE() {
   const [showe, setShowe] = useState(false);
   const [successmsg,setSuccessmsg] = useState("");
   const [errormsg,setErrormsg] = useState("");
+  const [isLoading,setLoading] = useState(false)
 
 
 
@@ -43,11 +45,12 @@ function NEWDRIVE() {
   const [tr,setTr] = useState(false);
   const [hr,setHr] = useState(false);
 
-  const [drop,setDrop] = useState("");
+  const [drop,setDrop] = useState(null);
 
   function submitHandler(event){
+    setShowe(false)
+    setErrormsg(null)
     event.preventDefault();
-    setDate(false);
 
     const Cname = cname.current.value;
     const Cloc = cloc.current.value;
@@ -91,55 +94,80 @@ function NEWDRIVE() {
 
     var CurrentDate = new Date();
     var GivenDate = new Date(lDA);
-    if(CurrentDate>=GivenDate){
-      console.log("wrong");
-      setDate(true);
+    if(ebraches.length===0){
+      setShowe(true)
+      setErrormsg("Select atleast one branch")
     }
-    var driveData = {
-      "name": Cname,
-      "location": Cloc,
-      "desc": Desc,
-      "websitelink": Curl,
-      "addresses": [
-        "string"
-      ],
-      "eligibilityData": {
-        "primary": School,
-        "secondary": Puc,
-        "degree": Btech,
-        "branches": ebraches,
-        "yearOfPass": Yop,
-        "joiningLocation": jL,
-        "training": Training,
-        "stipend": Stipend,
-        "ppoOffer": Ppo,
-        "jobPosition": Jposition,
-        "jobNature": Jnature,
-        "bond": Jbond,
-        "desc": Bdesc
-      },
-      "lastOfApply":lDA,
-      "mode":drop,
-      "selectionCriteria": tests,
-      "regStudents": [
-      ]
+    else if(CurrentDate>=GivenDate){
+      setShowe(true)
+      setErrormsg("The entered Date is invalid!")
     }
+    else if(drop===null){
+      setShowe(true)
+      setErrormsg("Select drive mode")
+
+    }
+    else if(!tr && !hr && !oft){
+      setShowe(true)
+      setErrormsg("Select atleast one selection process")
+    }   
+    else{
+      var driveData = {
+        "name": Cname,
+        "location": Cloc,
+        "desc": Desc,
+        "websitelink": Curl,
+        "addresses": [
+          "string"
+        ],
+        "eligibilityData": {
+          "primary": School,
+          "secondary": Puc,
+          "degree": Btech,
+          "branches": ebraches,
+          "yearOfPass": Yop,
+          "joiningLocation": jL,
+          "training": Training,
+          "stipend": Stipend,
+          "ppoOffer": Ppo,
+          "jobPosition": Jposition,
+          "jobNature": Jnature,
+          "bond": Jbond,
+          "desc": Bdesc
+        },
+        "lastOfApply":lDA,
+        "mode":drop,
+        "status":1,
+        "selectionCriteria": tests,
+        "regStudents": [
+        ]
+      }
+      setLoading(true)
+      saveDrive(driveData)
+      .then(res=>res.json())
+      .then(data=>{
+          setLoading(false)
+          if(data.status===200){
+            
+            setShows(true);
+            setSuccessmsg("Drive added successfully.")
+            event.target.reset()
+            setChecked({
+              cb1:false,cb2:false,cb3:false,cb4:false,cb5:false,cb6:false,
+            })
+            setDrop(null)
+          }
+          else{
+            setShowe(true);
+            setErrormsg(data.error);
+          }
+      })
+    
+      }
+    }
+
     // console.log(driveData)
-  saveDrive(driveData)
-  .then(res=>res.json())
-  .then(data=>{
-      console.log(data)
-      if(data.status===200){
-        setShows(true);
-        setSuccessmsg("Drive added successfully.")
-      }
-      else{
-        setShowe(true);
-        setErrormsg(data.error);
-      }
-  })
-  event.target.reset()
-  }
+
 
 
   const toggleCheck = (inputName) => {
@@ -193,43 +221,39 @@ function NEWDRIVE() {
         <hr />
         <div>
           <h2>Company Details</h2>
-          {checkDate && <div className={classes.error}>
-            <i className="fa fa-times-circle"></i>&nbsp;
-                The entered Date is invalid!
-          </div>}
           <div className={classes.control}>
             <label htmlFor="cname">Company Name<span className={classes.imp}>*</span></label>
-            <input type="text"  id="cname" ref={cname} ></input>
+            <input type="text"  id="cname" ref={cname} required></input>
           </div>
           <div className={classes.control}>
             <label htmlFor="clocation">Company Location<span className={classes.imp}>*</span></label>
-            <input type="text"  id="clocation" ref={cloc} ></input>
+            <input type="text"  id="clocation" ref={cloc} required></input>
           </div>
           <div className={classes.control}>
             <label htmlFor="cdescription">Company Description<span className={classes.imp}>*</span></label>
-            <textarea rows={3} id="cdescription" ref={desc} ></textarea>
+            <textarea rows={3} id="cdescription" ref={desc} required></textarea>
           </div>
           <div className={classes.control}>
             <label htmlFor="curl">Company URL<span className={classes.imp}>*</span></label>
-            <input type="text"  id="curl" ref={curl} ></input>
+            <input type="text"  id="curl" ref={curl} required></input>
           </div>
         </div>
         <div>
-          <h3>Eligibility Details</h3>
+          <h3>Eligibility Requirements</h3>
           <div className={classes.control}>
             <label htmlFor="cgpa">CGPA<span className={classes.imp}>*</span></label>
             <div className={classes.control2}>
               <div className={classes.control}>
                 <label htmlFor="btech">B.Tech</label>
-                <input type="text"  id="btech" ref={btech}></input>
+                <input type="text"  id="btech" ref={btech} required></input>
               </div>
               <div className={classes.control}>
                 <label htmlFor="puc">PUC</label>
-                <input type="text"  id="puc" ref={puc}></input>
+                <input type="text"  id="puc" ref={puc} required></input>
               </div>
               <div className={classes.control}>
                 <label htmlFor="primary">10th</label>
-                <input type="text"  id="primary" ref={school}></input>
+                <input type="text"  id="primary" ref={school} required></input>
               </div>
             </div>
           </div>
@@ -288,47 +312,47 @@ function NEWDRIVE() {
           </div>
           <div className={classes.control}>
             <label htmlFor="ypass">Year Of Pass<span className={classes.imp}>*</span></label>
-            <input type="number"  id="ypass" ref={yop} ></input>
+            <input type="number"  id="ypass" ref={yop} required ></input>
           </div>
         </div>
         <div>
           <h3>Job Description</h3>
           <div className={classes.control}>
             <label htmlFor="joiningLocation">Joining Location<span className={classes.imp}>*</span></label>
-            <input type="text"  id="joiningLocation" ref={JL} ></input>
+            <input type="text"  id="joiningLocation" ref={JL} required></input>
           </div>
           <div className={classes.control}>
             <label htmlFor="training">Training<span className={classes.imp}>*</span></label>
-            <input type="text"  id="training" ref={training} ></input>
+            <input type="text"  id="training" ref={training} required></input>
           </div>
           <div className={classes.control}>
             <label htmlFor="stipend">Stipend<span className={classes.imp}>*</span></label>
-            <input type="text"  id="stipend" ref={stipend} ></input>
+            <input type="text"  id="stipend" ref={stipend} required></input>
           </div>
           <div className={classes.control}>
             <label htmlFor="ppo">PPO(if any)<span className={classes.imp}>*</span></label>
-            <input type="text"  id="ppo" ref={ppo} ></input>
+            <input type="text"  id="ppo" ref={ppo} required></input>
           </div>
           <div className={classes.control}>
             <label htmlFor="jobPosition">Job Position<span className={classes.imp}>*</span></label>
-            <input type="text"  id="jobPosition" ref={jposition} ></input>
+            <input type="text"  id="jobPosition" ref={jposition} required></input>
           </div>
           <div className={classes.control}>
             <label htmlFor="jobNature">Job Nature<span className={classes.imp}>*</span></label>
-            <textarea rows={3} id="jobNature" ref={jnature} ></textarea>
+            <textarea rows={3} id="jobNature" ref={jnature} required></textarea>
           </div>
           <div className={classes.control}>
             <label htmlFor="bond">Bond(if any)<span className={classes.imp}>*</span></label>
-            <input type="text"  id="bond" ref={jbond} ></input>
+            <input type="text"  id="bond" ref={jbond} required></input>
           </div>
           <div className={classes.control}>
-            <label htmlFor="desc">Bond Description<span className={classes.imp}>*</span></label>
+            <label htmlFor="desc">Bond Description (optional)</label>
             <textarea rows={3} id="desc" ref={bdesc} ></textarea>
           </div>
         </div>
         <div className={classes.control}>
             <label htmlFor="lastdate">Last Date To Apply<span className={classes.imp}>*</span></label>
-            <input type="date"  id="lastdate" ref={LDA} ></input>
+            <input type="date"  id="lastdate" ref={LDA} required></input>
         </div>
         <div className={classes.control} ><br></br>
           <label htmlFor="cars">Drive mode<span className={classes.imp}>*</span>
@@ -354,7 +378,7 @@ function NEWDRIVE() {
             <label htmlFor= "hr">&#160; HR Interview</label></div>
           </div>
         <div className={classes.actions}>
-          <button>Submit</button>
+          <button >{isLoading?<Loading/>:"Submit"}</button>
         </div>
       </form>
     </Card>

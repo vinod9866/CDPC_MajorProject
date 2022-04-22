@@ -101,7 +101,7 @@ function Login(props) {
         )}
         {errormsg && (
           <div className={classes.error}>
-            <i className="fa fa-times-circle"></i>&nbsp;Network error!
+            <i className="fa fa-times-circle"></i>&nbsp;Network or Connection error!
           </div>
         )}
 
