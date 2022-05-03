@@ -1,0 +1,32 @@
+.me{
+  padding-top: 20rem;
+}
+.btn{
+  height: 10%;
+  width: 100%;
+  font-weight:lighter;
+}
+
+.info,
+.success,
+.warning,
+.error {
+  padding: 8px;
+  border-radius: 4px 4px 4px 4px;
+  position:relative;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: #bef;
+  
+}
+.success {
+  color: #270;
+  background-color: #dff2bf;
+}
+.error {
+  color: #d8000c;
+  background-color: #ffbaba;
+}
+
+

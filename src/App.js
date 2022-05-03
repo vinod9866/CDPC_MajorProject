@@ -12,6 +12,7 @@ import Forgot from "./reset-forget-pswd/forgot";
 import FPswd from "./admin/ForgotPswd";
 import TableData from "./pages/tableData";
 import DriveStatusData from "./pages/driveStatusData";
+import CompanyRegister from "./company/email";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -20,6 +21,7 @@ function App() {
   return (
     <Layout>
       <Routes>
+        {!authCtx.isLoggedIn && <Route path="/companyregister/:token" element={<NEWDRIVE/>} />}
         {!authCtx.isLoggedIn && <Route path="/" element={<Login />} />}
         {!authCtx.isLoggedIn && <Route path="/login" element={<Login />} />}
         {!authCtx.isLoggedIn && (
@@ -29,6 +31,11 @@ function App() {
         {user === "ADMIN"
           ? authCtx.isLoggedIn && (
               <Route path="/broadcast" element={<BROADCAST />} />
+            )
+          : null}
+        {user === "ADMIN"
+          ? authCtx.isLoggedIn && (
+              <Route path="/invitecompany" element={<CompanyRegister />} />
             )
           : null}
         {user === "ADMIN"
