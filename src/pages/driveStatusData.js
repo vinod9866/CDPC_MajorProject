@@ -5,14 +5,17 @@ import DriveStatus from './driveStatus';
 
 function DriveStatusData(){
     const [statusData,setStatusData] = useState([]);
+    const [spin, setSpin] = useState(false);
 
     useEffect(()=>{
+        setSpin(true)
         studentRegisteredDrives()
         .then(res=>res.json())
         .then(result=>{
             console.log(result);
             if(result.status==200){
                 setStatusData(result.data)
+                setSpin(false);
             }
         })
     },[])
@@ -20,7 +23,7 @@ function DriveStatusData(){
     return(
         <div>
         {statusData.reverse().map((data) =>{
-            return <DriveStatus
+            return <DriveStatus spin={spin}
             key={data.id}
             data={data}
           />

@@ -2,3 +2,7 @@ stepcss{
     border-radius: 50%;
     background-color: aqua;
 }
+.spin{
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+  }

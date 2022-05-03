@@ -3,6 +3,7 @@ import { useState,useEffect, useContext } from 'react';
 import { getDrives } from "../apis";
 import AuthContext from "../store/auth-context";
 import { Toast, ToastContainer } from "react-bootstrap";
+import { Oval } from "react-loader-spinner";
 // import Toast from 'react-bootstrap/Toast';
 // import ToastContainer from 'react-bootstrap/ToastContainer'
 
@@ -17,6 +18,7 @@ function TableData(props) {
   const authCtx = useContext(AuthContext);
 
   useEffect(()=>{
+
     getDrives()
     .then(res=>res.json()
     .then(data=>{
@@ -42,8 +44,8 @@ function TableData(props) {
     setProcess(!process)
   }
   return (
-    // <Card>
-    //   {" "}
+  
+      
       <div>
         <ToastContainer className="p-3 position-fixed bottom-1 end-0 p-3" style={{zIndex:'11'}}>
           <Toast className="bg-success text-light" onClose={() => setShows(false)} show={shows} delay={3000} autohide>
