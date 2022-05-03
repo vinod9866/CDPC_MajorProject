@@ -70,6 +70,9 @@ function MainNavigation(){
     }
 
     useEffect(()=>{
+      setOpe(false)
+      setOpen(false)
+      
       let Sock = new SockJS('http://3.111.79.215:8080/ws');
       stompClient = over(Sock);
       stompClient.connect({},onConnected, onError);
