@@ -15,7 +15,7 @@ function Table(props) {
   const [selected, setSelected] = useState(false);
   const [students,setStudents] = useState([])
   const [process,setProcess] = useState(false)
-
+  const [load,setLoad] = useState(false)
 
 
   const [show, setShow] = useState(false);
@@ -90,8 +90,12 @@ function Table(props) {
     // console.log(students);
   }
 
+  const driveStatus=()=>{
+    console.log(Object.keys(data.selectionCriteria))
+  }
+  
   const updateProcess =()=>{
-    console.log(students)
+    setLoad(true)
     updateStudentDriveStutus(data.id,students)
     .then((res) => res.json())
       .then((result) => {
@@ -103,14 +107,25 @@ function Table(props) {
           setProcess(!process)
           props.onStatusUpdate()
           props.onSuccess();
+          setLoad(false)
         } else {
           props.onError(result.error);
+          setLoad(false)
         }
       });
   }
 
   const data = props.data;
-  const isActive = props.stat;
+  var isActive = props.stat;
+  const selection = Object.keys(data.selectionCriteria)
+  const setActiveStatus =()=>{
+    if(data.status>selection.length){
+      return true
+    }
+    else{
+      return false
+    }
+  }
   return (
     <div>
       <div className="row">
@@ -139,7 +154,7 @@ function Table(props) {
                           className="btn-sm"
                           onClick={handleAdminShow}
                         >
-                          Registrations :<span className={classes.reg}> {data.regStudents.length}</span>
+                          Registrations :<span className={classes.reg}> {registerData.length}</span>
                         </Button>
                         &nbsp;&nbsp;
                       </>
@@ -154,11 +169,14 @@ function Table(props) {
                       <Modal.Body>
                         <table className={classes.table}>
                           <thead>
+                            {data.status>=selection.length &&<tr>
+                              <td>Final selected list</td>
+                            </tr>}
                             <tr className={classes.tr}>
                               <th className={classes.th}>Student Id</th>
                               <th className={classes.th}>Student Name</th>
                               <th className={classes.th}>Phone NO</th>
-                              {!isActive && (
+                              {!setActiveStatus() && (
                                 <th className={classes.th}>Interview Round</th>
                               )}
                             </tr>
@@ -172,7 +190,7 @@ function Table(props) {
                                     {data.username}
                                   </td>
                                   <td className={classes.th}>{data.mobile}</td>
-                                  {!isActive && (
+                                  {!setActiveStatus() && (
                                     <td className={classes.th}>
                                       <Form>
                                         <Form.Check
@@ -202,13 +220,13 @@ function Table(props) {
                         >
                           Download
                         </Button>}
-                        {!isActive && (
+                        {!isActive && data.status<=selection.length && (
                           <Button
                             variant="primary"
                             onClick={updateProcess}
                             className="btn-sm"
                           >
-                            Select to {data.status === 1 ? "TR Round" : "HR Round"}
+                          {!load?(data.status===selection.length ? "Final List":"Qulified to "+selection[data.status]+" Round"):<Spinner animation="border" size="sm" variant="warning" />}
                           </Button>
                         )}
                         {pop ? (
