@@ -16,19 +16,19 @@ function DriveStatus(props) {
             {!props.spin && <><Card.Title className="text-start">
                 <div className="d-flex bd-highlight">
                   <div className="p-2 flex-fill bd-highlight">
-                    <span className="fs-4 fw-bolder">{props.data.name}</span>
+                    <span className="fs-4 fw-bolder">{props.data.driveName}</span>
                     <span className="h6" style={{ marginLeft: "1rem" }}>
                       {<span
-                        className={props.stat ? "badge bg-success" : "badge bg-info"}
+                        className={props.data.driveStatus > 3 ? "badge bg-success" : "badge bg-info"}
                       >
-                        {props.stat ? "Active" : props.data.status === 1 ? "Online Test" : props.data.status === 2 ? "TR Round" : "HR Round"}
+                        {props.data.driveStatus === 1 ? "Online Test" : props.data.driveStatus === 2 ? "TR Round" : props.data.driveStatus === 3 ? "HR Round" : "Completed"}
                       </span>}
                     </span>
                   </div>
                 </div>
               </Card.Title><div>
                   <Stepper
-                    activeStep={0}
+                    activeStep={props.data.driveStatus-1}
                     className={classes.stepcss}
                     connectorStateColors={true}
                     connectorStyleConfig={{ completedColor: '#00e673', activeColor: '#00e673', size: 2 }}

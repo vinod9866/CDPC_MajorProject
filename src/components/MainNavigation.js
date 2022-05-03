@@ -8,14 +8,15 @@ import {MdUpdate} from "react-icons/md"
 import {GoBroadcast} from "react-icons/go"
 import AuthContext from '../store/auth-context';
 import { useState,useEffect } from 'react';
-import { FaUserAlt } from "react-icons/fa"
-
+import { FaUserAlt } from "react-icons/fa";
 import { Navbar,Nav,NavDropdown, Badge } from 'react-bootstrap';
 import { Container } from 'react-bootstrap';
+import CompanyRegister from '../company/email';
 
 import { useContext } from 'react';
 import './notification.css'
 import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
@@ -40,6 +41,11 @@ function MainNavigation(){
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
 
+    // Student adding modal
+    const [show2,setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
+
     const [data,setData] = useState([]);
 
     const authCtx = useContext(AuthContext);  
@@ -62,9 +68,12 @@ function MainNavigation(){
         setModal(false)
     }
 
-    const handleAddModal = (event)=>{
-        event.preventDefault();
+    const handleAddModal = ()=>{
         setShow1(true)
+    }
+
+    const handleInviteModal = () =>{
+      setShow2(true);
     }
 
     // console.log(loginPerson);
@@ -179,8 +188,8 @@ function MainNavigation(){
                     onMouseOver={() => setOpen(true)}
                     show={open}
                     style={{width:'20px',paddingRight:"50px"}} title={<FaUserAlt style={{paddingBottom: "2px"}} />}  id="collasible-nav-dropdown">
-                        <NavDropdown.Item onClick={handleShow} className="bg-light"><Button variant='primary' style={{width:'100%'}}>Invite Company</Button></NavDropdown.Item>
-                        <NavDropdown.Item onClick={handleShow} className="bg-light"><Button variant='primary' style={{width:'100%'}}>Add New Batch </Button></NavDropdown.Item>
+                        <NavDropdown.Item onClick={handleInviteModal} className="bg-light"><Button variant='primary' style={{width:'100%'}}>Invite Company</Button></NavDropdown.Item>
+                        <NavDropdown.Item onClick={handleAddModal} className="bg-light"><Button variant='primary' style={{width:'100%'}}>Add New Batch </Button></NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item onClick={()=>{navigate('/Aprofile');}}  className="bg-light"  ><Button variant='primary' style={{width:'100%'}}>Profile</Button></NavDropdown.Item>
                         <NavDropdown.Item as={Link} to='/login' className="bg-light"  onClick={logoutHandler}><Button variant='primary' style={{width:'100%'}}>Logout</Button></NavDropdown.Item>
@@ -215,6 +224,17 @@ function MainNavigation(){
   </Modal.Body>
   <Modal.Footer>
     <button type="button" className="btn btn-light btn-sm" onClick={handleClose1}>Close</button>
+  </Modal.Footer>
+      </Modal>
+      <Modal show={show2} onHide={handleClose2}>
+        <Modal.Header closeButton>
+        <Modal.Title>Invite Company</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <CompanyRegister></CompanyRegister>
+  </Modal.Body>
+  <Modal.Footer>
+    {/* <button type="button" className="btn btn-light btn-sm" onClick={handleClose2}>Close</button> */}
   </Modal.Footer>
       </Modal>
     </Container>

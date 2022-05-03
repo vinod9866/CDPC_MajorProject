@@ -26,12 +26,16 @@ function CompanyRegister() {
 
   return (
 
-    <div className={classes.me}>
-        <Card >
+    <div>
+        <Card>
+          {/* <Card.Header>
+          </Card.Header> */}
           <Card.Body>
-          <Card.Img variant="top" src={logos} style={{ width: '5rem' }} />
+          <Card.Img className="position-absolute top-0 start-50 translate-middle mt-5" variant="top" src={logos} style={{ width: '5rem' }} />
+
           {/* <RiOpenArmLine size={80}/> */}
-          {!err && <div className={classes.info}>
+              <br/><br/><div className="mt-5">
+              {!err && <div className={classes.info}>
             <i className="fa fa-info-circle"></i>&nbsp;Enter Only Company Mail ID
           </div>          }
           {err &&
@@ -48,6 +52,7 @@ function CompanyRegister() {
                 />
               </InputGroup>
               <Button className={classes.btn} onClick={submitHandler} varient="primary">submit</Button>
+              </div>
           </Card.Body>
         </Card>
     </div>
