@@ -63,15 +63,19 @@ function Table(props) {
   };
 
   const selectStudent =(e,userId) => {
-    console.log(students)
+    let flag = 1;
     if(students.length!==0){
-      students.map((student)=>{
-        if(student===userId){
-          students.pop(userId)
-        }else{
-          setStudents([...students,userId])
+      students.map((stud)=>{
+        if(stud===userId){
+          flag = 0;
+          const newStudents = students.filter((student) => student !== stud);
+          console.log(newStudents);
+          setStudents(newStudents);
         }
       })
+      if(flag == 1){
+        setStudents([...students,userId])
+      }
     }
     else{
       console.log("wowkring..")
@@ -79,6 +83,7 @@ function Table(props) {
     }
     
     // setSelected(e.target.checked);
+    // console.log(students);
   }
 
   const updateProcess =()=>{
@@ -90,6 +95,7 @@ function Table(props) {
         if (result.status === 200) {
           // setShows(true)
           handleAdminClose()
+          setStudents([])
           setProcess(!process)
           props.onStatusUpdate()
           props.onSuccess();
@@ -138,6 +144,8 @@ function Table(props) {
                       </>
                     ) : null}
                     <Modal
+                      {...props}
+                      size="lg"
                       show={adminModal}
                       onHide={handleAdminClose}
                       backdrop="static"
@@ -228,9 +236,6 @@ function Table(props) {
                       )}
                     </Button>
                     <Modal show={show} onHide={handleClose} backdrop="static">
-                      {/* <Modal.Header closeButton>
-          <Modal.Title>{props.title}</Modal.Title>
-        </Modal.Header> */}
                       <Modal.Body>
                         <span className="fs-5 fw-bold text-muted text-decoration-underline">
                           Company Details
@@ -292,7 +297,7 @@ function Table(props) {
                           <span className="fw-bold">
                             Eigible Branches&nbsp;:&nbsp;
                           </span>
-                          <span className="mt-1">
+                          <span className="mt-1 text-uppercase">
                             {data.eligibilityData.branches.join(",")}
                           </span>
                         </div>
