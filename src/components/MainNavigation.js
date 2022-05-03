@@ -20,8 +20,6 @@ import Modal from "react-bootstrap/Modal";
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 import { getNotifications } from '../apis';
-import { Button } from 'react-bootstrap';
-import { Model } from '../pages/modal';
 import Popup from 'reactjs-popup';
 
 
@@ -32,10 +30,15 @@ var d1 = [
 var d1=[]
 
 function MainNavigation(){
+    // Notification Modal
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    // Student adding modal
+    const [show1,setShow1] = useState(false);
+    const handleClose1 = () => setShow1(false);
+    const handleShow1 = () => setShow1(true);
 
     const [data,setData] = useState([]);
 
@@ -47,7 +50,6 @@ function MainNavigation(){
     const [modaldata,setModalData] = useState({title:'',message:''});
 
     const showNotifModel = (data)=>{
-        console.log(data);
         setModalData(data);
         setShow(true);
     }
@@ -55,8 +57,9 @@ function MainNavigation(){
         setModal(false)
     }
 
-    const handleModal = (bool)=>{
-        setModal(bool);
+    const handleAddModal = (event)=>{
+        event.preventDefault();
+        setShow1(true)
     }
 
     // console.log(loginPerson);
@@ -131,7 +134,6 @@ function MainNavigation(){
                 <Nav>
                 <NavDropdown style={{width:'20px',paddingRight:"50px"}} title={<FaUserAlt style={{paddingBottom: "2px"}} />}  id="collasible-nav-dropdown">
                         <NavDropdown.Item as={Link}   to="/profile" className='bg-light'>Profile</NavDropdown.Item>
-                        <NavDropdown.Item onClick={handleShow} className="bg-light"><Button className="btn-light text-left" style={{width:'100%'}}>Add New Batch</Button></NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item as={Link} to='/login' onClick={logoutHandler} className="bg-light">Logout</NavDropdown.Item>
                     </NavDropdown>
@@ -166,6 +168,8 @@ function MainNavigation(){
                 <Nav>
                 <NavDropdown style={{width:'20px',paddingRight:"50px"}} title={<FaUserAlt style={{paddingBottom: "2px"}} />}  id="collasible-nav-dropdown">
                         <NavDropdown.Item as={Link}   to="/Aprofile">Profile</NavDropdown.Item>
+                        <NavDropdown.Item onClick={(e)=>{handleAddModal(e)}} className="bg-light">Add students</NavDropdown.Item>
+                        {/* <Button className="btn-light text-left" style={{width:'100%'}}>Add New Batch</Button> */}
                         <NavDropdown.Divider />
                         <NavDropdown.Item as={Link} to='/login' onClick={logoutHandler}>Logout</NavDropdown.Item>
                     </NavDropdown>
@@ -185,6 +189,18 @@ function MainNavigation(){
     <button type="button" className="btn btn-light btn-sm" onClick={handleClose}>Close</button>
     {/* <Button variant="secondary">Close</Button>
     <Button variant="primary">Save changes</Button> */}
+  </Modal.Footer>
+      </Modal>
+      <Modal show={show1} onHide={handleClose1}>
+        <Modal.Header closeButton>
+        <Modal.Title>Add Students</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <input type="file"/><br/>
+            <button type="button" className="btn btn-primary btn-sm mt-2">Upload</button>
+  </Modal.Body>
+  <Modal.Footer>
+    <button type="button" className="btn btn-light btn-sm" onClick={handleClose1}>Close</button>
   </Modal.Footer>
       </Modal>
     </Container>

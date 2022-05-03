@@ -56,7 +56,7 @@ function Login(props) {
             new Date().getTime() + parseInt( 1800000)
           );
           console.log(data);
-
+          localStorage.setItem("user_name",data.username);
           authCtx.login(data.token, expTime.toString());
           authCtx.whoLoggedIn(String(data.roles[0]));
 

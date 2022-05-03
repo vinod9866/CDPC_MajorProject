@@ -1,7 +1,6 @@
 import Card from "../ui/card";
 import classes from "./BroadCast.module.css";
 import { VscBroadcast } from "react-icons/vsc";
-import {MainNavigation} from "../components/MainNavigation"
 import AuthContext from "../store/auth-context";
 import { useContext, useRef } from "react";
 

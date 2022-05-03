@@ -9,6 +9,11 @@ import event from 'sockjs-client/lib/utils/event';
 function Layout(props) {
   const [shows, setShows] = useState(false);
   const [showe, setShowe] = useState(false);
+  window.addEventListener("load",(event)=>{
+    if(!(navigator.onLine)){
+      setShowe(true);
+    }
+  })
   window.addEventListener('offline',(event)=>{
     setShowe(true);
     setShows(false);

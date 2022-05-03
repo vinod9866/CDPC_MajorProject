@@ -13,7 +13,7 @@ function DriveStatus(props) {
               <Card.Title className="text-start">
                 <div className="d-flex bd-highlight">
                     <div className="p-2 flex-fill bd-highlight">
-                        <span className="fs-4 fw-bolder">{props.data.name}</span>
+                        <span className="fs-4 fw-bolder">{props.data.driveName}</span>
                         <span className="h6" style={{ marginLeft: "1rem" }}>
                             {
                             <span
@@ -30,7 +30,7 @@ function DriveStatus(props) {
               </Card.Title>
               <div>
                 <Stepper  
-                activeStep={0}
+                activeStep={3}
                 className={classes.stepcss}
                 connectorStateColors={true}
                 connectorStyleConfig={{completedColor:'#00e673',activeColor:'#00e673',size:2}}
