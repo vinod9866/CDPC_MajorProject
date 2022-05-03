@@ -1,14 +1,23 @@
 
-import { useState,useEffect, useRef } from "react";
+import { useState,useEffect, useRef,useContext } from "react";
+// import { saveDrive } from "../apis";
+// import { useState,useEffect, useRef } from "react";
 import { companyRegister, saveDrive } from "../apis";
 import Card from "../ui/card";
 import classes from "./NewDrive.module.css";
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Loading from "../components/loading";
+import AuthContext from "../store/auth-context";
 import { useParams } from "react-router-dom";
 
+
+
+
+
 function NEWDRIVE(props) {
+  const authCtx = useContext(AuthContext);
+  const stompClient = authCtx.stompClient;
   const cname = useRef();
   const cloc = useRef();
   const desc = useRef();
@@ -154,7 +163,7 @@ function NEWDRIVE(props) {
         .then(data=>{
             setLoading(false)
             if(data.status===200){
-              
+              stompClient.send("/app/message", {}, JSON.stringify({"title":"Drive:"+Cname,"message":"New drive added check the details."}))
               setShows(true);
               setSuccessmsg("Drive added successfully.")
               event.target.reset()
@@ -174,7 +183,7 @@ function NEWDRIVE(props) {
         .then(data=>{
             setLoading(false)
             if(data.status===200){
-              
+              stompClient.send("/app/message", {}, JSON.stringify({"title":"Drive:"+Cname,"message":"New drive added check the details."}))
               setShows(true);
               setSuccessmsg("Drive added successfully.")
               event.target.reset()
@@ -214,7 +223,6 @@ function NEWDRIVE(props) {
       return newState;
     });
   };
-
   useEffect(() => {
     let allChecked = true;
     for (const inputName in checked) {

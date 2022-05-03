@@ -1,10 +1,11 @@
-import { useState,useEffect, useContext } from 'react';
-import { getDrives, studentRegisteredDrives } from "../apis";
+import { useState,useEffect } from 'react';
+import { studentRegisteredDrives } from "../apis";
 import DriveStatus from './driveStatus';
 
 
 function DriveStatusData(){
     const [statusData,setStatusData] = useState([]);
+    let incKey = 0;
     const [spin, setSpin] = useState(false);
 
     useEffect(()=>{
@@ -12,19 +13,19 @@ function DriveStatusData(){
         studentRegisteredDrives()
         .then(res=>res.json())
         .then(result=>{
-            console.log(result);
-            if(result.status==200){
+            if(result.status===200){
+                console.log(result.data);
                 setStatusData(result.data)
                 setSpin(false);
             }
         })
     },[])
-
+ 
     return(
         <div>
         {statusData.reverse().map((data) =>{
             return <DriveStatus spin={spin}
-            key={data.id}
+            key={incKey=incKey+1}
             data={data}
           />
         }
