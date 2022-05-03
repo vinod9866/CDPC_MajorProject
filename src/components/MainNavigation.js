@@ -21,6 +21,8 @@ import Button from "react-bootstrap/Button";
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 import { getNotifications } from '../apis';
+import { Button } from 'react-bootstrap';
+import { Model } from '../pages/modal';
 import Popup from 'reactjs-popup';
 
 
@@ -31,8 +33,8 @@ var d1 = [
 var d1=[]
 
 function MainNavigation(){
-    // Notification Modal
     const [show, setShow] = useState(false);
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -61,6 +63,7 @@ function MainNavigation(){
     const navigate = useNavigate()
 
     const showNotifModel = (data)=>{
+        console.log(data);
         setModalData(data);
         setShow(true);
     }
@@ -82,6 +85,9 @@ function MainNavigation(){
     }
 
     useEffect(()=>{
+      setOpe(false)
+      setOpen(false)
+      
       let Sock = new SockJS('http://3.111.79.215:8080/ws');
       stompClient = over(Sock);
       stompClient.connect({},onConnected, onError);
