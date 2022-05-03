@@ -102,6 +102,7 @@ function NEWDRIVE() {
       setShowe(true)
       setErrormsg("The entered Date is invalid!")
     }
+    
     else if(drop===null){
       setShowe(true)
       setErrormsg("Select drive mode")

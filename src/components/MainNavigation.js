@@ -15,11 +15,12 @@ import { Container } from 'react-bootstrap';
 
 import { useContext } from 'react';
 import './notification.css'
+import Modal from "react-bootstrap/Modal";
 
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 import { getNotifications } from '../apis';
-import { Button } from 'bootstrap';
+import { Button } from 'react-bootstrap';
 import { Model } from '../pages/modal';
 import Popup from 'reactjs-popup';
 
@@ -31,6 +32,10 @@ var d1 = [
 var d1=[]
 
 function MainNavigation(){
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const [data,setData] = useState([]);
 
@@ -39,10 +44,12 @@ function MainNavigation(){
     const isLoggedIn = authCtx.isLoggedIn;
     const loginPerson = authCtx.Person;
     const [modal,setModal] = useState(false);
+    const [modaldata,setModalData] = useState({title:'',message:''});
 
-    const showModel = ()=>{
-        console.log("workingl")
-        setModal(true);
+    const showNotifModel = (data)=>{
+        console.log(data);
+        setModalData(data);
+        setShow(true);
     }
     window.onClick = (event)=>{
         setModal(false)
@@ -108,7 +115,7 @@ function MainNavigation(){
         authCtx.driveStatusMethod()
     }
 
-    return  <Navbar collapseOnSelect expand="lg"  variant="dark" className={classes.back}>
+    return <div><Navbar collapseOnSelect expand="lg"  variant="dark" className={classes.back}>
     <Container >
     <Navbar.Brand className={classes.logo}>
     <img src={logo} className={classes.clglogo}   />&nbsp;
@@ -119,13 +126,14 @@ function MainNavigation(){
     <Navbar.Collapse id="responsive-navbar-nav" >
                 <Nav className="me-auto" >&nbsp;
                     <Nav.Link as={Link} to="/fav"> <MdOutlineSystemUpdateAlt style={{paddingBottom: "2px"}} /> Drive Updates</Nav.Link>
-                    <Nav.Link  onClick={""} as={Link} to="/profile"> <MdUpdate style={{paddingBottom: "2px"}} size={20}/> Drive Status</Nav.Link>
+                    <Nav.Link as={Link} to="/status"> <MdUpdate style={{paddingBottom: "2px"}} size={20}/> Drive Status</Nav.Link>
                 </Nav> 
                 <Nav>
                 <NavDropdown style={{width:'20px',paddingRight:"50px"}} title={<FaUserAlt style={{paddingBottom: "2px"}} />}  id="collasible-nav-dropdown">
-                        <NavDropdown.Item as={Link}   to="/profile">Profile</NavDropdown.Item>
+                        <NavDropdown.Item as={Link}   to="/profile" className='bg-light'>Profile</NavDropdown.Item>
+                        <NavDropdown.Item onClick={handleShow} className="bg-light"><Button className="btn-light text-left" style={{width:'100%'}}>Add New Batch</Button></NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item as={Link} to='/login' onClick={logoutHandler}>Logout</NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to='/login' onClick={logoutHandler} className="bg-light">Logout</NavDropdown.Item>
                     </NavDropdown>
                     <Popup trigger={<Nav.Link  onClick={broadCastBtn} to=""  >  Notifications 
                         <AiOutlineBell style={{paddingBottom: "0px"}} /> </Nav.Link>}
@@ -133,12 +141,12 @@ function MainNavigation(){
                         <div className="notifications" id="box">
                                 <h2 className='notificationHead' ><AiFillNotification style={{paddingBottom:"3px",color:""}} size={25} />Notifications </h2>
                                     {data.reverse().map((d, index) => {
-                                            return <div className="notifications-item" key={index} onClick={showModel}> 
+                                            return <div className="notifications-item" key={index} onClick={()=>{showNotifModel(d)}}> 
                                                         <div className="text">
-                                                                <h4>{d.title}
-                                                                    <span><Badge pill bg="info" >new</Badge></span>
-                                                                    <span className='notificationDate'>{new Date(d.date).getDate()}</span></h4>
-                                                                <p>{d.message}</p>
+                                                                <span className='fs-6'>{d.title}</span>&nbsp;&nbsp;
+                                                                    <span className='ml-3'><Badge pill bg="info" >new</Badge></span>
+                                                                    <span className='notificationDate'>{new Date(d.date).getDate()}</span>
+                                                                <p>{d.message.slice(0,30)}...........</p>
                                                         </div>
                                                     </div>;
                                                 }   
@@ -153,7 +161,7 @@ function MainNavigation(){
     <Navbar.Collapse id="responsive-navbar-nav" >
                 <Nav className="me-auto" >&nbsp;
                     <Nav.Link as={Link} to="/newdrive"> <AiOutlineAppstoreAdd style={{paddingBottom: "2px"}} size={20}/>Add Drive </Nav.Link>
-                    <Nav.Link as={Link} onClick={updateStatus} to="/"> <MdUpdate style={{paddingBottom: "2px"}} /> {authCtx.driveStatus?"Active Drives":"Processing Drives"} </Nav.Link>
+                    <Nav.Link as={Link} onClick={updateStatus} to="/"> <MdUpdate style={{paddingBottom: "2px"}} /> {authCtx.driveStatus?"Processing Drives":"Active Drives"} </Nav.Link>
                 </Nav> 
                 <Nav>
                 <NavDropdown style={{width:'20px',paddingRight:"50px"}} title={<FaUserAlt style={{paddingBottom: "2px"}} />}  id="collasible-nav-dropdown">
@@ -165,21 +173,23 @@ function MainNavigation(){
                         Broadcast <GoBroadcast style={{paddingBottom: "2px"}}size={18}/>
                     </Nav.Link>
                 </Nav> 
-    </Navbar.Collapse></> :null
-    
-    }
-    {modal?<Model parentCallback={handleModal} style={classes.modalClass} heading="Upload Resume to Apply Drive">
-        <form>
-        <div className={classes.field}>
-            <input type="file" name='filename'></input>
-        </div>
-        <div className={classes.field}>
-            <input type="submit" value='Upload'></input>
-        </div>
-        </form>
-    </Model>:""}
+    </Navbar.Collapse></> :null}
+    <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+        <Modal.Title>{modaldata.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+    <p>{modaldata.message}</p>
+  </Modal.Body>
+  <Modal.Footer>
+    <button type="button" className="btn btn-light btn-sm" onClick={handleClose}>Close</button>
+    {/* <Button variant="secondary">Close</Button>
+    <Button variant="primary">Save changes</Button> */}
+  </Modal.Footer>
+      </Modal>
     </Container>
   </Navbar>
+  </div> 
 }
 
 
