@@ -4,6 +4,7 @@ import {MdEmail} from "react-icons/md"
 import {RiOpenArmLine} from "react-icons/ri"
 import logos from "./logos.png"
 import { useRef, useState } from "react";
+import { inviteCompany } from "../apis";
 function CompanyRegister() {
 
   const field = useRef();
@@ -18,7 +19,9 @@ function CompanyRegister() {
     }else if(!email.includes('@')){
       setErr('Missing "@" in email')
     }
-  
+    inviteCompany(email)
+    .then(res=>res.json())
+    .then(out=>console.log(out))
   }
 
   return (

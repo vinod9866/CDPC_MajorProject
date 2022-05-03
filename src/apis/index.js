@@ -1,5 +1,5 @@
-let host = "http://3.111.79.215:8080/api"
-// let host = "http://localhost:8080/api"
+// let host = "http://3.111.79.215:8080/api"
+let host = "http://localhost:8080/api"
 
 let token = localStorage.getItem("token");
 
@@ -139,6 +139,17 @@ export const saveDrive = (obj) =>{
     .catch(err => err)
 }
 
+export const companyRegister = (obj,token) =>{
+    return fetch(`${host}/auth/addDrive/{token}?token=${token}`,{
+        method:'POST',
+        headers:{
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        body:JSON.stringify(obj)
+    }).then(res => res)
+    .catch(err => err)
+}
+
 export const updateDrive = (driveId,obj) =>{
     return fetch(`${host}/drive/update/${driveId}`,{
         method:'PUT',
@@ -217,3 +228,15 @@ export const updateStudentDriveStutus =(driveId,obj)=>{
     }).then(res => res)
     .catch(err => err)
 }
+
+export const inviteCompany = (mail) =>{
+    return fetch(`${host}/user/invite/{companyMail}?companyMail=${mail}`,{
+        method:'GET',
+        headers:{
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization": "Bearer "+localStorage.getItem("token")
+        }
+    }).then(res => res)
+    .catch(err => err)
+}
+

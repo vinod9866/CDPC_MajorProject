@@ -1,13 +1,14 @@
 
 import { useState,useEffect, useRef } from "react";
-import { saveDrive } from "../apis";
+import { companyRegister, saveDrive } from "../apis";
 import Card from "../ui/card";
 import classes from "./NewDrive.module.css";
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Loading from "../components/loading";
+import { useParams } from "react-router-dom";
 
-function NEWDRIVE() {
+function NEWDRIVE(props) {
   const cname = useRef();
   const cloc = useRef();
   const desc = useRef();
@@ -47,7 +48,10 @@ function NEWDRIVE() {
 
   const [drop,setDrop] = useState(null);
 
+  const params = useParams()
+
   function submitHandler(event){
+    
     setShowe(false)
     setErrormsg(null)
     event.preventDefault();
@@ -144,26 +148,47 @@ function NEWDRIVE() {
         ]
       }
       setLoading(true)
-      saveDrive(driveData)
-      .then(res=>res.json())
-      .then(data=>{
-          setLoading(false)
-          if(data.status===200){
-            
-            setShows(true);
-            setSuccessmsg("Drive added successfully.")
-            event.target.reset()
-            setChecked({
-              cb1:false,cb2:false,cb3:false,cb4:false,cb5:false,cb6:false,
-            })
-            setDrop(null)
-          }
-          else{
-            setShowe(true);
-            setErrormsg(data.error);
-          }
-      })
-    
+      if(params.token!=null){
+        companyRegister(driveData,params.token)
+        .then(res=>res.json())
+        .then(data=>{
+            setLoading(false)
+            if(data.status===200){
+              
+              setShows(true);
+              setSuccessmsg("Drive added successfully.")
+              event.target.reset()
+              setChecked({
+                cb1:false,cb2:false,cb3:false,cb4:false,cb5:false,cb6:false,
+              })
+              setDrop(null)
+            }
+            else{
+              setShowe(true);
+              setErrormsg(data.error);
+            }
+        })
+      }else{
+        saveDrive(driveData)
+        .then(res=>res.json())
+        .then(data=>{
+            setLoading(false)
+            if(data.status===200){
+              
+              setShows(true);
+              setSuccessmsg("Drive added successfully.")
+              event.target.reset()
+              setChecked({
+                cb1:false,cb2:false,cb3:false,cb4:false,cb5:false,cb6:false,
+              })
+              setDrop(null)
+            }
+            else{
+              setShowe(true);
+              setErrormsg(data.error);
+            }
+        })
+      }  
       }
     }
 
