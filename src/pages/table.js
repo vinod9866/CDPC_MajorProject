@@ -183,7 +183,7 @@ function Table(props) {
                       onClick={handleShow}
                     >
                       {authCtx.Person !== "ADMIN" ? (
-                        <>View&nbsp;&amp;&nbspApply;</>
+                        <>View&nbsp;&amp;&nbsp;Apply</>
                       ) : (
                         <>View</>
                       )}

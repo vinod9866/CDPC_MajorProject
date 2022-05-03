@@ -96,6 +96,7 @@ function NEWDRIVE() {
       console.log("wrong");
       setMsg("The entered Date is invalid!")
     }
+    
     else if(drop===null){
       console.log("yes");
 
