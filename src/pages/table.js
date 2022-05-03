@@ -7,6 +7,7 @@ import { getDriveRegisteredStudents, registerDrive, updateStudentDriveStutus } f
 import AuthContext from "../store/auth-context";
 import { Model } from "./modal";
 import { Form, Spinner } from "react-bootstrap";
+import * as XLSX from "xlsx";
 
 function Table(props) {
   const [shows, setShows] = useState(false);
@@ -15,7 +16,6 @@ function Table(props) {
   const [selected, setSelected] = useState(false);
   const [students,setStudents] = useState([])
   const [process,setProcess] = useState(false)
-
 
 
   const [show, setShow] = useState(false);
@@ -59,8 +59,19 @@ function Table(props) {
     handleClose();
   };
   const downloadData = () => {
-    setPop(true);
-    setPopMsg("All registered students downloading");
+    let xlsxdata = []
+    console.log(registerData[0]);
+    registerData.map((stud)=>{
+      let studd = {ID:stud.userId,Name:stud.username,Phone:stud.mobile,Email:stud.useremail,Gendr:stud.gender,Branch:stud.branch,Eng:stud.engCgpa,PUC:stud.pucCgpa,Resume:stud.resumeUrl}
+      xlsxdata.push(studd);
+    });
+    console.log(xlsxdata);
+    const worksheet = XLSX.utils.json_to_sheet(xlsxdata);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
+    XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
+    XLSX.writeFile(workbook, "StudentData.xlsx");
   };
   const handlePopUp = () => {
     setPop(false);
@@ -229,7 +240,7 @@ function Table(props) {
                       className="btn-sm"
                       onClick={handleShow}
                     >
-                      {authCtx.Person !== "ADMIN" ? (
+                      {authCtx.Person !== "ADMIN" && (parseInt((new Date(data.lastOfApply).getTime() / 1000).toFixed(0))>parseInt((new Date()).getTime() / 1000).toFixed(0))? (
                         <>View&nbsp;&amp;&nbsp;Apply</>
                       ) : (
                         <>View</>
@@ -389,7 +400,7 @@ function Table(props) {
                         >
                           Close
                         </Button>
-                        {authCtx.Person !== "ADMIN" ? (
+                        {authCtx.Person !== "ADMIN" && (parseInt((new Date(data.lastOfApply).getTime() / 1000).toFixed(0))>parseInt((new Date()).getTime() / 1000).toFixed(0))? (
                           <Button
                             variant="primary"
                             onClick={applyDrive}

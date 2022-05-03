@@ -21,7 +21,6 @@ import Button from "react-bootstrap/Button";
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 import { getNotifications } from '../apis';
-import { Button } from 'react-bootstrap';
 import { Model } from '../pages/modal';
 import Popup from 'reactjs-popup';
 
