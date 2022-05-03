@@ -6,15 +6,17 @@ import { useContext, useEffect, useState } from "react";
 import { getDriveRegisteredStudents, registerDrive, updateStudentDriveStutus } from "../apis";
 import AuthContext from "../store/auth-context";
 import { Model } from "./modal";
-import { Form } from "react-bootstrap";
+import { Form, Spinner } from "react-bootstrap";
 
 function Table(props) {
   const [shows, setShows] = useState(false);
-  const [showe, setShowe] = useState(false);
+  const [spin, setSpin] = useState(false);
   const [msg, setMsg] = useState("");
   const [selected, setSelected] = useState(false);
   const [students,setStudents] = useState([])
   const [process,setProcess] = useState(false)
+
+
 
   const [show, setShow] = useState(false);
   const [adminModal, setAdminModal] = useState(false);
@@ -28,10 +30,12 @@ function Table(props) {
     setAdminModal(true);
   };
   useEffect(() => {
+    setSpin(true)
     getDriveRegisteredStudents(data.id)
       .then((res) => res.json())
       .then((result) => {
         if (result.status === 200) {
+          setSpin(false);
           setRegisterData([...result.data]);
         }
       });
@@ -114,20 +118,17 @@ function Table(props) {
         <div className="col-12">
           <Card style={{ width: "50rem" }}>
             <Card.Body>
-              <Card.Title className="text-start">
+            {spin && <div className={classes.spin}><Spinner animation="border" variant="secondary" /></div>}
+            {!spin && <><Card.Title className="text-start">
                 <div className="d-flex bd-highlight">
                   <div className="p-2 flex-fill bd-highlight">
                     <span className="fs-4 fw-bolder">{data.name}</span>
                     <span className="h6" style={{ marginLeft: "1rem" }}>
-                      {
-                        <span
-                          className={
-                            props.stat ? "badge bg-success" : "badge bg-primary"
-                          }
-                        >
-                          {props.stat ? "Active" : data.status===1?"Online Test":data.status===2?"TR Round":"HR Round"}
-                        </span>
-                      }
+                      {<span
+                        className={props.stat ? "badge bg-success" : "badge bg-primary"}
+                      >
+                        {props.stat ? "Active" : data.status === 1 ? "Online Test" : data.status === 2 ? "TR Round" : "HR Round"}
+                      </span>}
                     </span>
                   </div>
                   <div className="ms-auto p-2 bd-highlight">
@@ -176,8 +177,7 @@ function Table(props) {
                                       <Form>
                                         <Form.Check
                                           aria-label="option 1"
-                                          onChange={(e)=>selectStudent(e,data.userId)}
-                                        />
+                                          onChange={(e) => selectStudent(e, data.userId)} />
                                       </Form>{" "}
                                     </td>
                                   )}
@@ -195,7 +195,7 @@ function Table(props) {
                         >
                           Close
                         </Button>
-                        {isActive&&<Button
+                        {isActive && <Button
                           variant="primary"
                           onClick={downloadData}
                           className="btn-sm"
@@ -208,7 +208,7 @@ function Table(props) {
                             onClick={updateProcess}
                             className="btn-sm"
                           >
-                            Select to {data.status===1?"TR Round":"HR Round"}
+                            Select to {data.status === 1 ? "TR Round" : "HR Round"}
                           </Button>
                         )}
                         {pop ? (
@@ -329,37 +329,37 @@ function Table(props) {
                           </span>
                         </div>
                         <div className="mt-2">
-                          <span className="fw-bold">Stipend : </span>
+                          <span className="fw-bold">Stipend: </span>
                           <span className="mt-1">
                             {data.eligibilityData.stipend}
                           </span>
                         </div>
                         <div className="mt-2">
-                          <span className="fw-bold">PPO(if any) : </span>
+                          <span className="fw-bold">PPO(if any): </span>
                           <span className="mt-1">
                             {data.eligibilityData.ppoOffer}
                           </span>
                         </div>
                         <div className="mt-2">
-                          <span className="fw-bold">Job Nature : </span>
+                          <span className="fw-bold">Job Nature: </span>
                           <span className="mt-1">
                             {data.eligibilityData.jobNature}
                           </span>
                         </div>
                         <div className="mt-2">
-                          <span className="fw-bold">Bond(if any) : </span>
+                          <span className="fw-bold">Bond(if any): </span>
                           <span className="mt-1">
                             {data.eligibilityData.bond}
                           </span>
                         </div>
                         <div className="mt-2">
-                          <span className="fw-bold">Bond Description : </span>
+                          <span className="fw-bold">Bond Description: </span>
                           <span className="mt-1">
                             {data.eligibilityData.desc}
                           </span>
                         </div>
                         <div className="mt-2">
-                          <span className="fw-bold">Last Date To Apply : </span>
+                          <span className="fw-bold">Last Date To Apply: </span>
                           <span className="mt-1">{data.lastOfApply}</span>
                         </div>
                         <div className="mt-4">
@@ -368,7 +368,7 @@ function Table(props) {
                           </span>
                         </div>
                         <div className="mt-2">
-                          <span className="fw-bold">Drive Mode : </span>
+                          <span className="fw-bold">Drive Mode: </span>
                           <span className="mt-1">{data.mode}</span>
                         </div>
                         <div className="mt-3">
@@ -402,18 +402,16 @@ function Table(props) {
                     </Modal>
                   </div>
                 </div>
-              </Card.Title>
-              <span className="text-start fs-6 fw-bold  text-muted">
-                <p>
-                  Eligible Branches: &nbsp;
-                  <span className="text-uppercase">
-                    {data.eligibilityData.branches.join(",")}
-                  </span>
-                </p>
-              </span>
-              <span className="text-start text-danger">
-                <p className={classes.last}>{props.stat && "Last Date To Apply : " +data.lastOfApply}</p>
-              </span>
+              </Card.Title><span className="text-start fs-6 fw-bold  text-muted">
+                  <p>
+                    Eligible Branches: &nbsp;
+                    <span className="text-uppercase">
+                      {data.eligibilityData.branches.join(",")}
+                    </span>
+                  </p>
+                </span><span className="text-start text-danger">
+                  <p className={classes.last}>{props.stat && "Last Date To Apply : " + data.lastOfApply}</p>
+                </span></>}
             </Card.Body>
           </Card>
         </div>

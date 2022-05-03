@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import classes from './MainNavigation.module.css';
 import logo from './logos.png';
 import { AiOutlineBell,AiOutlineAppstoreAdd } from "react-icons/ai";
@@ -48,6 +48,11 @@ function MainNavigation(){
     const loginPerson = authCtx.Person;
     const [modal,setModal] = useState(false);
     const [modaldata,setModalData] = useState({title:'',message:''});
+
+    const [open,setOpen] = useState(false);
+    const [ope,setOpe] = useState(false);
+
+    const navigate = useNavigate()
 
     const showNotifModel = (data)=>{
         setModalData(data);
@@ -132,10 +137,13 @@ function MainNavigation(){
                     <Nav.Link as={Link} to="/status"> <MdUpdate style={{paddingBottom: "2px"}} size={20}/> Drive Status</Nav.Link>
                 </Nav> 
                 <Nav>
-                <NavDropdown style={{width:'20px',paddingRight:"50px"}} title={<FaUserAlt style={{paddingBottom: "2px"}} />}  id="collasible-nav-dropdown">
-                        <NavDropdown.Item as={Link}   to="/profile" className='bg-light'>Profile</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item as={Link} to='/login' onClick={logoutHandler} className="bg-light">Logout</NavDropdown.Item>
+                <NavDropdown 
+                 onMouseLeave={() => setOpe(false)}
+                 onMouseOver={() => setOpe(true)}
+                 show={ope}
+                style={{width:'20px',paddingRight:"50px"}} title={<FaUserAlt style={{paddingBottom: "2px"}} />}  id="collasible-nav-dropdown">
+                        <NavDropdown.Item onClick={()=>{navigate('/profile');}}  className="bg-light"  ><Button variant='primary' style={{width:'100%'}}>Profile</Button></NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to='/login' onClick={logoutHandler} className="bg-light"><Button variant='primary' style={{width:'100%'}}>Logout</Button></NavDropdown.Item>
                     </NavDropdown>
                     <Popup trigger={<Nav.Link  onClick={broadCastBtn} to=""  >  Notifications 
                         <AiOutlineBell style={{paddingBottom: "0px"}} /> </Nav.Link>}
@@ -166,13 +174,19 @@ function MainNavigation(){
                     <Nav.Link as={Link} onClick={updateStatus} to="/"> <MdUpdate style={{paddingBottom: "2px"}} /> {authCtx.driveStatus?"Processing Drives":"Active Drives"} </Nav.Link>
                 </Nav> 
                 <Nav>
-                <NavDropdown style={{width:'20px',paddingRight:"50px"}} title={<FaUserAlt style={{paddingBottom: "2px"}} />}  id="collasible-nav-dropdown">
-                        <NavDropdown.Item as={Link}   to="/Aprofile">Profile</NavDropdown.Item>
-                        <NavDropdown.Item onClick={(e)=>{handleAddModal(e)}} className="bg-light">Add students</NavDropdown.Item>
-                        {/* <Button className="btn-light text-left" style={{width:'100%'}}>Add New Batch</Button> */}
+                <NavDropdown 
+                    onMouseLeave={() => setOpen(false)}
+                    onMouseOver={() => setOpen(true)}
+                    show={open}
+                    style={{width:'20px',paddingRight:"50px"}} title={<FaUserAlt style={{paddingBottom: "2px"}} />}  id="collasible-nav-dropdown">
+                        <NavDropdown.Item onClick={handleShow} className="bg-light"><Button variant='primary' style={{width:'100%'}}>Invite Company</Button></NavDropdown.Item>
+                        <NavDropdown.Item onClick={handleShow} className="bg-light"><Button variant='primary' style={{width:'100%'}}>Add New Batch </Button></NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item as={Link} to='/login' onClick={logoutHandler}>Logout</NavDropdown.Item>
-                    </NavDropdown>
+                        <NavDropdown.Item onClick={()=>{navigate('/Aprofile');}}  className="bg-light"  ><Button variant='primary' style={{width:'100%'}}>Profile</Button></NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to='/login' className="bg-light"  onClick={logoutHandler}><Button variant='primary' style={{width:'100%'}}>Logout</Button></NavDropdown.Item>
+
+
+                </NavDropdown>
                     <Nav.Link  as={Link} to="/broadcast">
                         Broadcast <GoBroadcast style={{paddingBottom: "2px"}}size={18}/>
                     </Nav.Link>
