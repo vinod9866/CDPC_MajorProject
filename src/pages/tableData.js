@@ -23,6 +23,7 @@ function TableData(props) {
     .then(res=>res.json()
     .then(data=>{
       if(data.status===200){
+        console.log(data.data);
         setDriveData(data.data)
       }else{
         
