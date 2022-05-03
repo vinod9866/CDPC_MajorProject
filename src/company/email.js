@@ -1,9 +1,26 @@
-import { Card, FormControl, InputGroup,Button } from "react-bootstrap";
+import { Card, FormControl, InputGroup,Button, Form } from "react-bootstrap";
 import classes from "./email.module.css";
 import {MdEmail} from "react-icons/md"
 import {RiOpenArmLine} from "react-icons/ri"
 import logos from "./logos.png"
+import { useRef, useState } from "react";
 function CompanyRegister() {
+
+  const field = useRef();
+  const [err,setErr]=useState(null);
+
+
+  function submitHandler(){
+    setErr(null)
+    const email = field.current.value.trim();
+    if(email==''){
+      setErr("Enter email!");
+    }else if(!email.includes('@')){
+      setErr('Missing "@" in email')
+    }
+  
+  }
+
   return (
 
     <div className={classes.me}>
@@ -11,18 +28,23 @@ function CompanyRegister() {
           <Card.Body>
           <Card.Img variant="top" src={logos} style={{ width: '5rem' }} />
           {/* <RiOpenArmLine size={80}/> */}
-          <div className={classes.info}>
+          {!err && <div className={classes.info}>
             <i className="fa fa-info-circle"></i>&nbsp;Enter Only Company Mail ID
-          </div>
+          </div>          }
+          {err &&
+          <div className={classes.error}>
+            <i className="fa fa-info-circle"></i>&nbsp;{err}
+          </div>}
               <InputGroup className="mb-3">
                 <InputGroup.Text id="basic-addon1"><MdEmail  size={25}/></InputGroup.Text>
-                <FormControl
-                  placeholder="User email"
+                <Form.Control type="email"
+                  placeholder="Enter email"
                   aria-label="Username"
                   aria-describedby="basic-addon1"
+                  ref={field}
                 />
               </InputGroup>
-              <Button className={classes.btn}  varient="primary">submit</Button>
+              <Button className={classes.btn} onClick={submitHandler} varient="primary">submit</Button>
           </Card.Body>
         </Card>
     </div>

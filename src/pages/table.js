@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useContext, useEffect, useState } from "react";
-import { getDriveRegisteredStudents, registerDrive } from "../apis";
+import { getDriveRegisteredStudents, registerDrive, updateStudentDriveStutus } from "../apis";
 import AuthContext from "../store/auth-context";
 import { Model } from "./modal";
 import { Form } from "react-bootstrap";
@@ -13,6 +13,8 @@ function Table(props) {
   const [showe, setShowe] = useState(false);
   const [msg, setMsg] = useState("");
   const [selected, setSelected] = useState(false);
+  const [students,setStudents] = useState([])
+  const [process,setProcess] = useState(false)
 
   const [show, setShow] = useState(false);
   const [adminModal, setAdminModal] = useState(false);
@@ -33,9 +35,12 @@ function Table(props) {
           setRegisterData([...result.data]);
         }
       });
-  }, []);
+  }, [process]);
   const handleAdminClose = () => setAdminModal(false);
   const applyDrive = () => {
+
+//resume update
+
     registerDrive(data.id)
       .then((res) => res.json())
       .then((result) => {
@@ -52,11 +57,53 @@ function Table(props) {
   const downloadData = () => {
     setPop(true);
     setPopMsg("All registered students downloading");
-    console.log(selected);
   };
   const handlePopUp = () => {
     setPop(false);
   };
+
+  const selectStudent =(e,userId) => {
+    let flag = 1;
+    if(students.length!==0){
+      students.map((stud)=>{
+        if(stud===userId){
+          flag = 0;
+          const newStudents = students.filter((student) => student !== stud);
+          console.log(newStudents);
+          setStudents(newStudents);
+        }
+      })
+      if(flag == 1){
+        setStudents([...students,userId])
+      }
+    }
+    else{
+      console.log("wowkring..")
+      setStudents([...students,userId])
+    }
+    
+    // setSelected(e.target.checked);
+    // console.log(students);
+  }
+
+  const updateProcess =()=>{
+    console.log(students)
+    updateStudentDriveStutus(data.id,students)
+    .then((res) => res.json())
+      .then((result) => {
+        setShow(false);
+        if (result.status === 200) {
+          // setShows(true)
+          handleAdminClose()
+          setStudents([])
+          setProcess(!process)
+          props.onStatusUpdate()
+          props.onSuccess();
+        } else {
+          props.onError(result.error);
+        }
+      });
+  }
 
   const data = props.data;
   const isActive = props.stat;
@@ -75,10 +122,10 @@ function Table(props) {
                       {
                         <span
                           className={
-                            props.stat ? "badge bg-success" : "badge bg-danger"
+                            props.stat ? "badge bg-success" : "badge bg-primary"
                           }
                         >
-                          {props.stat ? "Active" : "Inactive"}
+                          {props.stat ? "Active" : data.status===1?"Online Test":data.status===2?"TR Round":"HR Round"}
                         </span>
                       }
                     </span>
@@ -91,12 +138,14 @@ function Table(props) {
                           className="btn-sm"
                           onClick={handleAdminShow}
                         >
-                          Regitertions <span>1</span>
+                          Registrations :<span className={classes.reg}> {data.regStudents.length}</span>
                         </Button>
                         &nbsp;&nbsp;
                       </>
                     ) : null}
                     <Modal
+                      {...props}
+                      size="lg"
                       show={adminModal}
                       onHide={handleAdminClose}
                       backdrop="static"
@@ -127,9 +176,7 @@ function Table(props) {
                                       <Form>
                                         <Form.Check
                                           aria-label="option 1"
-                                          onChange={(e) => {
-                                            setSelected(e.target.checked);
-                                          }}
+                                          onChange={(e)=>selectStudent(e,data.userId)}
                                         />
                                       </Form>{" "}
                                     </td>
@@ -148,20 +195,20 @@ function Table(props) {
                         >
                           Close
                         </Button>
-                        <Button
+                        {isActive&&<Button
                           variant="primary"
                           onClick={downloadData}
                           className="btn-sm"
                         >
                           Download
-                        </Button>
+                        </Button>}
                         {!isActive && (
                           <Button
                             variant="primary"
-                            onClick={""}
+                            onClick={updateProcess}
                             className="btn-sm"
                           >
-                            pass to next round
+                            Select to {data.status===1?"TR Round":"HR Round"}
                           </Button>
                         )}
                         {pop ? (
@@ -189,9 +236,6 @@ function Table(props) {
                       )}
                     </Button>
                     <Modal show={show} onHide={handleClose} backdrop="static">
-                      {/* <Modal.Header closeButton>
-          <Modal.Title>{props.title}</Modal.Title>
-        </Modal.Header> */}
                       <Modal.Body>
                         <span className="fs-5 fw-bold text-muted text-decoration-underline">
                           Company Details
@@ -253,7 +297,7 @@ function Table(props) {
                           <span className="fw-bold">
                             Eigible Branches&nbsp;:&nbsp;
                           </span>
-                          <span className="mt-1">
+                          <span className="mt-1 text-uppercase">
                             {data.eligibilityData.branches.join(",")}
                           </span>
                         </div>
@@ -368,7 +412,7 @@ function Table(props) {
                 </p>
               </span>
               <span className="text-start text-danger">
-                <p className={classes.last}>Last Date:{data.lastOfApply}</p>
+                <p className={classes.last}>{props.stat && "Last Date To Apply : " +data.lastOfApply}</p>
               </span>
             </Card.Body>
           </Card>

@@ -205,3 +205,15 @@ export const studentRegisteredDrives = ()=>{
     }).then(res => res)
     .catch(err => err)
 }
+
+export const updateStudentDriveStutus =(driveId,obj)=>{
+    return fetch(`${host}/drive/updateStatus/{id}?id=${driveId}`,{
+        method:'PUT',
+        headers:{
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization": "Bearer "+localStorage.getItem("token")
+        },
+        body:JSON.stringify(obj)
+    }).then(res => res)
+    .catch(err => err)
+}

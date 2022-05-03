@@ -5,6 +5,7 @@ import Card from "../ui/card";
 import classes from "./NewDrive.module.css";
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
+import Loading from "../components/loading";
 
 function NEWDRIVE() {
   const cname = useRef();
@@ -29,8 +30,8 @@ function NEWDRIVE() {
   const [showe, setShowe] = useState(false);
   const [successmsg,setSuccessmsg] = useState("");
   const [errormsg,setErrormsg] = useState("");
+  const [isLoading,setLoading] = useState(false)
 
-  const [OnlyError,setMsg] = useState(null)
 
 
 
@@ -47,8 +48,9 @@ function NEWDRIVE() {
   const [drop,setDrop] = useState(null);
 
   function submitHandler(event){
+    setShowe(false)
+    setErrormsg(null)
     event.preventDefault();
-    setMsg(null);
 
     const Cname = cname.current.value;
     const Cloc = cloc.current.value;
@@ -92,15 +94,24 @@ function NEWDRIVE() {
 
     var CurrentDate = new Date();
     var GivenDate = new Date(lDA);
-    if(CurrentDate>=GivenDate){
-      console.log("wrong");
-      setMsg("The entered Date is invalid!")
+    if(ebraches.length===0){
+      setShowe(true)
+      setErrormsg("Select atleast one branch")
+    }
+    else if(CurrentDate>=GivenDate){
+      setShowe(true)
+      setErrormsg("The entered Date is invalid!")
     }
     
     else if(drop===null){
-      console.log("yes");
+      setShowe(true)
+      setErrormsg("Select drive mode")
 
     }
+    else if(!tr && !hr && !oft){
+      setShowe(true)
+      setErrormsg("Select atleast one selection process")
+    }   
     else{
       var driveData = {
         "name": Cname,
@@ -127,33 +138,37 @@ function NEWDRIVE() {
         },
         "lastOfApply":lDA,
         "mode":drop,
+        "status":1,
         "selectionCriteria": tests,
         "regStudents": [
         ]
       }
+      setLoading(true)
+      saveDrive(driveData)
+      .then(res=>res.json())
+      .then(data=>{
+          setLoading(false)
+          if(data.status===200){
+            
+            setShows(true);
+            setSuccessmsg("Drive added successfully.")
+            event.target.reset()
+            setChecked({
+              cb1:false,cb2:false,cb3:false,cb4:false,cb5:false,cb6:false,
+            })
+            setDrop(null)
+          }
+          else{
+            setShowe(true);
+            setErrormsg(data.error);
+          }
+      })
+    
+      }
     }
 
     // console.log(driveData)
-  saveDrive(driveData)
-  .then(res=>res.json())
-  .then(data=>{
-      console.log(data)
-      if(data.status===200){
-        setShows(true);
-        setSuccessmsg("Drive added successfully.")
-        event.target.reset()
-        setChecked({
-          cb1:false,cb2:false,cb3:false,cb4:false,cb5:false,cb6:false,
-        })
-        setDrop(null)
-      }
-      else{
-        setShowe(true);
-        setErrormsg(data.error);
-      }
-  })
 
-  }
 
 
   const toggleCheck = (inputName) => {
@@ -207,10 +222,6 @@ function NEWDRIVE() {
         <hr />
         <div>
           <h2>Company Details</h2>
-          {OnlyError && <div className={classes.error}>
-            <i className="fa fa-times-circle"></i>&nbsp;
-                {OnlyError}
-          </div>}
           <div className={classes.control}>
             <label htmlFor="cname">Company Name<span className={classes.imp}>*</span></label>
             <input type="text"  id="cname" ref={cname} required></input>
@@ -368,7 +379,7 @@ function NEWDRIVE() {
             <label htmlFor= "hr">&#160; HR Interview</label></div>
           </div>
         <div className={classes.actions}>
-          <button>Submit</button>
+          <button >{isLoading?<Loading/>:"Submit"}</button>
         </div>
       </form>
     </Card>

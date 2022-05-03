@@ -15,7 +15,7 @@
     border: 1px solid #dddddd;
     text-align: center;
     padding: 8px;
-    font-size: 12px;
+    font-size: 14px;
   }
   
 /* .tr:nth-child(even) {
@@ -26,4 +26,8 @@
   position: absolute;
   right: 0;
   bottom:10%;
+}
+
+.reg{
+ font-weight: bolder;
 }

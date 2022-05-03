@@ -10,8 +10,11 @@ function TableData(props) {
   const [shows, setShows] = useState(false);
   const [showe, setShowe] = useState(false);
   const [msg,setMsg] = useState("");
+  const [process,setProcess] = useState(false)
 
   const [driveData,setDriveData] = useState([]);
+
+  const authCtx = useContext(AuthContext);
 
   useEffect(()=>{
     getDrives()
@@ -24,7 +27,7 @@ function TableData(props) {
       }
     }
     ));
-  },[])
+  },[process])
 
   const onError = (msg)=>{
     setShowe(true)
@@ -34,6 +37,9 @@ function TableData(props) {
   const onSuccess=()=>{
     setShows(true)
     // setMsg(msg)
+  }
+  const onStatusUpdate=()=>{
+    setProcess(!process)
   }
   return (
     // <Card>
@@ -47,16 +53,24 @@ function TableData(props) {
             <Toast.Body className="text-start">{msg}</Toast.Body>
           </Toast>
         </ToastContainer>
-        {driveData.map((data) => (
-          <Table
-            onError={onError}
-            onSuccess={onSuccess}
-            text="vinod"
-            key={data.id}
-            stat={new Date(data.lastOfApply)>new Date() ? true:false}
-            data={data}
-          />
-        ))}
+        {driveData.reverse().map((data) => {
+          return authCtx.driveStatus ? new Date(data.lastOfApply)>new Date() && <Table
+          onError={onError}
+          onSuccess={onSuccess}
+          onStatusUpdate={onStatusUpdate}
+          key={data.id}
+          stat={new Date(data.lastOfApply)>new Date() ? true:false}
+          data={data}
+        />:new Date(data.lastOfApply)<new Date() && <Table
+        onError={onError}
+        onSuccess={onSuccess}
+        onStatusUpdate={onStatusUpdate}
+        key={data.id}
+        stat={new Date(data.lastOfApply)>new Date() ? true:false}
+        data={data}
+      />
+        })
+      }
       </div>
   );
 }

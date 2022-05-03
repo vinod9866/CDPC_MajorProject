@@ -7,7 +7,7 @@ export const Model = (props)=>{
         props.parentCallback(false);
     }
     return<div className={classes.modal}>
-    <div class={classes.modalContent + ' '+ props.style}>
+    <div className={classes.modalContent + ' '+ props.style}>
     <span className={classes.close} onClick={modelClick}>X</span>
     <div className={classes.modalHeading}>
         {props.heading}
