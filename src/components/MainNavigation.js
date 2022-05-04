@@ -41,8 +41,11 @@ function MainNavigation(){
     const [show1,setShow1] = useState(false);
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
+    const [studsuccess,setStudSuccess] = useState(false);
+    const [studerr,setStudErr] = useState(false);
+    const [studaddmsg,setStudAddMsg] = useState(null);
 
-    // Student adding modal
+    // Company invite modal
     const [show2,setShow2] = useState(false);
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
@@ -56,6 +59,7 @@ function MainNavigation(){
     const loginPerson = authCtx.Person;
     const [modal,setModal] = useState(false);
     const [modaldata,setModalData] = useState({title:'',message:''});
+    const [request,setRequest] = useState(false);
 
     const [open,setOpen] = useState(false);
     const [ope,setOpe] = useState(false);
@@ -73,6 +77,9 @@ function MainNavigation(){
 
     const handleAddModal = ()=>{
         setShow1(true)
+        setStudErr(false)
+        setStudSuccess(false)
+        setStudAddMsg(null)
     }
 
     const handleInviteModal = () =>{
@@ -143,6 +150,7 @@ function MainNavigation(){
   }
 
     const addNewBatch = (e)=>{
+      setRequest(true);
       e.preventDefault()
       // var file = e.target.files[0]
       // console.log(file)
@@ -151,15 +159,19 @@ function MainNavigation(){
       addNewBatchStudents(data)
       .then(res=>res.json())
         .then(result => {
+          setRequest(false);
             if(result.status===200){
               console.log(result.data)
-                // setShows(true);
-                // setSuccessmsg("Student Added successfully")
+              setShow1(false)
+              setStudSuccess(true);
+                setStudAddMsg("Data added successfully.");
             }
             else{
               console.log(result.error)
                 // setShowe(true);
                 // setErrormsg(result.error);
+                setStudErr(true)
+                setStudAddMsg("Something went wrong.Please try again.");
             }
         });
     }
@@ -248,12 +260,19 @@ function MainNavigation(){
       </Modal>
       <Modal show={show1} onHide={handleClose1}>
         <Modal.Header closeButton>
-        <Modal.Title>Add Students</Modal.Title>
+        <Modal.Title>Add New Batch</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        <div class={(studsuccess&&!studerr) ? "alert alert-success": studerr ? "alert alert-danger" : ""} role="alert">
+          {studaddmsg}
+        </div>
             <form onSubmit={addNewBatch}>
             <input type="file" onChange={onFileChange}/><br/>
-            <button type="submit" className="btn btn-primary btn-sm mt-2">Upload</button>
+            <button 
+            type="submit" 
+            className="btn btn-primary btn-sm mt-2" 
+            disabled={request ? true : false}>
+              {request ? "Uploading....." : "Upload"}</button>
             </form>
   </Modal.Body>
   <Modal.Footer>

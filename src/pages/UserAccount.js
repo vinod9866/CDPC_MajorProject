@@ -135,6 +135,7 @@ export const UserAccount =(props)=>{
         .then(res=>res.json())
         .then(result => {
             if(result.status===200){
+                setModal1(false);
                 setShows(true);
                 setSuccessmsg("Resume updated successfully.")
             }
