@@ -44,10 +44,10 @@ function CompanyRegister() {
           {/* <Card.Header>
           </Card.Header> */}
           <Card.Body>
-          <Card.Img className="position-absolute top-0 start-50 translate-middle mt-5" variant="top" src={logos} style={{ width: '5rem' }} />
+          {/* <Card.Img className="position-absolute top-0 start-50 translate-middle mt-5" variant="top" src={logos} style={{ width: '5rem' }} /> */}
 
           {/* <RiOpenArmLine size={80}/> */}
-              <br/><br/><div className="mt-5">
+              <div className="mt-0">
               {!err && <div className={succ ? classes.success : classes.info}>
             <i className= {succ ?"fa fa-check-square-o":"fa fa-info-circle"}></i>
             &nbsp;{succ ? "Mail Sent Successfully." : "Enter Only Company Mail ID."}

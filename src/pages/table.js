@@ -71,7 +71,7 @@ function Table(props) {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
     let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
     XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
-    XLSX.writeFile(workbook, "StudentData.xlsx");
+    XLSX.writeFile(workbook, "RegiterStudentsData.xlsx");
   };
   const handlePopUp = () => {
     setPop(false);
