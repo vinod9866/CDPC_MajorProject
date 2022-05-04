@@ -137,10 +137,12 @@ export const UserAccount =(props)=>{
             if(result.status===200){
                 setShows(true);
                 setSuccessmsg("Resume updated successfully.")
+                setModal1(false)
             }
             else{
                 setShowe(true);
                 setErrormsg(result.error);
+                setModal1(false)
             }
         });
     }
@@ -211,7 +213,7 @@ export const UserAccount =(props)=>{
             delay={{ show: 250, hide: 400 }}
             overlay={renderTooltip}
         >
-        <img src={acccoutData.profileUrl ===null ? img:acccoutData.profileUrl} alt='not working' onClick={selectImage}/>
+        <img src={acccoutData.profileUrl ==="" || acccoutData.profileUrl === null ? img:acccoutData.profileUrl} alt='not working' onClick={selectImage}/>
         </OverlayTrigger>
     
         <input type="file" hidden id="img-select" accept="image/*" onChange={updateImage}/>
