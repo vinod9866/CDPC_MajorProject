@@ -28,7 +28,7 @@ function DriveStatus(props) {
                 </div>
               </Card.Title><div>
                   <Stepper
-                    activeStep={props.data.driveStatus-1}
+                    activeStep={props.data.studentStatus-1}
                     className={classes.stepcss}
                     connectorStateColors={true}
                     connectorStyleConfig={{ completedColor: '#00e673', activeColor: '#00e673', size: 2 }}
