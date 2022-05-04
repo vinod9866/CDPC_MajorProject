@@ -31,8 +31,8 @@ function DriveStatus(props) {
                     activeStep={props.data.studentStatus-1}
                     className={classes.stepcss}
                     connectorStateColors={true}
-                    connectorStyleConfig={{ completedColor: '#00e673', activeColor: '#00e673', size: 2 }}
-                    styleConfig={{ completedBgColor: '#00e673', activeBgColor: '#4d94ff', size: '2em', borderRadius: '75%' }}>
+                    connectorStyleConfig={{ completedColor: '#00b300', activeColor: '#00e673', size: 2 }}
+                    styleConfig={{ completedBgColor: '#00b300', activeBgColor: '#4d94ff', size: '2em', borderRadius: '75%' }}>
                     <Step label="Written Test" />
                     <Step label="TR Round" />
                     <Step label="HR Round" />
