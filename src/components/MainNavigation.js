@@ -20,7 +20,7 @@ import Button from "react-bootstrap/Button";
 
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
-import { getNotifications } from '../apis';
+import { addNewBatchStudents, getNotifications } from '../apis';
 import { Model } from '../pages/modal';
 import Popup from 'reactjs-popup';
 
@@ -46,6 +46,7 @@ function MainNavigation(){
     const [show2,setShow2] = useState(false);
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
+    const [file,setFile] = useState(null)
 
     const [data,setData] = useState([]);
 
@@ -137,6 +138,32 @@ function MainNavigation(){
         authCtx.driveStatusMethod()
     }
 
+    const onFileChange = (e) =>{
+      setFile(e.target.files[0])
+  }
+
+    const addNewBatch = (e)=>{
+      e.preventDefault()
+      // var file = e.target.files[0]
+      // console.log(file)
+      const data = new FormData()
+      data.append("file",file)
+      addNewBatchStudents(data)
+      .then(res=>res.json())
+        .then(result => {
+            if(result.status===200){
+              console.log(result.data)
+                // setShows(true);
+                // setSuccessmsg("Student Added successfully")
+            }
+            else{
+              console.log(result.error)
+                // setShowe(true);
+                // setErrormsg(result.error);
+            }
+        });
+    }
+
     return <div><Navbar collapseOnSelect expand="lg"  variant="dark" className={classes.back}>
     <Container >
     <Navbar.Brand className={classes.logo}>
@@ -224,8 +251,10 @@ function MainNavigation(){
         <Modal.Title>Add Students</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <input type="file"/><br/>
-            <button type="button" className="btn btn-primary btn-sm mt-2">Upload</button>
+            <form onSubmit={addNewBatch}>
+            <input type="file" onChange={onFileChange}/><br/>
+            <button type="submit" className="btn btn-primary btn-sm mt-2">Upload</button>
+            </form>
   </Modal.Body>
   <Modal.Footer>
     <button type="button" className="btn btn-light btn-sm" onClick={handleClose1}>Close</button>
