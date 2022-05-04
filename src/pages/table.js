@@ -7,6 +7,8 @@ import { getDriveRegisteredStudents, registerDrive, updateStudentDriveStutus } f
 import AuthContext from "../store/auth-context";
 import { Model } from "./modal";
 import { Form, Spinner } from "react-bootstrap";
+import { writeXLSX } from "xlsx";
+
 
 function Table(props) {
   const [shows, setShows] = useState(false);
@@ -61,6 +63,10 @@ function Table(props) {
   const downloadData = () => {
     setPop(true);
     setPopMsg("All registered students downloading");
+    console.log(data)
+
+    
+
   };
   const handlePopUp = () => {
     setPop(false);
@@ -230,7 +236,8 @@ function Table(props) {
                       onClick={handleShow}
                     >
                       {authCtx.Person !== "ADMIN" ? (
-                        <>View&nbsp;&amp;&nbsp;Apply</>
+                        isActive?
+                        <>View&nbsp;&amp;&nbsp;Apply</> :  <> &nbsp;View &nbsp;</>
                       ) : (
                         <>View</>
                       )}
@@ -389,7 +396,7 @@ function Table(props) {
                         >
                           Close
                         </Button>
-                        {authCtx.Person !== "ADMIN" ? (
+                        {authCtx.Person !== "ADMIN" && isActive===true ? (
                           <Button
                             variant="primary"
                             onClick={applyDrive}
