@@ -90,7 +90,7 @@ function Login(props) {
         {state && !errormsg && (
           <div className={classes.info}>
             <i className="fa fa-info-circle"></i>&nbsp; Use University
-            credentials to login
+            credentials to login!
           </div>
         )}
         {!state && !errormsg && (
